@@ -1,0 +1,1243 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{5B96404E-37C1-41B7-B22C-8831A6ED4578}</ProjectGuid>
+        <ProjectVersion>14.6</ProjectVersion>
+        <FrameworkType>VCL</FrameworkType>
+        <AppType>Application</AppType>
+        <MainSource>KSS700.cpp</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <UsingDelphiRTL>true</UsingDelphiRTL>
+        <Manifest_File>None</Manifest_File>
+        <VerInfo_Locale>1042</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <ILINK_LibraryPath>database\;lib\;..\..\..\..\builder component\components_xe4\comport411f\Source\;SECSGEM\;LoadCell\;Teaching\VisionOffsetTeaching\;Teaching\StageUnit\;Teaching\TrayUnit\;Teaching\RobotPadTeaching\;Teaching\TrayTeaching\;Teaching\Temp\;Teaching\FlipperCenter\;Teaching\StageCenter\;Teaching\;deviceSetup\;TCComm\;..\Serial\src\;RFID\;Barcode\;Communication\COMM\;Route\;System\Staubli\;System\Motor\;MainStatus\DailyReport\;MainStatus\ARFlowScreen\;Communication\SECS\;PMS\PMSComm\;PMS\;CeyonSrc\;..\Ceyon\src\;RecipeControlScreen\;Communication\;History\;Recipe\;MainStatus\;Function\;Alarm\;System\Sensor\;System\;Calibration\;Setup\Sensor\;Global\;Setup\;SQLite\;Common\;..\EXGEM\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>database\;lib\;..\..\..\..\builder component\components_xe4\comport411f\Source\;SECSGEM\;LoadCell\;Teaching\VisionOffsetTeaching\;Teaching\StageUnit\;Teaching\TrayUnit\;Teaching\RobotPadTeaching\;Teaching\TrayTeaching\;Teaching\Temp\;Teaching\FlipperCenter\;Teaching\StageCenter\;Teaching\;deviceSetup\;TCComm\;..\Serial\src\;RFID\;Barcode\;Communication\COMM\;Route\;System\Staubli\;System\Motor\;MainStatus\DailyReport\;MainStatus\ARFlowScreen\;Communication\SECS\;PMS\PMSComm\;PMS\;CeyonSrc\;..\Ceyon\src\;RecipeControlScreen\;Communication\;History\;Recipe\;MainStatus\;Function\;Alarm\;System\Sensor\;System\;Calibration\;Setup\Sensor\;Global\;Setup\;SQLite\;Common\;$(IncludePath)</IncludePath>
+        <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
+        <Multithreaded>true</Multithreaded>
+        <_TCHARMapping>wchar_t</_TCHARMapping>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclimg.lib;bcbie.lib;bcbsmp.lib;vclx.lib;dbrtl.lib;xmlrtl.lib;vclactnband.lib;vcldb.lib;VclSmp.lib;tmsdXE4.lib;adortl.lib;tmsexdXE4.lib;bdertl.lib;Tee.lib;vcltouch.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;CPortLibDXE.lib;EXGEM.lib;IocompCPPXE4.lib;IocompDelphiXE2.lib;eXGemLib.lib</AllPackageLibs>
+        <ProjectType>CppVCLApplication</ProjectType>
+        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <DynamicRTL>true</DynamicRTL>
+        <UsePackages>true</UsePackages>
+        <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
+        <FinalOutputDir>.\$(Platform)\$(Config)</FinalOutputDir>
+        <BCC_wpar>false</BCC_wpar>
+        <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
+        <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
+        <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <ILINK_LibraryPath>\lib\;C:\KOSES\MMI\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
+        <PackageImports>adortl;AnyDAC_ComI_D18;AnyDAC_Comp_D18;AnyDAC_GUIxForms_D18;AnyDAC_Phys_D18;AnyDAC_PhysIB_D18;AnyDAC_PhysSQLITE_D18;AnyDAC_PhysTDBX_D18;bcbie;bcbofficexp;bcbsmp;bdertl;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CodeSiteExpressPkg;CustomIPTransport;DataSnapClient;DataSnapCommon;DataSnapConnectors;DatasnapConnectorsFreePascal;DataSnapIndy10ServerTransport;DataSnapProviderClient;DataSnapServer;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXDb2Driver;DBXFirebirdDriver;DBXInformixDriver;DBXInterBaseDriver;DBXMSSQLDriver;DBXMySQLDriver;DBXOdbcDriver;DBXOracleDriver;DBXSqliteDriver;DBXSybaseASADriver;DBXSybaseASEDriver;dsnap;dsnapcon;EXGEM;fmx;fmxase;fmxdae;fmxobj;FMXTee;FmxTeeUI;frx18;frxDB18;frxe18;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbbde;inetdbxpress;Intraweb;MetropolisUILiveTile;rtl;soaprtl;svn;Tee;TeeDB;TeeUI;vcl;vclactnband;vcldb;vcldbx;vcldsnap;vclib;vclie;vclimg;vclribbon;VclSmp;vcltouch;vclx;webdsnap;xmlrtl;$(PackageImports)</PackageImports>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <BCC_PCHName_Clang>KSS700PCH1.h</BCC_PCHName_Clang>
+        <PackageImports>adortl;AnyDAC_ComI_D18;AnyDAC_Comp_D18;AnyDAC_GUIxForms_D18;AnyDAC_Phys_D18;AnyDAC_PhysIB_D18;AnyDAC_PhysSQLITE_D18;AnyDAC_PhysTDBX_D18;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CustomIPTransport;DataSnapClient;DataSnapCommon;DataSnapConnectors;DatasnapConnectorsFreePascal;DataSnapIndy10ServerTransport;DataSnapProviderClient;DataSnapServer;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXDb2Driver;DBXFirebirdDriver;DBXInformixDriver;DBXInterBaseDriver;DBXMSSQLDriver;DBXMySQLDriver;DBXOdbcDriver;DBXOracleDriver;DBXSqliteDriver;DBXSybaseASADriver;DBXSybaseASEDriver;dsnap;dsnapcon;fmx;fmxase;fmxdae;fmxobj;FMXTee;FmxTeeUI;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;Intraweb;MetropolisUILiveTile;rtl;soaprtl;Tee;TeeDB;TeeUI;vcl;vclactnband;vcldb;vcldsnap;vclib;vclie;vclimg;vclribbon;VclSmp;vcltouch;vclx;webdsnap;xmlrtl;$(PackageImports)</PackageImports>
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
+        <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <Defines>_DEBUG;$(Defines)</Defines>
+        <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
+        <BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
+        <DCC_Define>DEBUG</DCC_Define>
+        <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
+        <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
+        <BCC_StackFrames>true</BCC_StackFrames>
+        <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <TASM_Debugging>Full</TASM_Debugging>
+        <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+        <BCC_EnableCPPExceptions>true</BCC_EnableCPPExceptions>
+        <BCC_DisableFramePtrElimOpt>true</BCC_DisableFramePtrElimOpt>
+        <BCC_DisableSpellChecking>true</BCC_DisableSpellChecking>
+        <CLANG_UnwindTables>true</CLANG_UnwindTables>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Debugger_RunParams>/dialog /super</Debugger_RunParams>
+        <UsingDelphiRTL>false</UsingDelphiRTL>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
+        <BCC_PCHUsage>UseDontGenerate</BCC_PCHUsage>
+        <UsePackages>false</UsePackages>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <DynamicRTL>false</DynamicRTL>
+        <Defines>SERIAL_STATIC;$(Defines)</Defines>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclimg.lib;bcbie.lib;bcbsmp.lib;vclx.lib;dbrtl.lib;xmlrtl.lib;vclactnband.lib;vcldb.lib;VclSmp.lib;tmsdXE4.lib;adortl.lib;tmsexdXE4.lib;bdertl.lib;Tee.lib;vcltouch.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;CPortLibDXE.lib;EXGEM.lib;IocompCPPXE4.lib;IocompDelphiXE2.lib;eXGemLib.lib</LinkPackageStatics>
+        <BPILibOutputDir>C:\KOSES\MMI\</BPILibOutputDir>
+        <FinalOutputDir>C:\KOSES\MMI\</FinalOutputDir>
+        <IncludePath>..\keyhook\trunk\include;..\Kamelaslib\src;$(COMPONENT_ROOT)\IOComp Components Full Product 4.0.4 SP2;$(COMPONENT_ROOT)\TMS Component_xe5;$(COMPONENT_ROOT)\comport411f\Source;..\Exgem\;.\lib;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>C:\KOSES\MMI\SSD_SORTER\;$(COMPONENT_ROOT)\IOComp Components Full Product 4.0.4 SP2;$(COMPONENT_ROOT)\TMS Component_xe5;..\keyhook\trunk\include;..\Kamelaslib\src;$(COMPONENT_ROOT)\comport411f\Source;..\keyhook\trunk\lib;.\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Defines>NDEBUG;$(Defines)</Defines>
+        <TASM_Debugging>None</TASM_Debugging>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <LinkPackageStatics>tmsdXE4.lib;tmsexdXE4.lib;CPortLibDXE.lib;IocompCPPXE4.lib</LinkPackageStatics>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;bcbie.bpi;bcbsmp.bpi;vclx.bpi;dbrtl.bpi;xmlrtl.bpi;vclactnband.bpi;vcldb.bpi;VclSmp.bpi;adortl.bpi;bdertl.bpi;Tee.bpi;vcltouch.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;EXGEM.bpi;</LinkPackageImports>
+    </PropertyGroup>
+    <ItemGroup>
+        <CppCompile Include="..\Serial\src\CSerial.cpp">
+            <BuildOrder>66</BuildOrder>
+        </CppCompile>
+        <None Include="..\Serial\src\CSerial.h">
+            <BuildOrder>67</BuildOrder>
+        </None>
+        <CppCompile Include="..\Serial\src\CSerialEx.cpp">
+            <BuildOrder>68</BuildOrder>
+        </CppCompile>
+        <None Include="..\Serial\src\CSerialEx.h">
+            <BuildOrder>69</BuildOrder>
+        </None>
+        <CppCompile Include="..\Serial\src\CSerialWnd.cpp">
+            <BuildOrder>70</BuildOrder>
+        </CppCompile>
+        <None Include="..\Serial\src\CSerialWnd.h">
+            <BuildOrder>71</BuildOrder>
+        </None>
+        <None Include="..\Serial\src\Serial.h">
+            <BuildOrder>72</BuildOrder>
+        </None>
+        <CppCompile Include="Alarm\AlarmDetailListScrn.cpp">
+            <Form>FrmAlarmDetailList</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Alarm\AlarmDetailListScrn.h</DependentOn>
+            <BuildOrder>30</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Alarm\falarmlist.cpp">
+            <Form>frmAlarmList</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Alarm\falarmlist.h</DependentOn>
+            <BuildOrder>82</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Alarm\FrmAlarmScrn.cpp">
+            <Form>FrmAlarm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Alarm\FrmAlarmScrn.h</DependentOn>
+            <BuildOrder>105</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Barcode\Barcode.cpp">
+            <DependentOn>Barcode\Barcode.h</DependentOn>
+            <BuildOrder>62</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Barcode\fbarcode.cpp">
+            <Form>frmBarcode</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Barcode\fbarcode.h</DependentOn>
+            <BuildOrder>63</BuildOrder>
+        </CppCompile>
+        <None Include="Common\AxisDef.h">
+            <BuildOrder>3</BuildOrder>
+        </None>
+        <None Include="Common\BaseComm.h">
+            <BuildOrder>4</BuildOrder>
+        </None>
+        <CppCompile Include="Common\Communication.cpp">
+            <DependentOn>Common\Communication.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Common\CSanSu.cpp">
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <None Include="Common\CSanSu.h">
+            <BuildOrder>7</BuildOrder>
+        </None>
+        <None Include="Common\PkgDataDef.h">
+            <BuildOrder>9</BuildOrder>
+        </None>
+        <None Include="Common\UserDataDef.h">
+            <BuildOrder>10</BuildOrder>
+        </None>
+        <None Include="Communication\COMM\PACKET.h">
+            <BuildOrder>61</BuildOrder>
+        </None>
+        <CppCompile Include="Communication\FrmRouterCommScrn.cpp">
+            <Form>FrmRouterComm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Communication\FrmRouterCommScrn.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Communication\SECS\FormSecsGemSetScrn.cpp">
+            <Form>FormSecsGemSet</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Communication\SECS\FormSecsGemSetScrn.h</DependentOn>
+            <BuildOrder>100</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Communication\SECS\FrmTerminalMsgScrn.cpp">
+            <Form>FrmTerminalMsg</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Communication\SECS\FrmTerminalMsgScrn.h</DependentOn>
+            <BuildOrder>59</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Communication\VisionSetUpScrn.cpp">
+            <Form>FrmVisionSetUp</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Communication\VisionSetUpScrn.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="ConfigSetFormScrn.cpp">
+            <Form>ConfigSetForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>ConfigSetFormScrn.h</DependentOn>
+            <BuildOrder>106</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="database\ReadDBThread.cpp">
+            <BuildOrder>120</BuildOrder>
+        </CppCompile>
+        <None Include="database\ReadDBThread.h">
+            <BuildOrder>121</BuildOrder>
+        </None>
+        <CppCompile Include="deviceSetup\fmotorsetup.cpp">
+            <Form>frmMorterSetup</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>deviceSetup\fmotorsetup.h</DependentOn>
+            <BuildOrder>78</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="deviceSetup\fmotorsetupcontrol.cpp">
+            <Form>frmMtrSetupControl</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>deviceSetup\fmotorsetupcontrol.h</DependentOn>
+            <BuildOrder>79</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Function\FormNumberKeyPadScrn.cpp">
+            <Form>FormNumberKeyPad</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Function\FormNumberKeyPadScrn.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Function\FrmUserParameterScrn.cpp">
+            <Form>FrmUserParameter</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Function\FrmUserParameterScrn.h</DependentOn>
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Function\FrmUseSkipScrn.cpp">
+            <Form>FrmUseSkip</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Function\FrmUseSkipScrn.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Function\WarningPopupScrn.cpp">
+            <Form>FrmWarningPopup</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Function\WarningPopupScrn.h</DependentOn>
+            <BuildOrder>106</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Function\WarningScrn.cpp">
+            <Form>FrmWarning</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Function\WarningScrn.h</DependentOn>
+            <BuildOrder>58</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\Cdbox.cpp">
+            <Form>FrmCdBox</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\Cdbox.h</DependentOn>
+            <BuildOrder>88</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\falpha.cpp">
+            <Form>FrmApha</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\falpha.h</DependentOn>
+            <BuildOrder>117</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\flogin.cpp">
+            <Form>frmLogin</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\flogin.h</DependentOn>
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\fOperatorID.cpp">
+            <Form>frmOperatorID</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\fOperatorID.h</DependentOn>
+            <BuildOrder>103</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\fPopupNotice.cpp">
+            <Form>frmPopupNotice</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\fPopupNotice.h</DependentOn>
+            <BuildOrder>115</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\fProgramHistory.cpp">
+            <Form>FrmProgramHistory</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\fProgramHistory.h</DependentOn>
+            <BuildOrder>104</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\GrayFormCDBoxScrn.cpp">
+            <Form>GrayFrmCDBOX</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\GrayFormCDBoxScrn.h</DependentOn>
+            <BuildOrder>17</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\hook.cpp">
+            <Form>FrmHook</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\hook.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Global\OhtModeSelect.cpp">
+            <Form>FrmOhtModeSelect</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Global\OhtModeSelect.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="History\fLotEventHistory.cpp">
+            <Form>frmLotDataHistory</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>History\fLotEventHistory.h</DependentOn>
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="History\FormAlarmHistoryScrn.cpp">
+            <Form>FormAlarmHistory</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>History\FormAlarmHistoryScrn.h</DependentOn>
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="History\FormHistoryScrn.cpp">
+            <Form>FormHistory</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>History\FormHistoryScrn.h</DependentOn>
+            <BuildOrder>42</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="History\FrmAutoFBHistory.cpp">
+            <Form>FormAutoFBHistory</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>History\FrmAutoFBHistory.h</DependentOn>
+            <BuildOrder>119</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="History\FrmPadChangeHistory.cpp">
+            <Form>FormPadChangeHistory</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>History\FrmPadChangeHistory.h</DependentOn>
+            <BuildOrder>118</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="History\FrmRejectHistoryScrn.cpp">
+            <Form>FrmRejectHistory</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>History\FrmRejectHistoryScrn.h</DependentOn>
+            <BuildOrder>101</BuildOrder>
+        </CppCompile>
+        <None Include="Include.h">
+            <BuildOrder>105</BuildOrder>
+        </None>
+        <CppCompile Include="KSS700.cpp">
+            <BuildOrder>0</BuildOrder>
+        </CppCompile>
+        <PCHCompile Include="KSS700PCH1.h">
+            <BuildOrder>1</BuildOrder>
+        </PCHCompile>
+        <None Include="lib\Interface.h">
+            <BuildOrder>113</BuildOrder>
+        </None>
+        <None Include="lib\logdll.h">
+            <BuildOrder>107</BuildOrder>
+        </None>
+        <LibFiles Include="lib\log_bc_uni.lib" Condition="'$(Platform)'=='Win32'">
+            <BuildOrder>114</BuildOrder>
+            <IgnorePath>true</IgnorePath>
+        </LibFiles>
+        <None Include="lib\need.h">
+            <BuildOrder>108</BuildOrder>
+        </None>
+        <None Include="lib\Piper_svr.h">
+            <BuildOrder>109</BuildOrder>
+        </None>
+        <None Include="lib\Que.h">
+            <BuildOrder>110</BuildOrder>
+        </None>
+        <None Include="lib\Thread.h">
+            <BuildOrder>111</BuildOrder>
+        </None>
+        <None Include="lib\TpBase.h">
+            <BuildOrder>112</BuildOrder>
+        </None>
+        <CppCompile Include="LoadCell\FrmLoadCellScrn.cpp">
+            <Form>FrmLoadCell</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>LoadCell\FrmLoadCellScrn.h</DependentOn>
+            <BuildOrder>99</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainFormScrn.cpp">
+            <Form>MainForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainFormScrn.h</DependentOn>
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\ARFlowScreen\fadctype.cpp">
+            <Form>frmJobType</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\ARFlowScreen\fadctype.h</DependentOn>
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\ARFlowScreen\fQCResult.cpp">
+            <Form>frmQCResult</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\ARFlowScreen\fQCResult.h</DependentOn>
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\ARFlowScreen\frmADCBarcodeReg.cpp">
+            <Form>frmADBBarcodeReg</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\ARFlowScreen\frmADCBarcodeReg.h</DependentOn>
+            <BuildOrder>79</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\ARFlowScreen\FrmARFlowScrn.cpp">
+            <Form>FrmARFlow</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\ARFlowScreen\FrmARFlowScrn.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\ARFlowScreen\fSeeLot.cpp">
+            <Form>frmSeeLot</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\ARFlowScreen\fSeeLot.h</DependentOn>
+            <BuildOrder>80</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\DailyReport\fdailyreport.cpp">
+            <Form>FrmDailyReport</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\DailyReport\fdailyreport.h</DependentOn>
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\fallhome.cpp">
+            <Form>frmAllhomeStatus</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\fallhome.h</DependentOn>
+            <BuildOrder>79</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\fmultiservo.cpp">
+            <Form>FrmMultiServo</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\fmultiservo.h</DependentOn>
+            <BuildOrder>116</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\FormMainStatusScrn.cpp">
+            <Form>FormMainStatus</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\FormMainStatusScrn.h</DependentOn>
+            <BuildOrder>39</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\fpopmenu.cpp">
+            <Form>FrmPopMenu</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\fpopmenu.h</DependentOn>
+            <BuildOrder>83</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="MainStatus\frejecttray.cpp">
+            <Form>frmRejectTray</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>MainStatus\frejecttray.h</DependentOn>
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="PMS\FormPMSControlScrn.cpp">
+            <Form>FrmPMSControl</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>PMS\FormPMSControlScrn.h</DependentOn>
+            <BuildOrder>56</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="PMS\PMSComm\PMSComm.cpp">
+            <DependentOn>PMS\PMSComm\PMSComm.h</DependentOn>
+            <BuildOrder>57</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Recipe\FormPkgParamScrn.cpp">
+            <Form>FormPkgParam</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Recipe\FormPkgParamScrn.h</DependentOn>
+            <BuildOrder>43</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Recipe\nRcpCreateScrn.cpp">
+            <Form>FrmRcpCreate</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Recipe\nRcpCreateScrn.h</DependentOn>
+            <BuildOrder>87</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Recipe\RcpCreateScrn.cpp">
+            <Form>oFrmRcpCreate</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Recipe\RcpCreateScrn.h</DependentOn>
+            <BuildOrder>51</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Recipe\RecipeChangeFormScrn.cpp">
+            <Form>RecipeChangeForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Recipe\RecipeChangeFormScrn.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Recipe\RecipeFormScrn.cpp">
+            <Form>RecipeForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Recipe\RecipeFormScrn.h</DependentOn>
+            <BuildOrder>41</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="RFID\fRFID.cpp">
+            <Form>frmRFID</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>RFID\fRFID.h</DependentOn>
+            <BuildOrder>64</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="RFID\rfid.cpp">
+            <DependentOn>RFID\rfid.h</DependentOn>
+            <BuildOrder>65</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Route\fgerber.cpp">
+            <Form>frmRoute</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Route\fgerber.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\ffliper.cpp">
+            <Form>frmFlipper</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\ffliper.h</DependentOn>
+            <BuildOrder>75</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\FormManualCuttingScrn.cpp">
+            <Form>FormManualCutting</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\FormManualCuttingScrn.h</DependentOn>
+            <BuildOrder>38</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\fpadsetup.cpp">
+            <Form>frmPadSetup</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\fpadsetup.h</DependentOn>
+            <BuildOrder>88</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\fqcunitsetup.cpp">
+            <Form>frmQcPositionSetup</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\fqcunitsetup.h</DependentOn>
+            <BuildOrder>73</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\fqcunitsetupcontrol.cpp">
+            <Form>FrmQcUnitControl</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\fqcunitsetupcontrol.h</DependentOn>
+            <BuildOrder>74</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\FrmTenkeyScrn.cpp">
+            <Form>FrmTenkey</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\FrmTenkeyScrn.h</DependentOn>
+            <BuildOrder>104</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\fSystemTeach.cpp">
+            <Form>frmSystemTeach</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\fSystemTeach.h</DependentOn>
+            <BuildOrder>104</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\ftrayteach.cpp">
+            <Form>frmTrayTeach</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\ftrayteach.h</DependentOn>
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\JobRunningScrn.cpp">
+            <Form>FrmJobRunning</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\JobRunningScrn.h</DependentOn>
+            <BuildOrder>103</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\SetupFormScrn.cpp">
+            <Form>SetupForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\SetupFormScrn.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\UnitControlScrn.cpp">
+            <Form>FrmUnitControl</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\UnitControlScrn.h</DependentOn>
+            <BuildOrder>61</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Setup\UnitSetupScrn.cpp">
+            <Form>FrmUnitSetup</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Setup\UnitSetupScrn.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SQLite\CppSQLite3.cpp">
+            <BuildOrder>54</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="SQLite\sqlite3.c">
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\FormLifeTimeSetScrn.cpp">
+            <Form>FormLifeTimeSet</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\FormLifeTimeSetScrn.h</DependentOn>
+            <BuildOrder>40</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\FormTowerLampScrn.cpp">
+            <Form>FormTowerLamp</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\FormTowerLampScrn.h</DependentOn>
+            <BuildOrder>50</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Motor\AxisConfigFormScrn.cpp">
+            <Form>MotorAxisConfig</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Motor\AxisConfigFormScrn.h</DependentOn>
+            <BuildOrder>58</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Motor\AxisSelectFormScrn.cpp">
+            <Form>AxisSelectForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Motor\AxisSelectFormScrn.h</DependentOn>
+            <BuildOrder>59</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Motor\CommonDataSetting.cpp">
+            <Form>FrmCommonSet</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Motor\CommonDataSetting.h</DependentOn>
+            <BuildOrder>80</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Motor\faxisselect.cpp">
+            <Form>frmSelectAxis</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Motor\faxisselect.h</DependentOn>
+            <BuildOrder>87</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Motor\FrmMotorControlScrn.cpp">
+            <Form>FrmMotorControl</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Motor\FrmMotorControlScrn.h</DependentOn>
+            <BuildOrder>86</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\ParameterBaseFormScrn.cpp">
+            <Form>ParameterBaseForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\ParameterBaseFormScrn.h</DependentOn>
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\SensorbaseFormScrn.cpp">
+            <Form>SensorbaseForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\SensorbaseFormScrn.h</DependentOn>
+            <BuildOrder>24</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Sensor\FrmSensorPartScrn.cpp">
+            <Form>FrmSensorPart</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Sensor\FrmSensorPartScrn.h</DependentOn>
+            <BuildOrder>26</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Sensor\FrmSensorSetScrn.cpp">
+            <Form>FrmSensorSet</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Sensor\FrmSensorSetScrn.h</DependentOn>
+            <BuildOrder>27</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Staubli\FrmStaubliControlScrn.cpp">
+            <Form>FrmStaubliControl</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Staubli\FrmStaubliControlScrn.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\Staubli\fSetCommonStaubli.cpp">
+            <Form>frmSetCommonStaubli</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\Staubli\fSetCommonStaubli.h</DependentOn>
+            <BuildOrder>107</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="System\SystemFormScrn.cpp">
+            <Form>SystemForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>System\SystemFormScrn.h</DependentOn>
+            <BuildOrder>25</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TCComm\ftccomm.cpp">
+            <Form>frmTCComm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>TCComm\ftccomm.h</DependentOn>
+            <BuildOrder>107</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\FlipperCenter\FrmFlipperCenterTeachScrn.cpp">
+            <Form>FrmFlipperCenterTeach</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\FlipperCenter\FrmFlipperCenterTeachScrn.h</DependentOn>
+            <BuildOrder>92</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\FrmTeachMainScrn.cpp">
+            <Form>FrmTeachMain</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\FrmTeachMainScrn.h</DependentOn>
+            <BuildOrder>89</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\RobotPadTeaching\FrmRobotPadTeachingScrn.cpp">
+            <Form>FrmRobotPadTeaching</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\RobotPadTeaching\FrmRobotPadTeachingScrn.h</DependentOn>
+            <BuildOrder>95</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\StageCenter\StageTeach1Scrn.cpp">
+            <Form>FrmSystemCenterTeaching</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\StageCenter\StageTeach1Scrn.h</DependentOn>
+            <BuildOrder>90</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\StageUnit\FrmStageUnitScrn.cpp">
+            <Form>FrmStageUnit</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\StageUnit\FrmStageUnitScrn.h</DependentOn>
+            <BuildOrder>98</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\TrayTeaching\FrmFrontGoodTrayScrn.cpp">
+            <Form>FrmFrontGoodTray</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\TrayTeaching\FrmFrontGoodTrayScrn.h</DependentOn>
+            <BuildOrder>93</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\TrayTeaching\FrmRearGoodTrayScrn.cpp">
+            <Form>FrmRearGoodTray</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\TrayTeaching\FrmRearGoodTrayScrn.h</DependentOn>
+            <BuildOrder>92</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\TrayTeaching\FrmRejectTrayTeachingScrn.cpp">
+            <Form>FrmRejectTrayTeaching</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\TrayTeaching\FrmRejectTrayTeachingScrn.h</DependentOn>
+            <BuildOrder>98</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\TrayUnit\FrmTrayUnitScrn.cpp">
+            <Form>FrmTrayUnit</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\TrayUnit\FrmTrayUnitScrn.h</DependentOn>
+            <BuildOrder>98</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Teaching\VisionOffsetTeaching\FrmVisionOffsetTeachingScrn.cpp">
+            <Form>FrmVisionOffsetTeaching</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Teaching\VisionOffsetTeaching\FrmVisionOffsetTeachingScrn.h</DependentOn>
+            <BuildOrder>98</BuildOrder>
+        </CppCompile>
+        <FormResources Include="RFID\fRFID.dfm"/>
+        <FormResources Include="Route\fgerber.dfm"/>
+        <FormResources Include="Recipe\RecipeFormScrn.dfm"/>
+        <FormResources Include="Recipe\nRcpCreateScrn.dfm"/>
+        <FormResources Include="Recipe\RcpCreateScrn.dfm"/>
+        <FormResources Include="Recipe\RecipeChangeFormScrn.dfm"/>
+        <FormResources Include="Setup\ffliper.dfm"/>
+        <FormResources Include="Setup\FrmTenkeyScrn.dfm"/>
+        <FormResources Include="Setup\fSystemTeach.dfm"/>
+        <FormResources Include="Setup\ftrayteach.dfm"/>
+        <FormResources Include="Setup\fqcunitsetupcontrol.dfm"/>
+        <FormResources Include="Setup\FormManualCuttingScrn.dfm"/>
+        <FormResources Include="Setup\fpadsetup.dfm"/>
+        <FormResources Include="Setup\fqcunitsetup.dfm"/>
+        <FormResources Include="MainStatus\ARFlowScreen\FrmARFlowScrn.dfm"/>
+        <FormResources Include="MainStatus\ARFlowScreen\fSeeLot.dfm"/>
+        <FormResources Include="MainStatus\DailyReport\fdailyreport.dfm"/>
+        <FormResources Include="MainStatus\ARFlowScreen\frmADCBarcodeReg.dfm"/>
+        <FormResources Include="MainFormScrn.dfm"/>
+        <FormResources Include="MainStatus\ARFlowScreen\fadctype.dfm"/>
+        <FormResources Include="MainStatus\ARFlowScreen\fQCResult.dfm"/>
+        <FormResources Include="MainStatus\fallhome.dfm"/>
+        <FormResources Include="PMS\FormPMSControlScrn.dfm"/>
+        <FormResources Include="Recipe\FormPkgParamScrn.dfm"/>
+        <FormResources Include="MainStatus\frejecttray.dfm"/>
+        <FormResources Include="MainStatus\fmultiservo.dfm"/>
+        <FormResources Include="MainStatus\FormMainStatusScrn.dfm"/>
+        <FormResources Include="MainStatus\fpopmenu.dfm"/>
+        <FormResources Include="Setup\JobRunningScrn.dfm"/>
+        <FormResources Include="TCComm\ftccomm.dfm"/>
+        <FormResources Include="Teaching\FlipperCenter\FrmFlipperCenterTeachScrn.dfm"/>
+        <FormResources Include="Teaching\FrmTeachMainScrn.dfm"/>
+        <FormResources Include="System\SystemFormScrn.dfm"/>
+        <FormResources Include="System\Sensor\FrmSensorSetScrn.dfm"/>
+        <FormResources Include="System\Staubli\FrmStaubliControlScrn.dfm"/>
+        <FormResources Include="System\Staubli\fSetCommonStaubli.dfm"/>
+        <FormResources Include="Teaching\RobotPadTeaching\FrmRobotPadTeachingScrn.dfm"/>
+        <FormResources Include="Teaching\TrayTeaching\FrmRejectTrayTeachingScrn.dfm"/>
+        <FormResources Include="Teaching\TrayUnit\FrmTrayUnitScrn.dfm"/>
+        <FormResources Include="Teaching\VisionOffsetTeaching\FrmVisionOffsetTeachingScrn.dfm"/>
+        <FormResources Include="Teaching\TrayTeaching\FrmRearGoodTrayScrn.dfm"/>
+        <FormResources Include="Teaching\StageCenter\StageTeach1Scrn.dfm"/>
+        <FormResources Include="Teaching\StageUnit\FrmStageUnitScrn.dfm"/>
+        <FormResources Include="Teaching\TrayTeaching\FrmFrontGoodTrayScrn.dfm"/>
+        <FormResources Include="System\FormLifeTimeSetScrn.dfm"/>
+        <FormResources Include="System\FormTowerLampScrn.dfm"/>
+        <FormResources Include="Setup\SetupFormScrn.dfm"/>
+        <FormResources Include="Setup\UnitControlScrn.dfm"/>
+        <FormResources Include="Setup\UnitSetupScrn.dfm"/>
+        <FormResources Include="System\Motor\AxisConfigFormScrn.dfm"/>
+        <FormResources Include="System\ParameterBaseFormScrn.dfm"/>
+        <FormResources Include="System\SensorbaseFormScrn.dfm"/>
+        <FormResources Include="System\Sensor\FrmSensorPartScrn.dfm"/>
+        <FormResources Include="System\Motor\FrmMotorControlScrn.dfm"/>
+        <FormResources Include="System\Motor\AxisSelectFormScrn.dfm"/>
+        <FormResources Include="System\Motor\CommonDataSetting.dfm"/>
+        <FormResources Include="System\Motor\faxisselect.dfm"/>
+        <FormResources Include="Communication\FrmRouterCommScrn.dfm"/>
+        <FormResources Include="Communication\SECS\FormSecsGemSetScrn.dfm"/>
+        <FormResources Include="Communication\SECS\FrmTerminalMsgScrn.dfm"/>
+        <FormResources Include="deviceSetup\fmotorsetup.dfm"/>
+        <FormResources Include="deviceSetup\fmotorsetupcontrol.dfm"/>
+        <FormResources Include="Function\FormNumberKeyPadScrn.dfm"/>
+        <FormResources Include="Communication\VisionSetUpScrn.dfm"/>
+        <FormResources Include="ConfigSetFormScrn.dfm"/>
+        <FormResources Include="Alarm\AlarmDetailListScrn.dfm"/>
+        <FormResources Include="Barcode\fbarcode.dfm"/>
+        <FormResources Include="Alarm\falarmlist.dfm"/>
+        <FormResources Include="Alarm\FrmAlarmScrn.dfm"/>
+        <FormResources Include="Function\FrmUserParameterScrn.dfm"/>
+        <FormResources Include="History\FrmAutoFBHistory.dfm"/>
+        <FormResources Include="History\FrmPadChangeHistory.dfm"/>
+        <FormResources Include="History\FrmRejectHistoryScrn.dfm"/>
+        <FormResources Include="LoadCell\FrmLoadCellScrn.dfm"/>
+        <FormResources Include="Global\falpha.dfm"/>
+        <FormResources Include="Global\flogin.dfm"/>
+        <FormResources Include="Global\fOperatorID.dfm"/>
+        <FormResources Include="Global\Cdbox.dfm"/>
+        <FormResources Include="Function\FrmUseSkipScrn.dfm"/>
+        <FormResources Include="Function\WarningPopupScrn.dfm"/>
+        <FormResources Include="Function\WarningScrn.dfm"/>
+        <FormResources Include="Global\fPopupNotice.dfm"/>
+        <FormResources Include="History\fLotEventHistory.dfm"/>
+        <FormResources Include="History\FormAlarmHistoryScrn.dfm"/>
+        <FormResources Include="History\FormHistoryScrn.dfm"/>
+        <FormResources Include="Global\OhtModeSelect.dfm"/>
+        <FormResources Include="Global\fProgramHistory.dfm"/>
+        <FormResources Include="Global\GrayFormCDBoxScrn.dfm"/>
+        <FormResources Include="Global\hook.dfm"/>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
+        <Borland.ProjectType>CppVCLApplication</Borland.ProjectType>
+        <BorlandProject>
+            <CPlusPlusBuilder.Personality>
+                <Source>
+                    <Source Name="MainSource">KSS700.cpp</Source>
+                </Source>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1042</VersionInfo>
+                    <VersionInfo Name="CodePage">949</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName"/>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                    <VersionInfoKeys Name="CFBundleName"/>
+                    <VersionInfoKeys Name="CFBundleDisplayName"/>
+                    <VersionInfoKeys Name="UIDeviceFamily"/>
+                    <VersionInfoKeys Name="CFBundleIdentifier"/>
+                    <VersionInfoKeys Name="CFBundleVersion"/>
+                    <VersionInfoKeys Name="CFBundlePackageType"/>
+                    <VersionInfoKeys Name="CFBundleSignature"/>
+                    <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
+                    <VersionInfoKeys Name="UISupportedInterfaceOrientations"/>
+                    <VersionInfoKeys Name="CFBundleExecutable"/>
+                    <VersionInfoKeys Name="CFBundleResourceSpecification"/>
+                    <VersionInfoKeys Name="LSRequiresIPhoneOS"/>
+                    <VersionInfoKeys Name="CFBundleInfoDictionaryVersion"/>
+                    <VersionInfoKeys Name="CFBundleDevelopmentRegion"/>
+                </VersionInfoKeys>
+                <ProjectProperties>
+                    <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
+                    <ProjectProperties Name="ManagePaths">True</ProjectProperties>
+                    <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
+                </ProjectProperties>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k180.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp180.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k180.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp180.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </CPlusPlusBuilder.Personality>
+            <Deployment>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\vcltouch180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32"/>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64130mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\VclSmp180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\bcbsmp180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\rtl180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\IndyProtocols180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\IndyCore180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\IndySystem180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin\borlndmm.dll" Class="DependencyModule">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\vclimg180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64130.dll" Class="DependencyModule">
+                    <Platform Name="Win64"/>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32130mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\bcbie180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin64\borlndmm.dll" Class="DependencyModule">
+                    <Platform Name="Win64"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\vcldb180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\adortl180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\dbrtl180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\xmlrtl180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\vclactnband180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\bdertl180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32130.dll" Class="DependencyModule">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\vclx180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\vcl180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\Win32\Tee9180.bpl" Configuration="Debug" Class="DependencyPackage">
+                    <Platform Name="Win32"/>
+                </DeployFile>
+                <DeployClass Required="true" Name="DependencyPackage">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.bpl</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2048">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXInfoPList">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceInfoPList">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceDebug">
+                    <Platform Name="iOSDevice">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1024">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSResource">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSSimulatorInfoPList">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXEntitlements">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXResource">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch320">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch768">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Required="true" Name="ProjectOutput">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="File">
+                    <Platform Name="iOSDevice">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DebugSymbols">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="DependencyFramework">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch640x1136">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSEntitlements">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1536">
+                    <Platform Name="iOSDevice">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AdditionalDebugSymbols">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Win32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                </DeployClass>
+                <ProjectRoot Platform="iOSDevice" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+            </Deployment>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+            <ModelSupport>False</ModelSupport>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+    <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+</Project>

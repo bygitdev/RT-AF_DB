@@ -1,0 +1,70 @@
+﻿#include <vcl.h>
+#pragma hdrstop
+
+#include "ReadDBThread.h"
+#include "FrmAutoFBHistory.h"
+#include "MainFormScrn.h"
+
+__fastcall TReadDBThread::TReadDBThread(String dbPath, String start, String end, String tableName, TForm* owner)
+	: TThread(true), FDBPath(dbPath), FStartTime(start), FEndTime(end), FTableName(tableName), FTargetForm(owner)
+{
+	FreeOnTerminate = true;
+}
+
+void __fastcall TReadDBThread::Execute()
+{
+	try
+	{
+		CppSQLite3DB db;
+		db.open(AnsiString(FDBPath).c_str());
+
+		char sql[512];
+		sprintf(sql,
+			"SELECT * FROM %s WHERE dTime > ('%s') AND dTime < ('%s');",
+			AnsiString(FTableName).c_str(),
+			AnsiString(FStartTime).c_str(),
+			AnsiString(FEndTime).c_str());
+
+		FTable = db.getTable(sql);
+		db.close();
+
+//		CppSQLite3DB db;
+//		SQLiteDB.open(AnsiString(FDBPath).c_str());
+//
+//		char Almtbuf[512] = {0,};
+//		sprintf(Almtbuf,
+//			"SELECT * FROM %s WHERE dTime > ('%s') AND dTime < ('%s');",
+//			AnsiString(FStartTime).c_str(), AnsiString(FEndTime).c_str());
+//
+//		FTable = SQLiteDB.getTable(Almtbuf);
+//		SQLiteDB.close();
+
+		Synchronize(UpdateUI);
+    }
+	catch (Exception& e)
+	{
+		MainForm->MachineHistoryData("SQLite error : " + e.Message);
+	}
+}
+
+void __fastcall TReadDBThread::UpdateUI()
+{
+	if(FTable.numRows() < 1)
+	{
+		FormAutoFBHistory->AutoFeedBackDateTimeGrid->RowCount = 2;
+		FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[0][1] = "1";
+		for(int col = 1; col < FormAutoFBHistory->AutoFeedBackDateTimeGrid->ColCount; col++)
+			FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[col][1] = "";
+	}
+	else
+	{
+		FormAutoFBHistory->AutoFeedBackDateTimeGrid->RowCount = FTable.numRows() + 1;
+		for (int row = 0; row < FTable.numRows(); row++)
+		{
+			FTable.setRow(row);
+			FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[0][row+1] = IntToStr(row+1);
+			for(int col = 1; col < FormAutoFBHistory->AutoFeedBackDateTimeGrid->ColCount; col++)
+				FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[col][row+1] = FTable.fieldValue(col);
+		}
+	}
+}

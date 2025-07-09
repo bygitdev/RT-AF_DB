@@ -1,0 +1,82 @@
+//---------------------------------------------------------------------------
+
+#ifndef FrmAutoFBHistoryH
+#define FrmAutoFBHistoryH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include "AdvDateTimePicker.hpp"
+#include <Vcl.Buttons.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Dialogs.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.ExtDlgs.hpp>
+#include <Vcl.Grids.hpp>
+//---------------------------------------------------------------------------
+typedef struct
+{
+	AnsiString 		JobName;
+	AnsiString 		LotID;
+	int 			StageNo;
+	int 			BridgeCnt;
+	double 			BridgeMax[200];
+	int				DataFlag;
+
+}AUTOFEEDBACK_DATA;
+
+class TFormAutoFBHistory : public TForm
+{
+__published:	// IDE-managed Components
+	TPanel *Panel2;
+	TPanel *Panel3;
+	TLabel *LabelHistory;
+	TPanel *Panel4;
+	TBitBtn *Btn_SaveCSV;
+	TBitBtn *Btn_SaveTXT;
+	TPanel *Panel5;
+	TPanel *Panel6;
+	TLabel *Label4;
+	TShape *Shape1;
+	TBitBtn *Btn_DatabaseRead;
+	TBitBtn *Btn_Search;
+	TAdvDateTimePicker *DateTimeAutoFeedBackEnd;
+	TAdvDateTimePicker *DateTimeAutoFeedBackStart;
+	TEdit *EditAlarmCodeSearch;
+	TStringGrid *AutoFeedBackDateTimeGrid;
+	TSaveTextFileDialog *SaveTextFileDialog;
+	TSaveTextFileDialog *SaveCsvFileDialog;
+	TButton *Button2;
+	TStringGrid *AutoFeedBackResultGrid;
+	TEdit *eStageNo;
+	TLabel *Label1;
+	TLabel *Label2;
+	TEdit *eLotID;
+	TEdit *eBridgeNo;
+	TLabel *Label3;
+	TEdit *eBridgeCnt;
+	TLabel *Label5;
+	TButton *btn_dbset;
+	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall Btn_DatabaseReadClick(TObject *Sender);
+	void __fastcall Btn_SaveCSVClick(TObject *Sender);
+	void __fastcall Btn_SaveTXTClick(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall btn_dbsetClick(TObject *Sender);
+private:	// User declarations
+    bool	_isInit;
+
+	void	dbInitialize();
+public:		// User declarations
+	__fastcall TFormAutoFBHistory(TComponent* Owner);
+	void Record_AutoFeedBack(AUTOFEEDBACK_DATA data);
+	bool  TraceDataVisionFileCopy();
+	void  AutoFBDataSave();
+	void  AutoFBAgv(int nBridgeCnt, int nStageNo);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFormAutoFBHistory *FormAutoFBHistory;
+//---------------------------------------------------------------------------
+#endif

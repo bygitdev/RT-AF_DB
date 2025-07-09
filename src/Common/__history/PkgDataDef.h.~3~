@@ -1,0 +1,804 @@
+#ifndef _PKGDATA_H_
+#define _PKGDATA_H_
+
+
+//-------------------------------------------------------------------
+// PKG DATA
+// 거리(mm), 시간 (sec)
+enum PKG
+{
+	pcbXCnt					= 0,
+	pcbYCnt					= 1,
+	jigType					= 2,
+    targetPad				= 3, //0 single 1 dual
+
+	trayXCnt				= 4,
+	trayYCnt				= 5,
+
+	qcViXCnt				= 6,
+	qcViYCnt				= 7,
+
+	pcbCenToChipX			= 8,
+	pcbCenToChipY			= 9,
+
+	trayPitchX				= 10,
+	trayPitchY				= 11,
+
+	trayStackMaxCnt			= 12,
+
+	padTheta				= 15,
+
+	padOffSetX				= 17,
+	padOffSetY				= 18,
+
+	btmCleanCnt1			= 20,
+	topCleanCnt1			= 21,
+	btmCleanCnt2			= 22,
+	topCleanCnt2			= 23,
+	btmCleanCnt3			= 24,
+	topCleanCnt3			= 25,
+
+	flipTopOffsetX			= 26,
+	flipTopOffsetY			= 27,
+	flipBtmOffsetX			= 28,
+	flipBtmOffsetY			= 29,
+
+
+
+	//Staubli Time & Speed
+	robotPickZSpeed			= 30,
+	robotPlaceZSpeed		= 31,
+	robotPickSpeed			= 32,
+	robotHomeNormalSpeed	= 33,
+	robotHomeFastSpeed		= 34,
+	robotVisionFast			= 35,
+	robotVisionNormal		= 36,
+	robotPadChangeSpeed		= 37,
+	robotSlowSpeed			= 38,
+	robotPlaceNormalSpeed	= 39,
+
+
+	robotRearGoodFromStg1	= 40,
+	robotRearGoodFromStg2	= 41,
+	robotRearGoodFromStg3	= 42,
+	robotRearGoodFromStg4	= 43,
+	robotRearGoodFromVi		= 44,
+	robotRearGoodFromFlip	= 45,
+
+	robotFrontGoodFromStg1	= 46,
+	robotFrontGoodFromStg2	= 47,
+	robotFrontGoodFromStg3	= 48,
+	robotFrontGoodFromStg4	= 49,
+	robotFrontGoodFromVi	= 50,
+	robotFrontGoodFromFlip	= 51,
+
+	robotFlipFromStg1		= 52,
+	robotFlipFromStg2		= 53,
+	robotFlipFromStg3		= 54,
+	robotFlipFromStg4		= 55,
+
+	staubliPickDelay		= 58,
+	staubliPlaceDelay		= 59,
+	staubliSpeed			= 60,
+
+	staubliTorqueLimit		= 62,
+
+	trayLoadWeightLimit		= 65,
+	getberPcbCenterToUnitCenterX	= 66,
+	getberPcbCenterToUnitCenterY	= 67,
+	gerberUnitCenterToPickupX		= 68,
+	gerberUnitCenterToPickupY		= 69,
+
+	trayJigUse				= 70,
+
+	flipPcbCount			= 95,
+
+	pcb00PosX				= 100,
+	pcb00PosY				= 101,
+	pcb01PosX				= 102,
+	pcb01PosY				= 103,
+	pcb02PosX				= 104,
+	pcb02PosY				= 105,
+	pcb03PosX				= 106,
+	pcb03PosY				= 107,
+	pcb04PosX				= 108,
+	pcb04PosY				= 109,
+	pcb05PosX				= 110,
+	pcb05PosY				= 111,
+	pcb06PosX				= 112,
+	pcb06PosY				= 113,
+	pcb07PosX				= 114,
+	pcb07PosY				= 115,
+	pcb08PosX				= 116,
+	pcb08PosY				= 117,
+	pcb09PosX				= 118,
+	pcb09PosY				= 119,
+	pcb10PosX				= 120,
+	pcb10PosY				= 121,
+	pcb11PosX				= 122,
+	pcb11PosY				= 123,
+	pcb12PosX				= 124,
+	pcb12PosY				= 125,
+	pcb13PosX				= 126,
+	pcb13PosY				= 127,
+	pcb14PosX				= 128,
+	pcb14PosY				= 129,
+	pcb15PosX				= 130,
+	pcb15PosY				= 131,
+	pcb16PosX				= 132,
+	pcb16PosY				= 133,
+	pcb17PosX				= 134,
+	pcb17PosY				= 135,
+	pcb18PosX				= 136,
+	pcb18PosY				= 137,
+	pcb19PosX				= 138,
+	pcb19PosY				= 139,
+
+	// 1연 Tray 추가 Offset
+	RearGdShrinkYOffsetX_1Tray	= 151,
+	RearGdShrinkYOffsetY_1Tray	= 152,
+
+	FrontGdShrinkYOffsetX_1Tray	= 155,
+	FrontGdShrinkYOffsetY_1Tray	= 156,
+
+	RejectShrinkYOffsetX_1Tray	= 159,
+	RejectShrinkYOffsetY_1Tray	= 160,
+
+	usQpdVi						= 170,
+	qpdvisionOffsetX            = 171,
+	qpdvisionOffsetY            = 172,
+	qpdvisionOffsetT            = 173,
+
+	qpdvisionPickStage          = 175,
+	qpdvisionPickStageX         = 176,
+	qpdvisionPickStageY         = 177,
+
+	/// auto feedback
+	qcBridgeCnt				   	= 190,
+	qcAgvCnt                  	= 191,
+	qcTarget					= 192,
+
+	// 200~249 : Flip정보 저장..
+	pcb00isFlip				= 200,
+	pcb49isFlip				= 249,
+
+
+	// 250~299	   : 유닛 Theta 저장
+	pcb00Theta				= 250,
+	pcb49Theta				= 299,
+
+
+	// 300
+	pcbVi00PosX				= 300,
+	pcbVi00PosY				= 301,
+	pcbVi01PosX				= 302,
+	pcbVi01PosY				= 303,
+	pcbVi02PosX				= 304,
+	pcbVi02PosY				= 305,
+	pcbVi03PosX				= 306,
+	pcbVi03PosY				= 307,
+	pcbVi04PosX				= 308,
+	pcbVi04PosY				= 309,
+	pcbVi05PosX				= 310,
+	pcbVi05PosY				= 311,
+	pcbVi06PosX				= 312,
+	pcbVi06PosY				= 313,
+	pcbVi07PosX				= 314,
+	pcbVi07PosY				= 315,
+	pcbVi08PosX				= 316,
+	pcbVi08PosY				= 317,
+	pcbVi09PosX				= 318,
+	pcbVi09PosY				= 319,
+	pcbVi10PosX				= 320,
+	pcbVi10PosY				= 321,
+	pcbVi11PosX				= 322,
+	pcbVi11PosY				= 323,
+	pcbVi12PosX				= 324,
+	pcbVi12PosY				= 325,
+	pcbVi13PosX				= 326,
+	pcbVi13PosY				= 327,
+	pcbVi14PosX				= 328,
+	pcbVi14PosY				= 329,
+	pcbVi15PosX				= 330,
+	pcbVi15PosY				= 331,
+	pcbVi16PosX				= 332,
+	pcbVi16PosY				= 333,
+	pcbVi17PosX				= 334,
+	pcbVi17PosY				= 335,
+	pcbVi18PosX				= 336,
+	pcbVi18PosY				= 337,
+	pcbVi19PosX				= 338,
+	pcbVi19PosY				= 339,
+
+	// test result 순서 저장용
+	bin00No				   	= 400,
+	bin49No					= 449,
+
+	/*
+		FilpUnit X
+		FilpUnit Y
+		FilpUnit T
+	*/
+	FilpUnit_X_1				= 500,
+	FilpUnit_X_2				= 503,
+	FilpUnit_X_3				= 506,
+	FilpUnit_X_4				= 509,
+
+	VcutVisionSaveUse			= 700,
+	VcutVisionSaveCount			= 701,
+
+	BottomVisionSendUse			= 705, // 2025.04
+	BottomVisionSendOption		= 706,
+	maxPKG          			= 1000,
+};
+
+
+//-------------------------------------------------------------------
+// Double Type Data Memory
+enum DDm
+{
+	uhp							= 0,
+	machineTime1				= 1,
+	machineTime2				= 2,
+	machineTime3				= 3,
+	machineTime4				= 4,
+	stage1SortTime				= 5,
+	stage2SortTime				= 6,
+	stage3SortTime				= 7,
+	stage4SortTime				= 8,
+	qcVisionTime				= 9,
+	cleaningTime				= 10,
+	lotYield					= 11,  	// 94% 이하면 H6 hold lot 메시지창 출력
+	dailyYield					= 12,
+
+
+	padTeachTolerance			= 15,
+	trayTeachTolerance			= 16,
+
+	pickRetryMax				= 20,
+	pickRetryOffset				= 21,
+
+	retryOhtTimeover            = 25, //oht retry 대기시간 기본 10분
+	saftyOhtTime                = 26, //기본 20초	yieldRef                    = 27,
+
+
+	// System Teaching Data
+	flipTopCenX					= 50,
+	flipTopCenY					= 51,
+	flipBtmCenX					= 52,
+	flipBtmCenY					= 53,
+	flipLBtmX					= 54, // 113mm,  Left<->Cen = 77mm
+	flipLBtmY					= 55, // 35mm
+	flipRTopX					= 56,
+	flipRTopY					= 57,
+
+
+	robotStage1CenX				= 60, // Stage X Position 30mm 일때
+	robotStage1CenY				= 61,
+	robotStage2CenX				= 62,
+	robotStage2CenY				= 63,
+	robotStage3CenX				= 64,
+	robotStage3CenY				= 65,
+	robotStage4CenX				= 66,
+	robotStage4CenY				= 67,
+	robotViCenX					= 68,
+	robotViCenY					= 69,
+
+	qcStage1CenX				= 70,
+	qcStage1CenY				= 71,
+	qcStage2CenX				= 72,
+	qcStage2CenY				= 73,
+	qcStage3CenX				= 74,
+	qcStage3CenY				= 75,
+	qcStage4CenX				= 76,
+	qcStage4CenY				= 77,
+	stageSortingX				= 78,
+
+	dummyStage1CenX				= 80,
+	dummyStage1CenY				= 81,
+	dummyStage2CenX				= 82,
+	dummyStage2CenY				= 83,
+	dummyStage3CenX				= 84,
+	dummyStage3CenY				= 85,
+	dummyStage4CenX				= 86,
+	dummyStage4CenY				= 87,
+	rearDummyOffsetX			= 88,
+	rearDummyOffsetY			= 89,
+
+	rearGoodCenX				= 90,
+	rearGoodCenY				= 91,
+	frontGoodCenX				= 92,
+	frontGoodCenY				= 93,
+	rejectCenX					= 94,
+	rejectCenY					= 95,
+
+
+
+
+	// Ionizer, MainAir, Flip1,2,3,4, Staubli, Flow1,2,3,4
+	aiCh00						= 100,
+
+	aiChStaubli					= 106,
+
+	aiCh00Init					= 120,
+
+	aiCh00Coef					= 140,
+
+    commonMotorDataLimit        = 360,
+
+	staubliTorqueCurData		= 450,
+	staubliTheta				= 451, // Move To Maint 할때의 값 넣어주기
+
+	// Staubli Limit
+	Stage1LimitZ				= 600,
+	Stage2LimitZ      			= 601,
+	Stage3LimitZ      			= 602,
+	Stage4LimitZ                = 603,
+
+	GoodRearLTopLimitZ			= 604,
+	GoodRearRTopLimitZ			= 605,
+	GoodRearLBtmLimitZ			= 606,
+
+	RejectLTopLimitZ			= 607,
+	RejectRTopLimitZ			= 608,
+	RejectLBtmLimitZ			= 609,
+
+	GoodFrontLTopLimitZ			= 610,
+	GoodFrontRTopLimitZ			= 611,
+	GoodFrontLBtmLimitZ			= 612,
+
+	// 900~999 : Life Time
+	setLifeTime00				= 900,
+	setLifeTime01				= 901,
+	setLifeTime02				= 902,
+	setLifeTime03				= 903,
+	setLifeTime04				= 904,
+	setLifeTime05				= 905,
+	setLifeTime06				= 906,
+	setLifeTime07				= 907,
+	setLifeTime08				= 908,
+	setLifeTime09				= 909,
+	setLifeTime10				= 910,
+	setLifeTime11				= 911,
+	setLifeTime12				= 912,
+	setLifeTime13				= 913,
+	setLifeTime14				= 914,
+	setLifeTime15				= 915,
+	setLifeTime16				= 916,
+	setLifeTime17				= 917,
+	setLifeTime18				= 918,
+	setLifeTime19				= 919,
+	setLifeTime20				= 920,
+	setLifeTime21				= 921,
+	setLifeTime22				= 922,
+	setLifeTime23				= 923,
+	setLifeTime24				= 924,
+	setLifeTime25				= 925,
+	setLifeTime26				= 926,
+	setLifeTime27				= 927,
+	setLifeTime28				= 928,
+	setLifeTime29				= 929,
+
+	curLifeTime00				= 930,
+	curLifeTime01				= 931,
+	curLifeTime02				= 932,
+	curLifeTime03				= 933,
+	curLifeTime04				= 934,
+	curLifeTime05				= 935,
+	curLifeTime06				= 936,
+	curLifeTime07				= 937,
+	curLifeTime08				= 938,
+	curLifeTime09				= 939,
+	curLifeTime10				= 940,
+	curLifeTime11				= 941,
+	curLifeTime12				= 942,
+	curLifeTime13				= 943,
+	curLifeTime14				= 944,
+	curLifeTime15				= 945,
+	curLifeTime16				= 946,
+	curLifeTime17				= 947,
+	curLifeTime18				= 948,
+	curLifeTime19				= 949,
+	curLifeTime20				= 950,
+	curLifeTime21				= 951,
+	curLifeTime22				= 952,
+	curLifeTime23				= 953,
+	curLifeTime24				= 954,
+	curLifeTime25				= 955,
+	curLifeTime26				= 956,
+	curLifeTime27				= 957,
+	curLifeTime28				= 958,
+	curLifeTime29				= 959,
+
+	maxDDM				        = 1000,
+};
+
+
+
+//-------------------------------------------------------------------
+// Int Type Data Memory
+enum NDm
+{
+	// <<< 0~199 : 설비 공통 >>>
+	jobNo                       = 0,
+	groupNo						= 1,
+	scrChange                   = 2,
+
+
+	// 0: Stop
+	// 1: Auto
+	// 2: Error
+	// 3: Cycle-Run
+	// 4: Emg
+	mcState                     = 3,
+
+
+	mcLotEndBusy				= 4,
+	lotEndWaitTime				= 5, // (sec) : 지정시간 이상 설비가 비어있는 경우, Lot-End처리..
+
+	MSGNOTICE_SEQ2MMI				= 6, // SEQ -> MMI, 단 0은 Ready로 봄, 1~9 : 예외적인 트리거(강제종료 등...) , 값 10부터는 CMD NUMBER로 보면됨,
+	MSGNOTICE_MMI2SEQ				= 7, // MMI -> SEQ  1: 팝업 중, 2 : 버튼 0 눌렀을때, 3 : 버튼 1 눌렀을때, 4 : 버튼 2 눌렀을때, 5 : 버튼 3 눌렀을때
+
+
+	// CHK ADC JIG BARCODE
+	// 0 : IDLE
+	// 1 : REQ
+	// 2 : BUSY
+	// 3 : PASS
+	// 4 : FAIL
+	readBarcodeStep				= 9,
+
+
+	// SERVER 통신 COMMAND 관련
+	// 0 : IDLE
+	// 1 : REQ
+	// 2 : BUSY
+	// 3 : PASS
+	// 4 : FAIL
+	seeLotStep					= 10, // serverPcbQty(108)   전산 수량 써줌. 미사용->RMS recipe ID 취득용으로 사용.
+	scrapInfoStep				= 11, // serverScrapCnt(109) 전산 수량 써줌. 미사용
+	lotEndStep					= 12, // 1: POP-UP -> 설비 수량과 전산 수량 맞으면 LOT-END 처리
+	onlineEndStep1				= 13,
+	onlineEndStep2				= 14,
+	onlineEndStep3				= 15,
+	onlineEndStep4				= 16,
+
+	onlineBtmVisionStep			= 17, // 2025.04 // 서버 측 VISION 검사
+
+	logRejetTray				= 18, // 1 요청, 2 비지, 3 완료
+	// 0 : IDLE
+	// 1 : REQ
+	updateRobotData				= 19,
+
+
+	// 20~49 : mmi screen에서 조작 명령
+	scrStopLoading				= 20,
+	scrBuzzerOff				= 21,
+	scrRemoteStop				= 22,
+	scrEjectMz					= 23,
+	scrLoadDefaultRearGoodPos	= 24,
+	scrLoadDefaultFrontGoodPos	= 25,
+	scrLoadDefaultRejectPos		= 26,
+	scrLoadTrayDefaultData		= 27,
+
+	autoDeviceChg_RecipeNo		= 35,
+	autoDeviceChg_GroupNo		= 36,
+	reqRecipeChange				= 37,	//autoDeviceChange
+
+
+	// UPDATE QC RESULT : QC 검사결과 FAIL이 있을 경우, 설비 정지
+	// 육안 검사로 최종 불량 확정, 결과 업데이트 후 진행
+	// Result : 800~879
+	// 0 : IDLE
+	// 1 : REQ, POP-UP
+	// 2 : BUSY
+	// 3 : PASS
+	// 4 : FAIL
+	stage1QCStep			=40,
+	stage2QCStep			=41,
+	stage3QCStep			=42,
+	stage4QCStep			=43,
+
+	stage1QCRetry			= 44,	//1 -> retry QC cycle
+	stage2QCRetry			= 45,	//1 -> retry QC cycle
+	stage3QCRetry			= 46,	//1 -> retry QC cycle
+	stage4QCRetry			= 47,	//1 -> retry QC cycle
+
+	stageTraceFlag			= 48,
+
+	// 50~95 : 각 파트별 자재 유/무 표시
+	// 1 : 자재 있음
+	// 0 : 자재 없음
+	existStage1Pcb				= 50,
+	existStage2Pcb				= 51,
+	existStage3Pcb				= 52,
+	existStage4Pcb				= 53,
+	existStage1Jig				= 54,
+	existStage2Jig				= 55,
+	existStage3Jig				= 56,
+	existStage4Jig				= 57,
+	existQcFrontDummy			= 58,
+	existPickerJig				= 59,
+	existStaubli				= 60,
+	existGood1TrayIndex			= 61,
+	existGood2TrayIndex			= 62,
+	existRejectTrayIdnex		= 63,
+	existEmptyStack				= 64,
+	existGoodStack				= 65,
+	existRejectStack			= 66,
+	existCoverStack				= 67,
+	existFlipperTop				= 68,
+	existFlipperBtm				= 69,
+	existCoverPicker			= 70,
+	existTrayPicker				= 71,
+	existAdcRail				= 72,
+	existQcRearDummy			= 73,
+
+
+	existRobotVacPad            = 80,
+	existToolChange1            = 81,
+	existToolChange2            = 82,
+	existToolChange3            = 83,
+	existToolChange4            = 84,
+	existToolChange5            = 85,
+
+	tenKeyJog                   = 96,	// tenkey jog mode인지 확인용
+	jogAxisNo                   = 97,	// 0~
+	jogSpeed                    = 98,	// um
+	screenTenkey                = 99,
+
+
+	//
+	lotInputCnt					= 100,
+	lotXOutCnt					= 101,
+	lotGoodCnt                  = 102,
+	lotRejectCnt				= 103,
+	lotOutPutCnt                = 104,
+	mergeLotCnt                 = 105,
+
+	serverPcbQty				= 108,
+	serverScrapCnt				= 109,
+
+
+	dailyInputCnt				= 110,
+	dailyXoutCnt				= 111,
+	dailyGoodCnt				= 112,
+	dailyRejectCnt				= 113,
+
+	artsErrCnt					= 114,
+	viErrCnt					= 115,
+
+	shiftInputCnt				= 120,
+	shiftXoutCnt				= 121,
+	shiftGoodCnt				= 122,
+	shiftRejectCnt				= 123,
+
+	// 130~135 : COPY 생산수량 (Lot별)
+	lotInputCntCopy				= 130,
+	lotXOutCntCopy				= 131,
+	lotGoodCntCopy				= 132,
+	lotRejectCntCopy			= 133,
+	lotOutPutCntCopy			= 134,
+	lotProductCntCopy			= 135,
+
+	mcOrderNo					= 150,
+	stg1OrderNo					= 151,
+	stg2OrderNo					= 152,
+	stg3OrderNo					= 153,
+	stg4OrderNo					= 154,
+
+	viSendToBarcode				= 170,
+	stageNum					= 171,
+	// 상태 저장 변수들...
+	// Staubli Robot : 200~249
+	openModbus					= 200,
+	closeModbus					= 201,
+	modbusIsOpen				= 202,
+
+	padchangeon	 		   		= 210,
+
+	flagPadPickupLog			= 211,
+	flagPadPlaceLog				= 212,
+	flagPadAlarmLog				= 213,
+	flagPadChange				= 214,
+	flagPadNo					= 215,
+	isEjectCheck				= 216,
+	isPickupCheck				= 217,
+	flagEjectComp				= 218,
+	flagPickupComp				= 219,
+
+	// Good/Reject Stack : 250~260
+	goodStackCnt				= 250,
+	goodStackReqCover			= 251,
+	goodStackCoverComp			= 252,
+
+	rejectStackCnt				= 255,
+	rejectStackReqCover			= 256,
+	rejectStackCoverComp		= 257,
+
+	// trayRejectTime				= 260,
+	// trayRejectTimeState			= 261,
+
+	lotEndFrmState  			= 265,
+	autoLotEndComp              = 266,
+	flagTimeOutLotEnd           = 267,
+
+	btmViErr    				= 270,
+	topViErr  					= 271,
+	qcViErr      				= 272,
+	trayViPass 					= 273,
+	trayViFail  				= 274,
+
+
+	// adc part :
+	isAdcModeOn					= 300,
+	adcRailJigType			    = 301, // Type => Job No사용..
+	adcPickerJigType			= 302,
+	adcTopMzType				= 303,
+	adcBtmMzType				= 304,
+	adcTopMzExist				= 305,
+	adcBtmMzExist				= 306,
+	adcTopSlot1Exist			= 307,
+	adcTopSlot2Exist			= 308,
+	adcTopSlot3Exist			= 309,
+	adcTopSlot4Exist			= 310,
+	adcBtmSlot1Exist			= 311,
+	adcBtmSlot2Exist			= 312,
+	adcBtmSlot3Exist			= 313,
+	adcBtmSlot4Exist			= 314,
+	adcStage1Type				= 315,
+	adcStage2Type				= 316,
+	adcStage3Type				= 317,
+	adcStage4Type				= 318,
+
+	currentPad					= 319,	//  0(single) 1(dual)
+
+	reqVisionReconnect			= 332,
+
+	flagVisionComm          	= 345,
+	flagRouterComm      	    = 346,
+	flagServerComm        	  	= 347,
+
+	// Oht Part
+	reqMgzInfoChgGood           = 363,  // LotEnd 이후에 MGZ ID 전송
+	reqMgzInfoChgReject         = 364,  // LotEnd 이후에 MGZ ID 전송
+	curRFIDStack                = 365,
+	reqMgzGdFcmr			   	= 366, // GOOD FULL CARRIER MOVE REQ
+	reqMgzRjFcmr			   	= 367, // REJECT FULL CARRIER MOVE REQ
+	reqTrayEcmr				   	= 368, // EMPTY TRAY OR COVER CARRIER MOVE REQ
+	reqCoverEcmr			   	= 369, // EMPTY COVER CARRIER MOVE REQ
+
+	//Cover rf
+	reqWriteCoverGoodRfid       = 370,  // Good Tray Write
+	reqReadCoverGoodRfid        = 371,  // Good Tray Read
+	reqWriteCoverRejectRfid     = 372,  // Reject Tray Write
+	reqReadCoverRejectRfid      = 373,  // Reject Tray Read
+
+	reqReadLoadCell             = 390,  // req LoadCell
+	reqLoadCellZero				= 391,
+	flagAutoLotEnd              = 400,
+
+	mapStageNum					= 450,
+	mapStagePickNum 			= 451,
+	mapStageX					= 452,
+	mapStageY					= 453,
+
+	stateReqTime				= 461,
+
+	/// auto feedback
+	stateQcDataSendR			= 470,
+	qcCntStage1					= 471,
+	qcCntStage2					= 472,
+	qcCntStage3					= 473,
+	qcCntStage4					= 474,
+	qcStageNo					= 475,
+
+	// NDM 550
+
+	EMPTY_LOT					= 567,
+
+	goodTrayNoForGem			= 580,
+
+	fdcCmdStop					= 590,
+
+	VcutVisionSaveStatus		= 700,
+	VcutVisionSaveTriggerCount	= 701,
+
+	btmVisionResultStep			= 705, // 2025.06
+	stage1QcResult 				= 800,
+	stage2QcResult 				= 820,
+	stage3QcResult 				= 840,
+	stage4QcResult 				= 860,
+
+	// Sorting Time Save CSV
+	stageIndex					= 900,
+	sortingTimeChg				= 901,
+
+	// product count
+	productCntDay			= 910,
+	productCntShift1		= 911,
+	productCntShift2		= 912,
+	productCntShift3		= 913,
+
+	scrStart				= 945,
+	scrStop					= 946,
+	scrReset				= 947,
+
+	// 950~999 : Lamp&Buzzer Setting
+	towerLampR1                 = 950,
+	towerLampY1                 = 951,
+	towerLampG1                 = 952,
+	buzzer1                     = 953,
+	towerLampR2                 = 954,
+	towerLampY2                 = 955,
+	towerLampG2                 = 956,
+	buzzer2                     = 957,
+	towerLampR3                 = 958,
+	towerLampY3                 = 959,
+	towerLampG3                 = 960,
+	buzzer3                     = 961,
+	towerLampR4                 = 962,
+	towerLampY4                 = 963,
+	towerLampG4                 = 964,
+	buzzer4                     = 965,
+	towerLampR5                 = 966,
+	towerLampY5                 = 967,
+	towerLampG5                 = 968,
+	buzzer5                     = 969,
+	towerLampR6                 = 970,
+	towerLampY6                 = 971,
+	towerLampG6                 = 972,
+	buzzer6                     = 973,
+	towerLampR7                 = 974,
+	towerLampY7                 = 975,
+	towerLampG7                 = 976,
+	buzzer7                     = 977,
+	buzzerSkip                  = 978,
+	buzzerOffTime               = 979,
+
+	maxNDM					    = 1000,
+};
+
+
+//-------------------------------------------------------------------
+// Use/Skip
+enum UseSkip
+{
+	usBtmVi					= 1,
+	usTopVi					= 2,
+	usTrayVi				= 3,
+	usQcVi					= 4,
+	usPrsTheta				= 5,
+	usAdcBarcode			= 6,
+	usIonizer				= 7,
+	usStandAloneMode		= 9,
+
+	usStage1				= 10,
+	usStage2				= 11,
+	usStage3				= 12,
+	usStage4				= 13,
+	usGoodTrf1				= 14,
+	usGoodTrf2				= 15,
+
+	usPadAutoChange			= 19,
+
+	usOhtMode				= 24,
+	usRfid					= 25,
+	usMgzInfoChange			= 26,
+
+	usAutoFeedBack			= 30,
+	usRecipeUpDown			= 31,
+	usAutoJobChange			= 32,
+	usXGem					= 33,
+	usTraySupply			= 34, // Tray 공급배출 순서 변경 Skip : 배출 우선, Use : 공급 우선
+	usTorqueLimit			= 35,
+
+	usQc3Stop				= 37,
+	usAutoLotEnd            = 38,
+	usRunSplitMerge         = 39,
+
+	maxUSESKIP				= 500,
+};
+
+#endif // _PKGDATA_H_
+

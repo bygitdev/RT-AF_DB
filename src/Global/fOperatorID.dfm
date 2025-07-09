@@ -1,0 +1,116 @@
+object frmOperatorID: TfrmOperatorID
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'frmOperatorID'
+  ClientHeight = 309
+  ClientWidth = 612
+  Color = clSilver
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 5
+    Top = 5
+    Width = 602
+    Height = 299
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    Align = alClient
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    Color = 3092271
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGrayText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    ShowCaption = False
+    TabOrder = 0
+    object labelName: TLabel
+      Left = 16
+      Top = 16
+      Width = 107
+      Height = 23
+      Caption = 'OPERATOR ID'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHighlightText
+      Font.Height = -19
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Button1: TButton
+      Left = 440
+      Top = 231
+      Width = 145
+      Height = 42
+      Caption = 'CLOSE'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -19
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object PanelOpID: TPanel
+      Left = 16
+      Top = 75
+      Width = 569
+      Height = 58
+      BorderStyle = bsSingle
+      Color = clSilver
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -27
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 1
+    end
+    object Button2: TButton
+      Left = 272
+      Top = 231
+      Width = 145
+      Height = 42
+      Caption = 'CHANGE ID'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -19
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+      OnClick = Button2Click
+    end
+    object EditOpeartorID: TEdit
+      Left = 16
+      Top = 151
+      Width = 569
+      Height = 41
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -27
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      Text = 'Input Your ID'
+    end
+  end
+end

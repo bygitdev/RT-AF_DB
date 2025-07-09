@@ -1,0 +1,258 @@
+//---------------------------------------------------------------------------
+
+#ifndef MainFormScrnH
+#define MainFormScrnH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.Buttons.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Imaging.jpeg.hpp>
+#include "iComponent.hpp"
+#include "iCustomComponent.hpp"
+#include "iLedMatrix.hpp"
+#include "iVCLComponent.hpp"
+#include <Vcl.Grids.hpp>
+//---------------------------------------------------------------------------
+
+#include "barcode\barcode.h"
+#include "rfid\rfid.h"
+#include <stdio.h>
+#include <Vcl.Imaging.pngimage.hpp>
+
+typedef enum  { BCD_ADC } BARCODE_TYPE;
+typedef enum  { BCD_RSCOM, BCD_LANCOM, BCD_USBCOM} BARCODE_COMMTYPE;
+typedef enum  { BCD_KEYENCE, BCD_COGNEX} BARCODE_MAKER;
+typedef enum  { RFID_CEYON } RFID_MAKER;
+
+#define WM_PASSWORD_WINDOW	(WM_USER+10)
+
+#define MAIN_SUB_FORM_COUNT	(6)
+
+
+class TMainForm : public TForm
+{
+__published:	// IDE-managed Components
+	TImage *ImageMainBase;
+	TPanel *Panel1;
+	TComboBox *ComboBoxAccessLevel;
+	TPanel *Panel2;
+	TBitBtn *MainBtn1;
+	TBitBtn *MainBtn4;
+	TBitBtn *MainBtn5;
+	TBitBtn *MainBtn3;
+	TBitBtn *BitBtn6;
+	TPanel *MainPanelBase;
+	TPanel *PanelStageStatus;
+	TPanel *Panel14;
+	TMemo *MemoLog;
+	TCheckBox *CheckMemoRefresh;
+	TPanel *Panel24;
+	TBitBtn *MainBtn6;
+	TBitBtn *BitBtn99;
+	TTimer *MainRefreshTimer;
+	TTimer *MCrunSaveTimer;
+	TTimer *HistoryResetTimer;
+	TGridPanel *GridPanel3;
+	TPanel *Panel11;
+	TPanel *PanelGroupName;
+	TPanel *Panel19;
+	TPanel *PanelRecipeName;
+	TLabel *LabelNowTime;
+	TiLedMatrix *iLedSeqComm;
+	TPanel *Panel22;
+	TPanel *PanelLogin;
+	TPanel *PanelMainMenu;
+	TGridPanel *GridPanel2;
+	TPanel *PanelMachineStatus;
+	TPanel *Panel21;
+	TPanel *PanelAlarmCnt;
+	TPanel *PanelAlarm;
+	TPanel *Panel23;
+	TPanel *PanelWarningCnt;
+	TPanel *PanelWarning;
+	TGridPanel *GridPanel1;
+	TPanel *Panel3;
+	TPanel *Panel4;
+	TPanel *Panel5;
+	TPanel *Panel6;
+	TPanel *Panel7;
+	TPanel *Panel8;
+	TBitBtn *FunctionBtn3;
+	TBitBtn *FunctionBtn7;
+	TBitBtn *BitBtn4;
+	TBitBtn *BitBtn5;
+	TBitBtn *BitBtn7;
+	TBitBtn *BitBtn8;
+	TBitBtn *BitBtn9;
+	TBitBtn *FunctionBtn2;
+	TBitBtn *FunctionBtn9;
+	TBitBtn *FunctionBtn10;
+	TBitBtn *FunctionBtn8;
+	TBitBtn *FunctionBtn12;
+	TBitBtn *FunctionBtn1;
+	TPanel *PanelAllhome;
+	TBitBtn *BitBtn1;
+	TPanel *PanelAdcMode;
+	TBitBtn *BitBtn2;
+	TBitBtn *BitBtn3;
+	TBitBtn *FunctionBtn5;
+	TBitBtn *FunctionBtn6;
+	TPanel *PanelGemCommState;
+	TPanel *PanelSecsGem;
+	TPanel *PanelProgramVersion;
+	TPanel *PanelOhtState;
+	TTimer *ConnectPiper;
+	TPanel *CommPanel;
+	TLabel *Label2;
+	TLabel *Label1;
+	TLabel *Label3;
+	TiLedMatrix *iLedMatrix1;
+	TiLedMatrix *iLedMatrix2;
+	TiLedMatrix *iLedMatrix3;
+	TPanel *pnStart;
+	TImage *ImageStart_Off;
+	TLabel *LabelStart;
+	TImage *ImageStart_On;
+	TPanel *pnStop;
+	TLabel *LabelStop;
+	TImage *ImageStop_Off;
+	TImage *ImageStop_On;
+	TPanel *pnReset;
+	TLabel *LabelReset;
+	TImage *ImageReset_Off;
+	TImage *ImageReset_On;
+	TPanel *PanelRsmStatus;
+	TPanel *PanelAutoLotEnd;
+	TTimer *WarringRefreshTimer;
+	TTimer *RobotRefreshTimer;
+	void __fastcall MainBtn1Click(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall PanelMainMenuClick(TObject *Sender);
+	void __fastcall MainRefreshTimerTimer(TObject *Sender);
+	void __fastcall FunctionButtonClick(TObject *Sender);
+	void __fastcall LabelAlarmShowClick(TObject *Sender);
+	void __fastcall LabelWarningShowClick(TObject *Sender);
+	void __fastcall HistoryResetTimerTimer(TObject *Sender);
+	void __fastcall MCrunSaveTimerTimer(TObject *Sender);
+	void __fastcall FormDestroy(TObject *Sender);
+	void __fastcall FunctionBtn9Click(TObject *Sender);
+	void __fastcall PanelLoginClick(TObject *Sender);
+	void __fastcall BitBtn1Click(TObject *Sender);
+	void __fastcall ShortCutClick(TObject *Sender);
+	void __fastcall FunctionBtn5Click(TObject *Sender);
+	void __fastcall BitBtn3Click(TObject *Sender);
+	void __fastcall PanelProgramVersionDblClick(TObject *Sender);
+	void __fastcall ConnectPiperTimer(TObject *Sender);
+	void __fastcall pnStartClick(TObject *Sender);
+	void __fastcall pnStartMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall pnStartMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall WarringRefreshTimerTimer(TObject *Sender);
+	void __fastcall RobotRefreshTimerTimer(TObject *Sender);
+
+private:	// User declarations
+
+//	TForm* pMainsubFrm[MAIN_SUB_FORM_COUNT];
+//    TForm*	_pCurForm;
+    TForm* _pCurrentForm;
+	int _Set_Axis_No_;
+	int _nRunBuffer_;
+	String _currentLogFileName;
+	String _currentAllErrorLogFile;
+
+	FILE*	_fp;
+	TStringList*	_sLst;
+	TCustomWinSocket *m_SorterJobSocket;
+	int m_ResTimeOut4LotEnd;
+
+	bool     _bHistoryRun_  , _bDayResetchk_ ;
+	double 	_dbDuraTime  , _dbbufferTime ;
+    void __fastcall Dispatch(void *Message);
+    void __fastcall AppModalBegin(TObject *Sender);
+    void __fastcall AppModalEnd(TObject *Sender);
+
+	void Connect_Initialize();
+	void SqlLiteDB_Initialize();
+
+    void AlarmRefresh();
+    void WarningRefresh();
+	void MachineStatus_Refresh();
+	void staubliMode_Refresh();
+	void WarningPopupRefresh();
+	void VisionHistoryData(int VisionSeparator,String StrTemp);
+	void VisionRefresh();
+	void AutoFeedBackRefresh();
+
+    void MachineResponseForSEQ();
+    void __fastcall FunctionButtonControl(int nIndex);
+
+    void Run_Recording(String strFactor[10]);
+
+    void Resetrunningtime();
+    void Alarm_Recording(int nErrCode , int nAlarmwarning);
+
+	void RejectData_Recording();
+
+
+	void BarcodeTriggerComm();
+    void RfidComm();
+	void TCComm();
+	void QCResultComm();
+	void OhtComm();
+	void LoadCellComm();
+	void RejectLogProcess();
+	void TrayDataRead();
+	void SortTimeSave();
+	void reqMsgNotice();
+	void BtmVisionDLComm();
+
+	INT64	_checkRunTime;
+	int		_nLoadCellRetryCnt;
+
+	void GemFeedBackProcess();
+	String	refreshVersion();
+
+public:		// User declarations
+	bool b_TpConnect;
+	AnsiString	_ohtInPortID_Empty;   //AROUT-X07_I1
+	AnsiString	_ohtInPortID_Cover;   //AROUT-X07_I2
+	AnsiString	_ohtOutPortID_Good;   //AROUT-X07_O1
+	AnsiString	_ohtOutPortID_Reject; //AROUT-X07_O2
+	AnsiString vLotiD[4], vBarcode[4];
+
+	double _dbStoptime , _dbRuntime , _dbErrtime , _dbRunDowntime;
+	AnsiString _eqpID, _eqpModel, _eqpVersion, _eqpVisionID;
+	int	_onlineEndIndex;
+	BOOL _bSeeLotShow;
+	int	 _LotEndRetryCnt;
+	void  MachineHistoryData(String StrTemp);
+	void  AlarmHistoryData(String StrTemp);
+	String _loadcellData;
+
+	void AddLineToCSVFile(String strData, int nIndex);
+	void SaveToCSVFile(String strLotID);
+
+	void Savingrunningtime(bool bFlag);
+	void ShowRecipeInformation();
+
+	void AlarmTotalCount(TStringGrid* CloneGrid);
+
+	__fastcall TMainForm(TComponent* Owner);
+
+//    bool	CanDataAccess();
+	void	ScreenChange(String menu);
+	void 	DailyHistory_Recording();
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TMainForm *MainForm;
+
+extern Barcode		*g_barcode[1];
+extern RFID			*g_rfid;
+
+//---------------------------------------------------------------------------
+#endif

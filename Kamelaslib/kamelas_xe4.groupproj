@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{0E25ACC3-E9E1-4C2D-B965-5A3BFF4C2D38}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="kamelas.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testcase\KamelasTestcase.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="testcase_delphi\DelphiTestcase.dproj">
+            <Dependencies>kamelas.cbproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="kamelas">
+        <MSBuild Projects="kamelas.cbproj"/>
+    </Target>
+    <Target Name="kamelas:Clean">
+        <MSBuild Projects="kamelas.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="kamelas:Make">
+        <MSBuild Projects="kamelas.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="KamelasTestcase">
+        <MSBuild Projects="testcase\KamelasTestcase.cbproj"/>
+    </Target>
+    <Target Name="KamelasTestcase:Clean">
+        <MSBuild Projects="testcase\KamelasTestcase.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="KamelasTestcase:Make">
+        <MSBuild Projects="testcase\KamelasTestcase.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="DelphiTestcase" DependsOnTargets="kamelas">
+        <MSBuild Projects="testcase_delphi\DelphiTestcase.dproj"/>
+    </Target>
+    <Target Name="DelphiTestcase:Clean" DependsOnTargets="kamelas:Clean">
+        <MSBuild Projects="testcase_delphi\DelphiTestcase.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiTestcase:Make" DependsOnTargets="kamelas:Make">
+        <MSBuild Projects="testcase_delphi\DelphiTestcase.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="kamelas;KamelasTestcase;DelphiTestcase"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="kamelas:Clean;KamelasTestcase:Clean;DelphiTestcase:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="kamelas:Make;KamelasTestcase:Make;DelphiTestcase:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

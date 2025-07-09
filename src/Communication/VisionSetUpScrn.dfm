@@ -1,0 +1,930 @@
+object FrmVisionSetUp: TFrmVisionSetUp
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'FrmVisionSetUp'
+  ClientHeight = 780
+  ClientWidth = 1280
+  Color = clGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  object CurvyPanel1: TCurvyPanel
+    Left = 8
+    Top = 8
+    Width = 1266
+    Height = 766
+    Color = clBtnFace
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 18
+      Top = 24
+      Width = 328
+      Height = 33
+      Caption = 'VISION COMMUNICATION SET'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -27
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+      OnClick = Label1Click
+    end
+    object btnTrayInfoSend: TSpeedButton
+      Tag = 1
+      Left = 1006
+      Top = 412
+      Width = 120
+      Height = 38
+      Caption = 'Tray Info Send'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = btnTrayInfoSendClick
+    end
+    object Btn_QpdCmd: TSpeedButton
+      Left = 1127
+      Top = 412
+      Width = 120
+      Height = 38
+      Caption = 'QPD DATA READ'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = Btn_QpdCmdClick
+    end
+    object Btn_VisionImageOn: TSpeedButton
+      Tag = 1
+      Left = 1006
+      Top = 368
+      Width = 120
+      Height = 43
+      Caption = 'VISION IMAGE ON'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = Btn_VisionImageOnClick
+    end
+    object Btn_VisionImageOff: TSpeedButton
+      Left = 1127
+      Top = 368
+      Width = 120
+      Height = 43
+      Caption = 'VISION IMAGE OFF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = Btn_VisionImageOffClick
+    end
+    object VisionMemo: TMemo
+      Left = 18
+      Top = 110
+      Width = 982
+      Height = 586
+      Color = clWhite
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = #47569#51008' '#44256#46357
+      Font.Style = []
+      ImeName = 'Microsoft IME 2003'
+      ParentFont = False
+      ReadOnly = True
+      ScrollBars = ssVertical
+      TabOrder = 0
+      OnChange = VisionMemoChange
+    end
+    object BtnAlignVision1: TButton
+      Left = 265
+      Top = 63
+      Width = 241
+      Height = 41
+      Caption = 'ALIGN TOP VISION OFF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnClick = BtnAlignVision1Click
+    end
+    object BtnSaveLog: TButton
+      Left = 1702
+      Top = 72
+      Width = 147
+      Height = 57
+      Caption = 'LOG SAVE'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+    end
+    object ChkAlignVision1: TCheckBox
+      Left = 278
+      Top = 74
+      Width = 14
+      Height = 20
+      TabOrder = 3
+    end
+    object BtnAlignVision2: TButton
+      Left = 512
+      Top = 63
+      Width = 241
+      Height = 41
+      Caption = 'ALIGN VISION2 OFF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      OnClick = BtnAlignVision2Click
+    end
+    object ChkAlignVision2: TCheckBox
+      Left = 525
+      Top = 74
+      Width = 14
+      Height = 20
+      TabOrder = 5
+    end
+    object BtnPreQCVision: TButton
+      Left = 18
+      Top = 63
+      Width = 241
+      Height = 41
+      Caption = 'QC VISION OFF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+      OnClick = BtnPreQCVisionClick
+    end
+    object ChkPreQCVision: TCheckBox
+      Left = 26
+      Top = 74
+      Width = 14
+      Height = 20
+      TabOrder = 7
+    end
+    object BtnSorterJobChangeVision: TButton
+      Left = 1006
+      Top = 63
+      Width = 241
+      Height = 41
+      Caption = 'SORTER JOBCHANGE  OFF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 8
+      OnClick = BtnSorterJobChangeVisionClick
+    end
+    object ChkSorterJobChangeVision: TCheckBox
+      Left = 1014
+      Top = 74
+      Width = 14
+      Height = 20
+      TabOrder = 9
+    end
+    object BtnClose: TBitBtn
+      Left = 1006
+      Top = 702
+      Width = 241
+      Height = 51
+      Caption = 'CLOSE'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Calibri'
+      Font.Style = []
+      Glyph.Data = {
+        F6060000424DF606000000000000360000002800000018000000180000000100
+        180000000000C006000012170000121700000000000000000000FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA0A0A05252521212120202020202
+        02020202020202323232727272E0E0E0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB1B1B1242424040404040404
+        040404040404040404040404040404040404040404040404636363F0F0F0FFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF74747406060606
+        0606060606060606060606060606060606060606060606060606060606060606
+        060606262626D1D1D1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6565
+        6508080808080808080808080808080808080808080808080808080808080808
+        0808080808080808080808080808181818D1D1D1FFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFF9494940B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B
+        0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B2A2A2AF0F0F0FF
+        FFFFFFFFFFFFFFFFE1E1E10D0D0D0D0D0D0D0D0D0D0D0D0D0D0D1D1D1D959595
+        1D1D1D0D0D0D0D0D0D0D0D0D0D0D0D6868685959590D0D0D0D0D0D0D0D0D0D0D
+        0D0D0D0D696969FFFFFFFFFFFFFFFFFF6A6A6A0F0F0F0F0F0F0F0F0F0F0F0F1F
+        1F1FD2D2D2FFFFFFD2D2D21F1F1F0F0F0F0F0F0F6A6A6AFFFFFFFFFFFF6A6A6A
+        0F0F0F0F0F0F0F0F0F0F0F0F0F0F0FE2E2E2FFFFFFF1F1F11111111111111111
+        11111111111111D3D3D3FFFFFFFFFFFFFFFFFFD3D3D32020206B6B6BFFFFFFFF
+        FFFFFFFFFFFFFFFF5C5C5C1111111111111111111111117A7A7AFFFFFFB6B6B6
+        141414141414141414141414232323D3D3D3FFFFFFFFFFFFFFFFFFFFFFFFE2E2
+        E2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6D14141414141414141414141441
+        4141FFFFFF8B8B8B161616161616161616161616161616252525D4D4D4FFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6E6E6E1616161616161616
+        16161616161616161616FFFFFF8C8C8C18181818181818181818181818181818
+        1818272727D4D4D4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6F6F6F181818
+        181818181818181818181818181818181818FFFFFF8D8D8D1A1A1A1A1A1A1A1A
+        1A1A1A1A1A1A1A1A1A1A1A1A1A7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE3
+        E3E32929291A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1AFFFFFF8E8E8E
+        1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D727272FFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFD5D5D52B2B2B1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D
+        1D1DFFFFFF9D9D9D1F1F1F1F1F1F1F1F1F1F1F1F1F1F1F747474FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD5D5D52E2E2E1F1F1F1F1F
+        1F1F1F1F1F1F1F2E2E2EFFFFFFD6D6D62121212121212121212121212F2F2FFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFF838383D6D6D6FFFFFFFFFFFFFFFFFFFFFFFF
+        9E9E9E212121212121212121212121676767FFFFFFFFFFFF3F3F3F2424242424
+        24242424242424777777FFFFFFFFFFFFFFFFFF777777242424323232D6D6D6FF
+        FFFFFFFFFFD6D6D6323232242424242424242424242424ADADADFFFFFFFFFFFF
+        AEAEAE262626262626262626262626262626787878FFFFFF7878782626262626
+        26262626343434D7D7D7D7D7D7343434262626262626262626262626424242FF
+        FFFFFFFFFFFFFFFFFFFFFF515151282828282828282828282828282828363636
+        2828282828282828282828282828283636362828282828282828282828282828
+        28282828BCBCBCFFFFFFFFFFFFFFFFFFFFFFFFD7D7D73838382A2A2A2A2A2A2A
+        2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A2A
+        2A2A2A2A2A2A2A2A2A7B7B7BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD8D8
+        D83A3A3A2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D2D
+        2D2D2D2D2D2D2D2D2D2D2D2D2D2D7C7C7CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFD8D8D85757572F2F2F2F2F2F2F2F2F2F2F2F2F2F2F2F2F
+        2F2F2F2F2F2F2F2F2F2F2F2F2F2F2F2F2F2F2FA4A4A4FFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB2B2B24B4B4B313131
+        3131313131313131313131313131313131313131317F7F7FE6E6E6FFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFD9D9D9A5A5A5999999999999999999999999BFBFBFF3F3F3FFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      ParentFont = False
+      TabOrder = 10
+      OnClick = BtnCloseClick
+    end
+    object BtnTrayVision: TButton
+      Left = 759
+      Top = 63
+      Width = 241
+      Height = 41
+      Caption = 'TRAY VISION OFF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 11
+      OnClick = BtnTrayVisionClick
+    end
+    object ChkTrayVision: TCheckBox
+      Left = 772
+      Top = 74
+      Width = 14
+      Height = 20
+      TabOrder = 12
+    end
+    object CurvyPanel2: TCurvyPanel
+      Left = 1006
+      Top = 456
+      Width = 241
+      Height = 240
+      TabOrder = 13
+      object Label2: TLabel
+        Left = 56
+        Top = 11
+        Width = 125
+        Height = 19
+        Caption = 'VISION MOVE TEST'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label3: TLabel
+        Left = 24
+        Top = 104
+        Width = 51
+        Height = 18
+        Caption = 'X VALUE'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 24
+        Top = 147
+        Width = 51
+        Height = 18
+        Caption = 'Y VALUE'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object EditXValue: TEdit
+        Left = 96
+        Top = 92
+        Width = 121
+        Height = 37
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ImeName = 'Microsoft IME 2010'
+        ParentFont = False
+        TabOrder = 0
+        Text = '0.0'
+      end
+      object EditYValue: TEdit
+        Left = 96
+        Top = 135
+        Width = 121
+        Height = 37
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -24
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ImeName = 'Microsoft IME 2010'
+        ParentFont = False
+        TabOrder = 1
+        Text = '0.0'
+      end
+      object BtnExecuteMove: TBitBtn
+        Left = 8
+        Top = 188
+        Width = 225
+        Height = 41
+        Caption = 'EXECUTE'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000012170000121700000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB0B0B0020202626262FFFFFF6262620202
+          02B0B0B0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA1
+          A1A1050505050505454545050505050505A1A1A1FFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFB3B3B3A3A3A38484840909090909090909090909090909
+          09848484A3A3A3B3B3B3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0C0C0C0C0C0C0C
+          0C0C393939E1E1E1FFFFFFE1E1E13939390C0C0C0C0C0C0C0C0CFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFF6969690F0F0F0F0F0FE1E1E13D3D3D0F0F0F3D3D3DE1E1
+          E10F0F0F0F0F0F696969FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4E4E4E12
+          1212FFFFFF121212121212121212E2E2E21212124E4E4EFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFF6E6E6E151515151515E2E2E2424242151515424242E2E2
+          E21515151515156E6E6EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF19191919191919
+          1919454545F1F1F1FFFFFFE3E3E3454545191919191919191919FFFFFFD5D5D5
+          FFFFFF555555555555B8B8B88080808D8D8D1C1C1C1C1C1C5555551C1C1C1C1C
+          1C8D8D8DA9A9A9B8B8B8D5D5D51F1F1F4A4A4A1F1F1F1F1F1F4A4A4A1F1F1F82
+          82821F1F1F1F1F1F5757571F1F1F1F1F1FABABABFFFFFFFFFFFFFFFFFF4C4C4C
+          2222224B4B4B4B4B4B2222224C4C4CBABABA222222767676FFFFFF7676762222
+          22BABABAFFFFFFFFFFFF5C5C5C2525254F4F4FFFFFFFFFFFFF4F4F4F2525255C
+          5C5CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5E5E5E282828
+          515151FFFFFFFFFFFF5151512828285E5E5EFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFF5454542C2C2C6161616161612C2C2C545454FF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD8D8D82F2F2F
+          5656562F2F2F2F2F2F5656562F2F2FD8D8D8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFD9D9D9FFFFFF666666666666FFFFFFD9D9D9FF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+        ParentFont = False
+        TabOrder = 2
+        OnClick = BtnExecuteMoveClick
+      end
+      object Panel1: TPanel
+        Left = 8
+        Top = 41
+        Width = 225
+        Height = 41
+        BevelOuter = bvLowered
+        ParentBackground = False
+        TabOrder = 3
+        object RadioBtn1: TRadioButton
+          Left = 16
+          Top = 16
+          Width = 41
+          Height = 17
+          Caption = 'QC'
+          Checked = True
+          TabOrder = 0
+          TabStop = True
+        end
+        object RadioBtn2: TRadioButton
+          Left = 88
+          Top = 16
+          Width = 41
+          Height = 17
+          Caption = 'BTM'
+          TabOrder = 1
+        end
+        object RadioBtn3: TRadioButton
+          Left = 168
+          Top = 16
+          Width = 41
+          Height = 17
+          Caption = 'TOP'
+          TabOrder = 2
+        end
+      end
+    end
+    object BtnPreQPDVision: TButton
+      Left = 1006
+      Top = 16
+      Width = 241
+      Height = 41
+      Caption = 'QPD VISION OFF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Calibri'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 14
+      OnClick = BtnPreQPDVisionClick
+    end
+    object ChkPreQPDVision: TCheckBox
+      Left = 1014
+      Top = 26
+      Width = 14
+      Height = 20
+      TabOrder = 15
+    end
+    object CurvyPanel3: TCurvyPanel
+      Left = 1006
+      Top = 327
+      Width = 241
+      Height = 35
+      TabOrder = 16
+      object Label5: TLabel
+        Left = 48
+        Top = 8
+        Width = 135
+        Height = 19
+        Caption = 'V-CUT Delete Option'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+      end
+      object GroupBox1: TGroupBox
+        Left = 11
+        Top = 35
+        Width = 214
+        Height = 62
+        Caption = 'V-CUT Path'
+        Color = clHighlightText
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 0
+      end
+      object MemoLog: TMemo
+        AlignWithMargins = True
+        Left = 18
+        Top = 63
+        Width = 201
+        Height = 34
+        BorderStyle = bsNone
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -15
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ImeName = 'Microsoft IME 2010'
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object GroupBox2: TGroupBox
+        Left = 11
+        Top = 103
+        Width = 214
+        Height = 83
+        Caption = 'Delete Cycle'
+        Color = clHighlightText
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 2
+        object Rdo_Del01: TRadioButton
+          Left = 7
+          Top = 26
+          Width = 61
+          Height = 17
+          Caption = '3Day'
+          TabOrder = 0
+        end
+        object Rdo_Del02: TRadioButton
+          Left = 74
+          Top = 26
+          Width = 58
+          Height = 17
+          Caption = '1Month'
+          TabOrder = 1
+        end
+        object Rdo_Del03: TRadioButton
+          Left = 148
+          Top = 26
+          Width = 63
+          Height = 17
+          Caption = '3Month'
+          TabOrder = 2
+        end
+        object Rdo_Del04: TRadioButton
+          Left = 7
+          Top = 52
+          Width = 67
+          Height = 17
+          Caption = '6Month'
+          TabOrder = 3
+        end
+        object Rdo_Del05: TRadioButton
+          Left = 74
+          Top = 52
+          Width = 68
+          Height = 17
+          Caption = 'Never'
+          TabOrder = 4
+        end
+        object Btn_vCutSave: TBitBtn
+          Left = 148
+          Top = 49
+          Width = 60
+          Height = 25
+          Caption = 'Save'
+          TabOrder = 5
+          OnClick = Btn_vCutSaveClick
+        end
+      end
+      object Btn_OpenLogFolder: TBitBtn
+        Left = 11
+        Top = 196
+        Width = 214
+        Height = 40
+        Caption = 'OPEN LOG FOLDER'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000012170000121700000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB0B0B0020202626262FFFFFF6262620202
+          02B0B0B0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA1
+          A1A1050505050505454545050505050505A1A1A1FFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFB3B3B3A3A3A38484840909090909090909090909090909
+          09848484A3A3A3B3B3B3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0C0C0C0C0C0C0C
+          0C0C393939E1E1E1FFFFFFE1E1E13939390C0C0C0C0C0C0C0C0CFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFF6969690F0F0F0F0F0FE1E1E13D3D3D0F0F0F3D3D3DE1E1
+          E10F0F0F0F0F0F696969FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4E4E4E12
+          1212FFFFFF121212121212121212E2E2E21212124E4E4EFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFF6E6E6E151515151515E2E2E2424242151515424242E2E2
+          E21515151515156E6E6EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF19191919191919
+          1919454545F1F1F1FFFFFFE3E3E3454545191919191919191919FFFFFFD5D5D5
+          FFFFFF555555555555B8B8B88080808D8D8D1C1C1C1C1C1C5555551C1C1C1C1C
+          1C8D8D8DA9A9A9B8B8B8D5D5D51F1F1F4A4A4A1F1F1F1F1F1F4A4A4A1F1F1F82
+          82821F1F1F1F1F1F5757571F1F1F1F1F1FABABABFFFFFFFFFFFFFFFFFF4C4C4C
+          2222224B4B4B4B4B4B2222224C4C4CBABABA222222767676FFFFFF7676762222
+          22BABABAFFFFFFFFFFFF5C5C5C2525254F4F4FFFFFFFFFFFFF4F4F4F2525255C
+          5C5CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5E5E5E282828
+          515151FFFFFFFFFFFF5151512828285E5E5EFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFF5454542C2C2C6161616161612C2C2C545454FF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD8D8D82F2F2F
+          5656562F2F2F2F2F2F5656562F2F2FD8D8D8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFD9D9D9FFFFFF666666666666FFFFFFD9D9D9FF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+        ParentFont = False
+        TabOrder = 3
+        OnClick = Btn_OpenLogFolderClick
+      end
+    end
+    object CurvyPanel4: TCurvyPanel
+      Left = 1006
+      Top = 110
+      Width = 241
+      Height = 252
+      TabOrder = 17
+      object Label6: TLabel
+        Left = 19
+        Top = 10
+        Width = 200
+        Height = 19
+        Caption = 'Deep Learning Option (Recipe)'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+      end
+      object GroupBox3: TGroupBox
+        Left = 11
+        Top = 35
+        Width = 214
+        Height = 206
+        Caption = 'Recipe Setting'
+        Color = clHighlightText
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 0
+        object Label7: TLabel
+          Left = 8
+          Top = 24
+          Width = 109
+          Height = 16
+          Caption = 'READ :: VISION_ID'
+        end
+        object Label8: TLabel
+          Left = 8
+          Top = 146
+          Width = 101
+          Height = 16
+          Caption = 'SET :: VISION_ID'
+        end
+        object Read_btmVisionOption: TSpeedButton
+          Tag = 1
+          Left = 136
+          Top = 28
+          Width = 69
+          Height = 43
+          Caption = 'LOAD'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentFont = False
+          OnClick = Read_btmVisionOptionClick
+        end
+        object Label9: TLabel
+          Left = 8
+          Top = 79
+          Width = 87
+          Height = 16
+          Caption = 'USE/SKIP (1/0)'
+        end
+        object Label10: TLabel
+          Left = 8
+          Top = 109
+          Width = 167
+          Height = 16
+          Caption = 'SKIP,STOP,WARNING (0/1/2)'
+        end
+        object Label11: TLabel
+          Left = 9
+          Top = 130
+          Width = 195
+          Height = 16
+          Caption = '---------------------------------------'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clGray
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+        end
+        object set_VisionID: TEdit
+          Left = 8
+          Top = 168
+          Width = 122
+          Height = 24
+          TabOrder = 0
+        end
+        object read_VisionID: TEdit
+          Left = 8
+          Top = 46
+          Width = 122
+          Height = 24
+          Enabled = False
+          TabOrder = 1
+        end
+        object Set_btmVisionOption: TBitBtn
+          Left = 136
+          Top = 150
+          Width = 69
+          Height = 43
+          Caption = 'SAVE'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          Glyph.Data = {
+            36030000424D3603000000000000360000002800000010000000100000000100
+            1800000000000003000012170000121700000000000000000000FFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB0B0B0020202626262FFFFFF6262620202
+            02B0B0B0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA1
+            A1A1050505050505454545050505050505A1A1A1FFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFB3B3B3A3A3A38484840909090909090909090909090909
+            09848484A3A3A3B3B3B3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0C0C0C0C0C0C0C
+            0C0C393939E1E1E1FFFFFFE1E1E13939390C0C0C0C0C0C0C0C0CFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFF6969690F0F0F0F0F0FE1E1E13D3D3D0F0F0F3D3D3DE1E1
+            E10F0F0F0F0F0F696969FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4E4E4E12
+            1212FFFFFF121212121212121212E2E2E21212124E4E4EFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFF6E6E6E151515151515E2E2E2424242151515424242E2E2
+            E21515151515156E6E6EFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF19191919191919
+            1919454545F1F1F1FFFFFFE3E3E3454545191919191919191919FFFFFFD5D5D5
+            FFFFFF555555555555B8B8B88080808D8D8D1C1C1C1C1C1C5555551C1C1C1C1C
+            1C8D8D8DA9A9A9B8B8B8D5D5D51F1F1F4A4A4A1F1F1F1F1F1F4A4A4A1F1F1F82
+            82821F1F1F1F1F1F5757571F1F1F1F1F1FABABABFFFFFFFFFFFFFFFFFF4C4C4C
+            2222224B4B4B4B4B4B2222224C4C4CBABABA222222767676FFFFFF7676762222
+            22BABABAFFFFFFFFFFFF5C5C5C2525254F4F4FFFFFFFFFFFFF4F4F4F2525255C
+            5C5CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5E5E5E282828
+            515151FFFFFFFFFFFF5151512828285E5E5EFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFF5454542C2C2C6161616161612C2C2C545454FF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD8D8D82F2F2F
+            5656562F2F2F2F2F2F5656562F2F2FD8D8D8FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFD9D9D9FFFFFF666666666666FFFFFFD9D9D9FF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+          ParentFont = False
+          TabOrder = 2
+          OnClick = Set_btmVisionOptionClick
+        end
+        object read_Use: TEdit
+          Left = 184
+          Top = 76
+          Width = 21
+          Height = 24
+          Enabled = False
+          TabOrder = 3
+        end
+        object read_Option: TEdit
+          Left = 184
+          Top = 106
+          Width = 21
+          Height = 24
+          Enabled = False
+          TabOrder = 4
+        end
+      end
+    end
+    object Button1: TButton
+      Left = 904
+      Top = 648
+      Width = 57
+      Height = 33
+      Caption = 'TEST'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 18
+      OnClick = Button1Click
+    end
+  end
+  object BtmAlignVisionServer: TServerSocket
+    Active = False
+    Port = 9002
+    ServerType = stNonBlocking
+    OnClientConnect = BtmAlignVisionServerClientConnect
+    OnClientDisconnect = BtmAlignVisionServerClientDisconnect
+    OnClientRead = BtmAlignVisionServerClientRead
+    OnClientError = BtmAlignVisionServerClientError
+    Left = 160
+    Top = 192
+  end
+  object SorterJobChangeVisionServer: TServerSocket
+    Active = False
+    Port = 9000
+    ServerType = stNonBlocking
+    OnClientConnect = SorterJobChangeVisionServerClientConnect
+    OnClientDisconnect = SorterJobChangeVisionServerClientDisconnect
+    OnClientRead = SorterJobChangeVisionServerClientRead
+    OnClientError = SorterJobChangeVisionServerClientError
+    Left = 504
+    Top = 192
+  end
+  object FlpAlignVisionServer: TServerSocket
+    Active = False
+    Port = 9003
+    ServerType = stNonBlocking
+    OnClientConnect = FlpAlignVisionServerClientConnect
+    OnClientDisconnect = FlpAlignVisionServerClientDisconnect
+    OnClientRead = FlpAlignVisionServerClientRead
+    OnClientError = FlpAlignVisionServerClientError
+    Left = 272
+    Top = 192
+  end
+  object PreQCSocket: TServerSocket
+    Active = False
+    Port = 9001
+    ServerType = stNonBlocking
+    OnClientConnect = PreQCSocketClientConnect
+    OnClientDisconnect = PreQCSocketClientDisconnect
+    OnClientRead = PreQCSocketClientRead
+    OnClientError = PreQCSocketClientError
+    Left = 72
+    Top = 192
+  end
+  object TraySocket: TServerSocket
+    Active = False
+    Port = 9004
+    ServerType = stNonBlocking
+    OnClientConnect = TraySocketClientConnect
+    OnClientDisconnect = TraySocketClientDisconnect
+    OnClientRead = TraySocketClientRead
+    OnClientError = TraySocketClientError
+    Left = 376
+    Top = 192
+  end
+  object ReqRCClientSocket: TClientSocket
+    Active = False
+    ClientType = ctNonBlocking
+    Host = '192.168.0.13'
+    Port = 8000
+    OnConnect = ReqRCClientSocketConnect
+    OnError = ReqRCClientSocketError
+    Left = 72
+    Top = 264
+  end
+  object DVIServerSocket: TServerSocket
+    Active = False
+    Port = 9005
+    ServerType = stNonBlocking
+    OnClientConnect = DVIServerSocketClientConnect
+    OnClientDisconnect = DVIServerSocketClientDisconnect
+    OnClientRead = DVIServerSocketClientRead
+    OnClientError = DVIServerSocketClientError
+    Left = 648
+    Top = 192
+  end
+  object QpdSorket: TServerSocket
+    Active = False
+    Port = 9006
+    ServerType = stNonBlocking
+    OnClientConnect = QpdSorketClientConnect
+    OnClientDisconnect = QpdSorketClientDisconnect
+    OnClientRead = QpdSorketClientRead
+    OnClientError = QpdSorketClientError
+    Left = 744
+    Top = 192
+  end
+  object BtmSendClientSocket: TClientSocket
+    Active = False
+    ClientType = ctNonBlocking
+    Host = '192.168.0.7'
+    Port = 8008
+    OnConnect = BtmSendClientSocketConnect
+    OnRead = BtmSendClientSocketRead
+    OnError = BtmSendClientSocketError
+    Left = 72
+    Top = 336
+  end
+end

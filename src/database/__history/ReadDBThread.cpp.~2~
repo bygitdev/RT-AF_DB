@@ -1,0 +1,16 @@
+#include <vcl.h>
+#pragma hdrstop
+#include "ReadDBThread.h"
+#include "CppSQLite3.h"
+#include "MainFormUnit.h" // 메인 폼 접근 위해
+
+__fastcall TReadDBThread::TReadDBThread(String dbPath, String start, String end)
+    : TThread(true), FDBPath(dbPath), FStartTime(start), FEndTime(end)
+{
+    FreeOnTerminate = true;
+}
+
+void __fastcall TReadDBThread::Execute()
+{
+    // 위에서 설명한 내용과 동일
+}

@@ -1,0 +1,169 @@
+object FrmProgramHistory: TFrmProgramHistory
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'FrmProgramHistory'
+  ClientHeight = 699
+  ClientWidth = 611
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 5
+    Top = 5
+    Width = 601
+    Height = 689
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
+    Align = alClient
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    Color = 3092271
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGrayText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    ShowCaption = False
+    TabOrder = 0
+    ExplicitLeft = 10
+    ExplicitTop = 0
+    DesignSize = (
+      601
+      689)
+    object labelName: TLabel
+      Left = 16
+      Top = 16
+      Width = 144
+      Height = 23
+      Caption = 'FUNCTION_NAME'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHighlightText
+      Font.Height = -19
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 40
+      Top = 480
+      Width = 65
+      Height = 25
+      Caption = 'DATE :'
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -21
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 348
+      Top = 480
+      Width = 69
+      Height = 25
+      Caption = 'NAME :'
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -21
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object Button1: TButton
+      Left = 436
+      Top = 631
+      Width = 145
+      Height = 42
+      Caption = 'CLOSE'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -19
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Memo1: TMemo
+      Left = 16
+      Top = 64
+      Width = 565
+      Height = 393
+      ScrollBars = ssVertical
+      TabOrder = 1
+    end
+    object Button2: TButton
+      Left = 272
+      Top = 631
+      Width = 145
+      Height = 42
+      Caption = 'SAVE'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -19
+      Font.Name = 'Calibri'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+      WordWrap = True
+      OnClick = Button2Click
+    end
+    object Edit1: TEdit
+      Left = 436
+      Top = 477
+      Width = 121
+      Height = 28
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+    end
+    object Memo2: TMemo
+      Left = 16
+      Top = 519
+      Width = 565
+      Height = 106
+      Enabled = False
+      TabOrder = 4
+    end
+    object DateTimePicker1: TDateTimePicker
+      Left = 128
+      Top = 477
+      Width = 186
+      Height = 24
+      Anchors = [akTop, akRight]
+      Date = 43064.420958020830000000
+      Time = 43064.420958020830000000
+      DateFormat = dfLong
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+    end
+  end
+end

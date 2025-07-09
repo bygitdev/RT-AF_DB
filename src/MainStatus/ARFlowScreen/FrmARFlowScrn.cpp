@@ -1,0 +1,1222 @@
+	  //---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "FrmARFlowScrn.h"
+#include "MainFormScrn.h"
+#include "OhtModeSelect.h"
+#include "fECMR.h"
+#include "FrmLoadCellScrn.h"
+#include "include.h"
+//---------------------------------------------------------------------------
+#include "BaseComm.h"
+#include "frmADCBarcodeReg.h"
+#include "fseelot.h"
+#include "fadctype.h"
+#include "tccomm\ftccomm.h"
+
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "iComponent"
+#pragma link "iCustomComponent"
+#pragma link "iGradient"
+#pragma link "iLedBar"
+#pragma link "iLedMatrix"
+#pragma link "iPipe"
+#pragma link "iPositionComponent"
+#pragma link "iProgressComponent"
+#pragma link "iVCLComponent"
+#pragma link "CurvyControls"
+#pragma link "W7Classes"
+#pragma link "W7Panels"
+#pragma link "AdvProgr"
+#pragma resource "*.dfm"
+
+TFrmARFlow *FrmARFlow;
+
+#define _MAX_PANEL_COUNT_         37
+#define  MAX_DOOR_COUNT  		  19
+int   doorIO[20] = {200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,300,301,303,304};
+int   _nTYPECheck[10]  = {301,302,303,304,315,316,317,318};
+
+//---------------------------------------------------------------------------
+__fastcall TFrmARFlow::TFrmARFlow(TComponent* Owner)
+	: TForm(Owner)
+{
+	int nCount = 0;
+	for( int nFlowIndex = 0; nFlowIndex < _MAX_PANEL_COUNT_; nFlowIndex++ )
+	{
+		TPanel* CloneFlowPanel = (TPanel*)FindComponent("MainFlowRefresh" + IntToStr(nFlowIndex+1));
+
+        if(CloneFlowPanel != NULL)
+        {
+            StrNamePanel[nCount] = CloneFlowPanel->Caption;
+            nCount++;
+       	}
+    }
+	nCount = 0;
+	for( int nFlowIndex = 0; nFlowIndex < _MAX_PANEL_COUNT_; nFlowIndex++ )
+	{
+		TPanel* CloneADCPanel = (TPanel*)FindComponent("MainPanelRefresh" + IntToStr(nFlowIndex+1));
+
+		if(CloneADCPanel != NULL)
+		{
+			StrNameADCPanel[nCount] = CloneADCPanel->Caption;
+			nCount++;
+		}
+    }
+	nCount = 0;
+	for(int nFlowIndex=0; nFlowIndex<_MAX_PANEL_COUNT_; nFlowIndex++)
+	{
+		TLabel* CloneOHTLabel = (TLabel*)FindComponent("lblOhtStatus"+IntToStr(nFlowIndex));
+
+		if(CloneOHTLabel != NULL)
+		{
+			strOhtStatusCaption[nCount] = CloneOHTLabel->Caption;
+			nCount++;
+		}
+	}
+
+
+
+
+
+   	sgProduct->Cells[0][0] = "";
+    sgProduct->Cells[0][1] = "INPUT";
+    sgProduct->Cells[0][2] = "X OUT";
+    sgProduct->Cells[0][3] = "GOOD";
+    sgProduct->Cells[0][4] = "REJECT";
+
+	sgProduct->Cells[1][0] = "LOT";
+    sgProduct->Cells[2][0] = "SHIFT";
+    sgProduct->Cells[3][0] = "DAILY";
+
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::MainFlowRefresh1DblClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	int nFlow = dynamic_cast<TPanel *>(Sender)->Tag;
+	bool bReadval = bool(nReadCommunicationDM( nFlow ));
+
+    if( nFlow >= 50 && nFlow <= 53  && !bReadval)
+	{
+         FrmCdBox->setFlag(CD_OK);
+         FrmCdBox->setTitle("LOT INFO CHECK");
+		 FrmCdBox->setText("Please check the data lot ID & merge lot ID on 'LOT INFO' screen.");
+         FrmCdBox->ShowModal();
+    }
+
+	bReadval =  bReadval ? 0 : 1;
+	nWriteCommunicationDM (bReadval , nFlow);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::ProcessRefreshTimerTimer(TObject *Sender)
+{
+	this->RefreshStatus();
+	this->RefleshUseSkip();
+	this->RefreshDoor();
+
+	LabelDisplayRunTime->Caption =  IntToStr((int)MainForm->_dbRuntime/60) + " min";
+	LabelDisplayStopTime->Caption  = IntToStr((int)MainForm->_dbStoptime/60) + " min";
+	LabelDisplayErrorTime->Caption = IntToStr((int)MainForm->_dbErrtime/60) + " min";
+
+	 //  current lot
+	sgProduct->Cells[1][1] = nReadCommunicationDM( lotInputCnt	);
+	sgProduct->Cells[1][2] = nReadCommunicationDM( lotXOutCnt	);
+	sgProduct->Cells[1][3] = nReadCommunicationDM( lotGoodCnt	);
+	sgProduct->Cells[1][4] = nReadCommunicationDM( lotRejectCnt	);
+
+    //shift
+	sgProduct->Cells[2][1] = nReadCommunicationDM( shiftInputCnt	);
+	sgProduct->Cells[2][2] = nReadCommunicationDM( shiftXoutCnt	);
+    sgProduct->Cells[2][3] = nReadCommunicationDM( shiftGoodCnt	);
+	sgProduct->Cells[2][4] = nReadCommunicationDM( shiftRejectCnt	);
+
+    //daily
+    sgProduct->Cells[3][1] = nReadCommunicationDM( dailyInputCnt	);
+	sgProduct->Cells[3][2] = nReadCommunicationDM( dailyXoutCnt	);
+	sgProduct->Cells[3][3] = nReadCommunicationDM( dailyGoodCnt	);
+	sgProduct->Cells[3][4] = nReadCommunicationDM( dailyRejectCnt	);
+
+	lbTodayTotal->Caption = nReadCommunicationDM( productCntDay);
+	lbShift1->Caption = nReadCommunicationDM(productCntShift1 );
+	lbShift2->Caption = nReadCommunicationDM(productCntShift2);
+	lbShift3->Caption = nReadCommunicationDM(productCntShift3 );
+    // 현재 롯트 이름 출력
+
+	int nQty = nReadCommunicationDM(mergeLotCnt);
+
+	// g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_LOT_END_INFO;
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_LOT_END_LOT_INFO_COPY;
+	BOOL bRet = g_MMIComm->Send() &&  g_MMIComm->Recv();
+	if (bRet)
+	{
+		//LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfoCopy;
+		LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfo;
+
+		LabelLotID->Caption = " LOTID : [" +  String(info.lotID) + "] , MERGE LOTID : ["+ String(info.mergeLotID) + "] , QTY : ["+ IntToStr(nQty) + "]";
+	}
+
+	int cur = 0, total = 0;
+
+	int nPadType = dReadPkgData(targetPad);
+	if(0 == nPadType)
+	{
+		cur = dReadCommunicationDM(curLifeTime00);
+		total = dReadCommunicationDM(setLifeTime00);
+	}
+	else if(1 == nPadType)
+	{
+		cur = dReadCommunicationDM(curLifeTime01);
+		total = dReadCommunicationDM(setLifeTime01);
+	}
+
+	LabelPadChangeCnt->Caption = IntToStr(cur) + " / " + IntToStr(total);
+	if(total == 0) total = 1;
+	ShapebarPadChangeCnt->Width = (double)cur/(double)total * ShapebarPadChangeCnt->Parent->Width;
+
+	this->process_unit_counting();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::FormShow(TObject *Sender)
+{
+	ProcessRefreshTimer->Enabled = true;
+	TimerLotInfo->Enabled  = true;
+
+	//MainFlowPG->TabIndex = 0;
+}
+//---------------------------------------------------------------------------
+void TFrmARFlow::RefreshStatus()
+{
+	int nCount = 0;
+	TColor cValue[10] = {clGray , clLime , clOlive , clRed , clBlue , clTeal , clAqua , clMaroon  , clPurple , clWhite };
+
+	for( int nFlowIndex = 0; nFlowIndex < _MAX_PANEL_COUNT_; nFlowIndex++ )
+	{
+		TPanel* CloneFlowPanel = (TPanel*)FindComponent("MainFlowRefresh" + IntToStr(nFlowIndex+1));
+
+        if(CloneFlowPanel != NULL)
+        {
+			bool bReadval = bool(nReadCommunicationDM( CloneFlowPanel->Tag));
+
+        	CloneFlowPanel->Color =  bReadval ? clLime : clGray;
+            CloneFlowPanel->Caption =   "";
+			CloneFlowPanel->Caption =   bReadval ? StrNamePanel[nCount] + " ON" : StrNamePanel[nCount] + " OFF";
+			nCount++;
+       }
+    }
+
+	nCount = 0;
+
+
+	for( int nFlowIndex = 0; nFlowIndex < _MAX_PANEL_COUNT_; nFlowIndex++ )
+	{
+		TPanel* CloneFlowPanel = (TPanel*)FindComponent("MainPanelRefresh" + IntToStr(nFlowIndex+1));
+
+        if(CloneFlowPanel != NULL)
+        {
+        	bool bCheckFalse = false;
+        	for( int nIndex = 0; nIndex < 10; nIndex++ )
+			{
+				if(_nTYPECheck[nIndex] ==  CloneFlowPanel->Tag)
+                {
+                	bCheckFalse = true;
+                    break;
+                }
+            }
+
+        	if(bCheckFalse == true)
+            {
+                int nReadval = int(nReadCommunicationDM( CloneFlowPanel->Tag));
+
+				TEdit* CloneEdit = (TEdit*)FindComponent("MainPanelRefreshText" + IntToStr(CloneFlowPanel->Tag));
+                //CloneFlowPanel->Color =  cValue[nReadval];
+                if(CloneEdit != NULL)
+                {
+                    TIniFile* ini = new TIniFile(ExtractFilePath(Application->ExeName) + "\\adc.ini");
+                    String name = ini->ReadString("ADC","NAME"+IntToStr(nReadval),"");
+                    CloneEdit->Hint = name;
+                    delete ini;
+
+					CloneEdit->Text = IntToStr(nReadval);
+				}
+            }
+			else
+			{
+				bool bReadval = bool(nReadCommunicationDM( CloneFlowPanel->Tag));
+
+				CloneFlowPanel->Color =  bReadval ? clLime : clGray;
+				CloneFlowPanel->Caption =   "";
+
+//				bool bCaption = true;
+//				if (CloneFlowPanel->Tag == 81 || CloneFlowPanel->Tag == 82)
+//					bCaption = false;
+//
+//				if (bCaption)
+//					CloneFlowPanel->Caption =   bReadval ? StrNameADCPanel[nCount] + " ON" : StrNameADCPanel[nCount] + " OFF";
+//				else
+					CloneFlowPanel->Caption =   bReadval ? StrNameADCPanel[nCount] : StrNameADCPanel[nCount];
+			}
+
+			nCount++;
+       }
+	}
+
+	///dual pad status update
+	for( int nFlowIndex = 74; nFlowIndex <=80 ; nFlowIndex++ )
+	{
+		TPanel* CloneFlowPanel = (TPanel*)FindComponent("MainPanelRefresh" + IntToStr(nFlowIndex));
+		if(CloneFlowPanel != NULL)
+		{
+			bool bReadval = bool(nReadCommunicationDM( CloneFlowPanel->Tag));
+			CloneFlowPanel->Color =  bReadval ? clLime : clGray;
+		}
+	}
+
+	int ncnt = int (nReadCommunicationDM( goodStackCnt ));
+	PanelGoodStackCnt->Caption = "GOOD STACK COUNT : " + IntToStr(ncnt);
+
+	ncnt = int (nReadCommunicationDM( rejectStackCnt ));
+	PanelRejectStackCnt->Caption = "REJECT STACK COUNT : " + IntToStr(ncnt);
+
+	PanelLoadCellWeight->Caption = "LOADCELL WEIGHT : " + MainForm->_loadcellData;
+
+	///
+	if (g_MMIComm)
+	{
+		String strPadType[] = {"SINGLE PAD", "DUAL PAD", "RF-PCB" } ;
+		int nTargetPad = dReadPkgData(targetPad);	//0 single 1 dual, 2. RF-PCB
+		TargetPadType->Caption = strPadType[nTargetPad];
+
+		int nCurrentPad = nReadCommunicationDM( currentPad);  //0 single 1 dual, 2. RF-PCB
+		CurrentPadType->Caption = strPadType[nCurrentPad];
+
+		bool flag = true;
+		if(nCurrentPad == 2)
+		{
+			flag = false;
+		}
+
+		//MainPanelRefresh76->Visible = flag;
+		//MainPanelRefresh77->Visible = flag;
+		MainPanelRefresh78->Visible = flag;
+	}
+
+
+	/// adc barcode name refresh
+	#define 	RECIPE_ADC_TOP_MZ 	303
+	#define 	RECIPE_ADC_BTM_MZ 	304
+
+	PanelTopMgz->Caption = " " + getStrJobType(nReadCommunicationDM(RECIPE_ADC_TOP_MZ));
+	PanelBtmMgz->Caption = " " + getStrJobType(nReadCommunicationDM(RECIPE_ADC_BTM_MZ));
+
+	//jigType
+	int nJigtype = dReadPkgData(jigType);
+	EditTargetJobtype->Text = IntToStr(nJigtype);
+
+	TIniFile* ini = new TIniFile(ExtractFilePath(Application->ExeName) + "\\adc.ini");
+	String name = ini->ReadString("ADC","NAME"+IntToStr(nJigtype),"");
+	delete ini;
+
+	PanelTarget->Caption = name;
+
+	this->RefreshValues();
+}
+//---------------------------------------------------------------------------
+String 	TFrmARFlow::getStrJobType(int index)
+{
+	TIniFile* ini = new TIniFile(ExtractFilePath(Application->ExeName) + "\\adc.ini");
+	String name = ini->ReadString("ADC","NAME"+IntToStr(index),"");
+	delete ini;
+
+	return "[" + IntToStr(index) + "] " + name;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::BtnTimerRefreshSaveClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	nWriteCommunicationDM (MainPanelRefreshText301->Text.ToInt()   , 301);
+    nWriteCommunicationDM (MainPanelRefreshText302->Text.ToInt()   , 302);
+    nWriteCommunicationDM (MainPanelRefreshText315->Text.ToInt()   , 315);
+    nWriteCommunicationDM (MainPanelRefreshText316->Text.ToInt()   , 316);
+    nWriteCommunicationDM (MainPanelRefreshText317->Text.ToInt()   , 317);
+    nWriteCommunicationDM (MainPanelRefreshText318->Text.ToInt()   , 318);
+
+	BtnTimerRefresh->Enabled = true;
+	ProcessRefreshTimer->Enabled = true;
+	BtnTimerRefreshSave->Enabled =false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::BtnTimerRefreshClick(TObject *Sender)
+{
+	ProcessRefreshTimer->Enabled = false;
+	BtnTimerRefresh->Enabled = false;
+	BtnTimerRefreshSave->Enabled =true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::Button1Click(TObject *Sender)
+{
+	frmADBBarcodeReg->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::FormClose(TObject *Sender, TCloseAction &Action)
+{
+	TimerLotInfo->Enabled  =false;
+}
+//---------------------------------------------------------------------------
+
+
+
+void RefreshLotInfo(TStringGrid* pGrid, INT cmd)
+{
+	g_MMIComm->m_mmiToSeq.nCmd = cmd;
+	BOOL bRet = g_MMIComm->Send() &&  g_MMIComm->Recv();
+	if (!bRet)
+		return;
+
+	LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfo;
+	if (cmd == CMD_RD_LOT_END_INFO)
+	{
+		//memset(&info, 0, sizeof(info));
+		info = g_MMIComm->m_mmiToSeq.buffer.lotInfoCopy;
+		//MainForm->MachineHistoryData("RefreshLotInfo = CMD_RD_LOT_END_INFO");
+	}
+	// LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfo;
+
+	pGrid->Cells[0][0] = "CarrierID";
+	pGrid->Cells[0][1] = "EqpID";
+	pGrid->Cells[0][2] = "MagQty";
+	pGrid->Cells[0][3] = "LotID";
+	pGrid->Cells[0][4] = "StepID";
+	pGrid->Cells[0][5] = "PartID";
+	pGrid->Cells[0][6] = "PortID";
+	pGrid->Cells[0][7] = "MergeLotID";
+	pGrid->Cells[0][8] = "LotQty";
+	pGrid->Cells[0][9] = "SubLotID";
+	pGrid->Cells[0][10] = "MergeLotQty";
+	pGrid->Cells[0][11] = "Barcode";
+	pGrid->Cells[0][12] = "Model";
+	pGrid->Cells[0][13] = "ArrayBaseQty";
+	pGrid->Cells[0][14] = "TestResult";
+	pGrid->Cells[0][15] = "ArtsScrap";
+	pGrid->Cells[0][16] = "X-OutCnt";
+	pGrid->Cells[0][17] = "ScrapCnt";
+	pGrid->Cells[0][18] = "Tray1Mark";
+	pGrid->Cells[0][19] = "Tray1OhtQty";
+	pGrid->Cells[0][20] = "Tray1ProdQty";
+	pGrid->Cells[0][21] = "RejectLotId";
+	pGrid->Cells[0][22] = "RejectCarrierID";
+
+	pGrid->Cells[1][0] = info.carrierID;
+    pGrid->Cells[1][1] = info.eqpID;
+    pGrid->Cells[1][2] = IntToStr( info.magQty );
+    pGrid->Cells[1][3] = info.lotID;
+    pGrid->Cells[1][4] = info.step;
+    pGrid->Cells[1][5] = info.partID;
+    pGrid->Cells[1][6] = info.portID;
+	pGrid->Cells[1][7] = info.mergeLotID;
+    pGrid->Cells[1][8] = info.lotQty;
+    pGrid->Cells[1][9] = info.subLotID;
+    pGrid->Cells[1][10] = info.mergeLotQty;
+    pGrid->Cells[1][11] = info.pcbBarcode;
+    pGrid->Cells[1][12] = info.pcbModel;
+    pGrid->Cells[1][13] = info.pcbArrayBaseQty;
+    pGrid->Cells[1][14] = info.pcbTestResult;
+    pGrid->Cells[1][15] = info.pcbArtsScrap;
+    pGrid->Cells[1][16] = info.pcbXOutCnt;
+	pGrid->Cells[1][17] = info.scrapCnt;
+	pGrid->Cells[1][18] = info.tray1Mark;
+	pGrid->Cells[1][19] = info.tray1OhtQty;
+	pGrid->Cells[1][20] = info.tray1ProdQty;
+	pGrid->Cells[1][21] = info.rejectLotID;
+	pGrid->Cells[1][22] = info.rejectCarrierID;
+
+	for (int i = 0; i < 4; i++)
+	{
+		if(pGrid->Name == ("sgIndex" + IntToStr(i+1)))
+		{
+			//TStringGrid* pGridIndex = (TBitBtn*)FindComponent("sgIndex" + IntToStr(i+1));
+
+			MainForm->vLotiD[i] = info.lotID;
+			MainForm->vBarcode[i] = info.pcbBarcode;
+		}
+	}
+}
+
+void WriteLotInfo(TStringGrid* pGrid, INT index)
+{
+	LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfo;
+	if (pGrid == "sgLotEndInfo")
+	{
+		//memset(&info, 0, sizeof(info));
+		info = g_MMIComm->m_mmiToSeq.buffer.lotInfoCopy;
+		//MainForm->MachineHistoryData("WriteLotInfo = sgLotEndInfo");
+	}
+	// LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfo;
+
+    strcpy( info.carrierID , AnsiString(pGrid->Cells[1][0]).c_str());
+    strcpy(info.eqpID, AnsiString(pGrid->Cells[1][1]).c_str());
+    info.magQty = pGrid->Cells[1][2].ToInt();
+    strcpy( info.lotID , AnsiString(pGrid->Cells[1][3]).c_str());
+    strcpy(info.step , AnsiString(pGrid->Cells[1][4]).c_str());
+    strcpy(info.partID , AnsiString(pGrid->Cells[1][5]).c_str());
+    strcpy(info.portID , AnsiString(pGrid->Cells[1][6]).c_str());
+	strcpy(info.mergeLotID, AnsiString(pGrid->Cells[1][7]).c_str());
+    info.lotQty = pGrid->Cells[1][8].ToInt();
+    strcpy(info.subLotID , AnsiString(pGrid->Cells[1][9]).c_str());
+    info.mergeLotQty = pGrid->Cells[1][10].ToInt();
+    strcpy(info.pcbBarcode, AnsiString(pGrid->Cells[1][11]).c_str());
+    strcpy(info.pcbModel, AnsiString(pGrid->Cells[1][12]).c_str());
+    info.pcbArrayBaseQty =pGrid->Cells[1][13].ToInt();
+    strcpy(info.pcbTestResult, AnsiString( pGrid->Cells[1][14]).c_str());
+	strcpy(info.pcbArtsScrap, AnsiString( pGrid->Cells[1][15]).c_str());
+	info.pcbXOutCnt = pGrid->Cells[1][16].ToInt();
+	info.scrapCnt = pGrid->Cells[1][17].ToInt();
+	strcpy(info.tray1Mark, AnsiString(pGrid->Cells[1][18]).c_str());
+	info.tray1OhtQty = pGrid->Cells[1][19].ToInt();
+	info.tray1ProdQty = pGrid->Cells[1][20].ToInt();
+	strcpy(info.rejectLotID, AnsiString(pGrid->Cells[1][21]).c_str());
+	strcpy(info.rejectCarrierID, AnsiString(pGrid->Cells[1][22]).c_str());
+
+	if(index == 4)
+		g_MMIComm->m_mmiToSeq.nCmd = CMD_WR_LOT_END_INFO;
+	else if(index == 5)
+		g_MMIComm->m_mmiToSeq.nCmd = CMD_WR_OHT_LOT_INFO;
+	else
+		g_MMIComm->m_mmiToSeq.nCmd = CMD_WR_STG1_LOT_INFO + index;
+    //g_MMIComm->m_mmiToSeq.buffer.lotInfo = index;
+	BOOL bRet = g_MMIComm->Send() &&  g_MMIComm->Recv();
+
+}
+
+
+
+void __fastcall TFrmARFlow::TimerLotInfoTimer(TObject *Sender)
+{
+	RefreshLotInfo(sgIndex1, CMD_RD_STG1_LOT_INFO+ 0);
+	RefreshLotInfo(sgIndex2, CMD_RD_STG1_LOT_INFO+ 1);
+	RefreshLotInfo(sgIndex3, CMD_RD_STG1_LOT_INFO+ 2);
+	RefreshLotInfo(sgIndex4, CMD_RD_STG1_LOT_INFO+ 3);
+	RefreshLotInfo(sgLotEndInfo, CMD_RD_LOT_END_INFO);
+
+	if (1 == nReadCommunicationDM( 50)) pnIndex1->Color = clLime;
+    else pnIndex1->Color = clSilver;
+    if (1 == nReadCommunicationDM( 51)) pnIndex2->Color = clLime;
+    else pnIndex2->Color = clSilver;
+    if (1 == nReadCommunicationDM( 52)) pnIndex3->Color = clLime;
+    else pnIndex3->Color = clSilver;
+    if (1 == nReadCommunicationDM( 53)) pnIndex4->Color = clLime;
+    else pnIndex4->Color = clSilver;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::pnIndex4DblClick(TObject *Sender)
+{
+	FrmCdBox->setFlag(CD_YESNO);
+    FrmCdBox->setTitle("Clear Lot Info");
+    FrmCdBox->setText("Would you clear lot infomation?");
+    if( mrYes == FrmCdBox->ShowModal())
+    {
+    	int index = ((TPanel*)Sender)->Tag;
+
+//    CMD_RD_STG1_LOT_INFO	= 61,
+//    CMD_RD_STG2_LOT_INFO	= 62,//    CMD_RD_STG3_LOT_INFO	= 63,//    CMD_RD_STG4_LOT_INFO	= 64,//    CMD_WR_STG1_LOT_INFO	= 65,//    CMD_WR_STG2_LOT_INFO	= 66,//    CMD_WR_STG3_LOT_INFO	= 67,//    CMD_WR_STG4_LOT_INFO	= 68,////    CMD_WR_RCV_LOT_INFO		= 69,//    CMD_RD_LOT_END_INFO		= 70,
+
+		g_MMIComm->m_mmiToSeq.nCmd = CMD_WR_STG1_LOT_INFO + index;
+		memset( &g_MMIComm->m_mmiToSeq.buffer.lotInfo, 0x00, sizeof(LOT_INFO));
+		if (g_MMIComm->Send() && g_MMIComm->Recv())
+		{
+        }
+	}
+
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFrmARFlow::btnInputClick(TObject *Sender)
+{
+//	if(!CheckCanAccessLevel(PW_MAINTENANCE)) return;
+
+	if ( 0 != nReadCommunicationDM( mcState ))	//0 : stop
+    {
+        FrmCdBox->setFlag(CD_OK);
+        FrmCdBox->setTitle("MACHINE STATUS");
+        FrmCdBox->setText("Machine is not stopped !");
+        FrmCdBox->ShowModal();
+		return;
+	}
+
+
+	TimerLotInfo->Enabled = false;
+
+    btnInput->Enabled = false;
+    btnSave->Enabled = true;
+
+    sgIndex1->Options<<goEditing;
+    sgIndex1->Options>>goRowSelect;
+
+    sgIndex2->Options<<goEditing;
+    sgIndex2->Options>>goRowSelect;
+
+    sgIndex3->Options<<goEditing;
+    sgIndex3->Options>>goRowSelect;
+
+    sgIndex4->Options<<goEditing;
+    sgIndex4->Options>>goRowSelect;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnSaveClick(TObject *Sender)
+{
+//	if(!CheckCanAccessLevel(PW_MAINTENANCE)) return;
+	if(!CheckCanDataAccess()) return;
+
+	WriteLotInfo(sgIndex1, 0);
+	WriteLotInfo(sgIndex2, 1);
+	WriteLotInfo(sgIndex3, 2);
+    WriteLotInfo(sgIndex4, 3);
+
+	btnInput->Enabled = true;
+    btnSave->Enabled = false;
+	TimerLotInfo->Enabled = true;
+
+    sgIndex1->Options>>goEditing;
+    sgIndex1->Options<<goRowSelect;
+
+    sgIndex2->Options>>goEditing;
+    sgIndex2->Options<<goRowSelect;
+
+    sgIndex3->Options>>goEditing;
+    sgIndex3->Options<<goRowSelect;
+
+    sgIndex4->Options>>goEditing;
+    sgIndex4->Options<<goRowSelect;
+
+}
+//---------------------------------------------------------------------------
+void  TFrmARFlow::RefreshValues()
+{
+	if(!this->Showing) return;
+
+    g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_DDM;
+    g_MMIComm->m_mmiToSeq.buffer.ddm.nStart = 0;
+    g_MMIComm->m_mmiToSeq.buffer.ddm.nEnd = 999;
+
+    if(true == g_MMIComm->Send() && true == g_MMIComm->Recv())
+	{
+        for(int i=0; i< 100; i++)
+        {
+			TPanel *panel = (TPanel*)FindComponent("PanelData" + IntToStr(i+1));
+            if(panel != NULL)
+            {
+			   panel->Caption = FloatToStrF(g_MMIComm->m_mmiToSeq.buffer.ddm.dVal[panel->Tag],ffFixed,10,3);
+            }
+        }
+
+         PanelData036->Caption = FloatToStrF(g_MMIComm->m_mmiToSeq.buffer.ddm.dVal[36],ffFixed,10,3);
+    }
+}
+
+
+//---------------------------------------------------------------------------
+void __fastcall TFrmARFlow::Button2Click(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	TButton* btn = dynamic_cast<TButton*>(Sender);
+	if(NULL != btn)
+	{
+        FrmCdBox->setFlag(CD_YESNO);
+        FrmCdBox->setTitle(btn->Caption);
+		FrmCdBox->setText("Do you want to "+ btn->Caption + "?");
+        if( mrYes == FrmCdBox->ShowModal())
+        {
+			nWriteCommunicationDM(btn->Tag,screenTenkey);
+        }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::ResetTimerTimer(TObject *Sender)
+{
+
+    //
+	TDateTime now = Now();
+
+	TDateTime shift1Time = TDateTime(now.FormatString("yyyy-mm-dd") + " 06:00:00");
+	TDateTime shift2Time = TDateTime(now.FormatString("yyyy-mm-dd") + " 14:00:00");
+	TDateTime shift3Time = TDateTime(now.FormatString("yyyy-mm-dd") + " 22:00:00");
+
+    static TDateTime shiftRecord = TDateTime(0);
+    static TDateTime dailyRecord = TDateTime(0);
+
+
+    TIniFile* ini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\ini\\Record.ini");
+    shiftRecord = ini->ReadDateTime("COUNT RESET TIME","SHIFT",TDateTime(Now()-0.001));
+    dailyRecord = ini->ReadDateTime("COUNT RESET TIME","DAILY",TDateTime(Now()-0.001));
+    delete ini;
+
+    String shift;
+
+    bool needClear = false;
+    if(shiftRecord >= shift1Time)
+    {
+    	if(shiftRecord >= shift2Time)
+        {
+        	if(shiftRecord < shift3Time)
+            {
+                if(now >= shift3Time)
+                {
+                    needClear = true;
+                    shift = "SHIFT3";
+                }
+            }
+        }
+        else
+        {
+        	if(now >= shift2Time)
+            {
+             	needClear = true;
+                shift = "SHIFT2";
+            }
+        }
+	}
+    else
+    {
+    	if(now >= shift1Time)
+        {
+            needClear = true;
+            shift = "SHIFT1";
+        }
+    }
+
+    if(needClear)
+    {
+
+
+		MainForm->MachineHistoryData(shift
+										+ " count reset : InputCnt= " + IntToStr(nReadCommunicationDM(shiftInputCnt))
+										+ ", XoutCnt=" + IntToStr(nReadCommunicationDM(shiftXoutCnt))
+										+ ", GoodCnt=" + IntToStr(nReadCommunicationDM(shiftGoodCnt))
+										+ ", RejectCnt=" + IntToStr(nReadCommunicationDM(shiftRejectCnt)) );
+
+		nWriteCommunicationDM(0, shiftInputCnt	);
+		nWriteCommunicationDM(0, shiftXoutCnt	);
+		nWriteCommunicationDM(0, shiftGoodCnt	);
+		nWriteCommunicationDM(0, shiftRejectCnt	);
+
+    	TIniFile* ini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\ini\\Record.ini");
+        ini->WriteDateTime("COUNT RESET TIME","SHIFT",now);
+    	delete ini;
+    }
+
+
+ 	if(dailyRecord < shift3Time)
+    {
+        if(now >= shift3Time)
+		{
+			MainForm->DailyHistory_Recording();
+
+			MainForm->MachineHistoryData(now.FormatString("yyyy-mm-dd")
+										+ " count reset : InputCnt= " + IntToStr(nReadCommunicationDM(dailyInputCnt))
+										+ ", XoutCnt=" + IntToStr(nReadCommunicationDM(dailyXoutCnt))
+										+ ", GoodCnt=" + IntToStr(nReadCommunicationDM(dailyGoodCnt))
+										+ ", RejectCnt=" + IntToStr(nReadCommunicationDM(dailyRejectCnt)) );
+
+			nWriteCommunicationDM(0, dailyInputCnt);
+			nWriteCommunicationDM(0, dailyXoutCnt);
+			nWriteCommunicationDM(0, dailyGoodCnt	);
+			nWriteCommunicationDM(0, dailyRejectCnt	);
+
+			nWriteCommunicationDM(0, productCntDay	);
+			nWriteCommunicationDM(0, productCntShift1	);
+			nWriteCommunicationDM(0, productCntShift2	);
+			nWriteCommunicationDM(0, productCntShift3	);
+
+
+			TIniFile* ini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\ini\\Record.ini");
+            ini->WriteDateTime("COUNT RESET TIME","DAILY",now);
+            delete ini;
+        }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::BtnLotInfoClearClick(TObject *Sender)
+{
+	// 권한 추가 메인트 이상
+	if(!CheckCanAccessLevel(PW_MAINTENANCE)) return;
+	if(!CheckCanDataAccess()) return;
+    //
+    if ((0 != nReadCommunicationDM(mcState)) && (2 != nReadCommunicationDM(mcState)))	//0 : stop
+    {
+        FrmCdBox->setFlag(CD_OK);
+        FrmCdBox->setTitle("MACHINE STATUS");
+        FrmCdBox->setText("Machine is not stopped !");
+        FrmCdBox->ShowModal();
+        return;
+	}
+	int nIndex = dynamic_cast<TBitBtn *>(Sender)->Tag;
+
+	if(nIndex == 0)
+	{
+		FrmCdBox->setFlag(CD_YESNO);
+		FrmCdBox->setTitle("Lot Info Clear");
+		FrmCdBox->setText("Do you want to lot info clear?");
+		if( mrYes == FrmCdBox->ShowModal())
+		{
+			nWriteCommunicationDM(1,90);
+		}
+	}
+	else if(nIndex == 1)
+	{
+     	FrmCdBox->setFlag(CD_YESNO);
+		FrmCdBox->setTitle("RMS Info Clear");
+		FrmCdBox->setText("Do you want to RMS info clear?");
+		if( mrYes == FrmCdBox->ShowModal())
+		{
+			nWriteCommunicationDM(0,goodStackCnt);   // NDM 250
+			nWriteCommunicationDM(0,rejectStackCnt); // NDM 255
+			//nWriteCommunicationDM(0,lotEndFrmState); // NDM 265
+
+			LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfoCopy;
+
+			if(ReadLotInfoData(CMD_RD_LOT_END_INFO,info))
+			{
+				strcpy(info.mergeLotID, AnsiString("EMPTY_LOT").c_str());
+				if (WriteLotInfoData(CMD_WR_LOT_END_INFO,info))
+				{
+                 	MainForm->MachineHistoryData("RMS Info Clear by manually : Merge lot id : EMPTY_LOT");
+                }
+			}
+		}
+
+    }
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TFrmARFlow::Label5DblClick(TObject *Sender)
+{
+	this->MainFlowRefresh1DblClick(MainFlowRefresh16);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::Label6DblClick(TObject *Sender)
+{
+	this->MainFlowRefresh1DblClick(MainFlowRefresh9);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::Label7DblClick(TObject *Sender)
+{
+	this->MainFlowRefresh1DblClick(MainFlowRefresh10);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::Label8DblClick(TObject *Sender)
+{
+	this->MainFlowRefresh1DblClick(MainFlowRefresh12);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::Label9DblClick(TObject *Sender)
+{
+	this->MainFlowRefresh1DblClick(MainFlowRefresh13);
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFrmARFlow::SpeedButton1Click(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+    TfrmJobType* frm = new TfrmJobType(this,dynamic_cast<TSpeedButton*>(Sender)->Tag);
+    frm->ShowModal();
+	delete frm;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btngTargetInputClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+	if(!CheckCanAccessLevel(PW_MAINTENANCE)) return;
+
+	ProcessRefreshTimer->Enabled = false;
+	EditTargetJobtype->ReadOnly = false;
+
+	btnTagetSave->Enabled = true;
+	btngTargetInput->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnTagetSaveClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+	if(!CheckCanAccessLevel(PW_MAINTENANCE)) return;
+
+	int nJigtype = EditTargetJobtype->Text.ToInt();
+	dWritePkgData(nJigtype, jigType);
+	WriteFloatPkgParamInifile(nJigtype, jigType);
+
+	EditTargetJobtype->ReadOnly = true;
+	ProcessRefreshTimer->Enabled = true;
+
+	btnTagetSave->Enabled = false;;
+	btngTargetInput->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::MainPanelRefresh78DblClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	int nFlow = dynamic_cast<TPanel *>(Sender)->Tag;
+	bool bReadval = bool(nReadCommunicationDM( nFlow ));
+
+	bReadval =  bReadval ? 0 : 1;
+	nWriteCommunicationDM (bReadval , nFlow);
+}
+//---------------------------------------------------------------------------
+void TFrmARFlow::process_unit_counting()
+{
+	int curXout = nReadCommunicationDM(dailyXoutCnt);
+	int curGood = nReadCommunicationDM(dailyGoodCnt);
+	int curReject = nReadCommunicationDM(dailyRejectCnt);
+
+	int curTotal = curXout + curGood + curReject;
+	static int beforeTotal = curTotal;
+
+	int gap = curTotal - beforeTotal;
+
+	if(gap > 0)
+	{
+		TDateTime now = Now();
+
+		TDateTime shift1Time = TDateTime(now.FormatString("yyyy-mm-dd") + " 06:00:00");
+		TDateTime shift2Time = TDateTime(now.FormatString("yyyy-mm-dd") + " 14:00:00");
+		TDateTime shift3Time = TDateTime(now.FormatString("yyyy-mm-dd") + " 22:00:00");
+
+		int ndmIndex = productCntShift1;
+
+		if( now > shift1Time && now < shift2Time)
+		{
+			ndmIndex = productCntShift2;
+		}
+		else if(now > shift2Time && now < shift3Time)
+		{
+			ndmIndex = productCntShift3;
+		}
+		int shiftCnt = nReadCommunicationDM(ndmIndex);
+		nWriteCommunicationDM(shiftCnt + gap,ndmIndex);
+
+		nWriteCommunicationDM(curTotal,productCntDay);
+
+		beforeTotal = curTotal;
+	}
+}
+
+void __fastcall TFrmARFlow::TabSheet3Show(TObject *Sender)
+{
+	TimerLotInfo->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnLotEndInputClick(TObject *Sender)
+{
+	//if(!CheckCanAccessLevel(PW_MAINTENANCE)) return;
+
+	if ( 0 != nReadCommunicationDM( mcState ))	//0 : stop
+    {
+        FrmCdBox->setFlag(CD_OK);
+        FrmCdBox->setTitle("MACHINE STATUS");
+        FrmCdBox->setText("Machine is not stopped !");
+        FrmCdBox->ShowModal();
+    	return;
+    }
+
+
+	TimerLotInfo->Enabled = false;
+
+	btnLotEndInput->Enabled = false;
+	btnLotEndSave->Enabled = true;
+
+	sgLotEndInfo->Options<<goEditing;
+	sgLotEndInfo->Options>>goRowSelect;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnLotEndSaveClick(TObject *Sender)
+{
+	//if(!CheckCanAccessLevel(PW_MAINTENANCE)) return;
+	//if(!CheckCanDataAccess()) return;
+
+	WriteLotInfo(sgLotEndInfo, 4);
+
+	btnLotEndInput->Enabled = true;
+	btnLotEndSave->Enabled = false;
+	TimerLotInfo->Enabled = true;
+
+	sgLotEndInfo->Options>>goEditing;
+	sgLotEndInfo->Options<<goRowSelect;
+
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_LOT_END_INFO; // 이부분에서 lot 정보를 구분
+	BOOL bRet = g_MMIComm->Send() &&  g_MMIComm->Recv();
+	if (!bRet)
+		return;
+
+	LOT_INFO& info = g_MMIComm->m_mmiToSeq.buffer.lotInfoCopy;
+
+	nWriteCommunicationDM(info.mergeLotQty, mergeLotCnt);
+}
+//---------------------------------------------------------------------------
+
+
+
+
+
+void __fastcall TFrmARFlow::btnProductCntInputClick(TObject *Sender)
+{
+    if ( 0 != nReadCommunicationDM( mcState ))	//0 : stop
+	{
+		FrmCdBox->setFlag(CD_OK);
+		FrmCdBox->setTitle("MACHINE STATUS");
+		FrmCdBox->setText("Machine is not stopped !");
+		FrmCdBox->ShowModal();
+		return;
+	}
+
+	ProcessRefreshTimer->Enabled = false;
+
+	btnProductCntInput->Enabled = false;
+	btnProductCntSave->Enabled = true;
+
+	sgProduct->Options<<goEditing;
+	sgProduct->Options>>goRowSelect;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnProductCntSaveClick(TObject *Sender)
+{
+	 //  current lot
+	nWriteCommunicationDM(sgProduct->Cells[1][1].ToInt(), lotInputCnt);
+	nWriteCommunicationDM(sgProduct->Cells[1][2].ToInt(), lotXOutCnt);
+	nWriteCommunicationDM(sgProduct->Cells[1][3].ToInt(), lotGoodCnt);
+	nWriteCommunicationDM(sgProduct->Cells[1][4].ToInt(), lotRejectCnt);
+
+	btnProductCntInput->Enabled = true;
+	btnProductCntSave->Enabled = false;
+
+	ProcessRefreshTimer->Enabled = true;
+
+	sgProduct->Options>>goEditing;
+	sgProduct->Options<<goRowSelect;
+}
+//---------------------------------------------------------------------------
+void TFrmARFlow::RefleshUseSkip()
+{
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_USESKIP;
+	g_MMIComm->m_mmiToSeq.buffer.useSkip.nStart  = 0;
+	g_MMIComm->m_mmiToSeq.buffer.useSkip.nEnd  = 20*2;	// 추후 define 필요
+	if(true == g_MMIComm->Send() && true == g_MMIComm->Recv())
+	{
+		for(int i=0; i< 1; i++)	// 추후 define 필요
+		{
+			TPanel *panel = (TPanel*)FindComponent("PanelUseSkip" + IntToStr(i+1));
+			if(panel != NULL)
+			{
+				bool flag = g_MMIComm->m_mmiToSeq.buffer.useSkip.nVal[panel->Tag];
+				if(flag)
+				{
+					panel->Caption = "USE";
+					panel->Color = clLime;
+				}
+				else
+				{
+					panel->Caption = "SKIP";
+					panel->Color = clMedGray;
+				}
+
+			}
+		}
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFrmARFlow::PanelUseSkip1DblClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	TPanel* panel = dynamic_cast<TPanel*>(Sender);
+	FrmCdBox->setFlag(CD_YESNO);
+	FrmCdBox->setTitle("USE/SKIP CHANGE" );
+	FrmCdBox->setText( "Do you want change "+ panel->Hint +"the use/skip?");
+	if( mrYes == FrmCdBox->ShowModal())
+	{
+		int nTag = panel->Tag;
+		int iRtn =UseSkipControl(nTag);
+		if(iRtn)
+		{
+			if(MainForm->b_TpConnect)
+			{
+				String strData = "", strIndex = "";
+
+				{
+					strIndex= "'"+panel->Hint+"'";
+					if(iRtn==1)
+						strData = "[2,'FALSE','TRUE']";
+					else
+						strData = "[2,'TRUE','FALSE']";
+					g_pTpBase->logConfigure(L"USESKIP",L"CHANGE",strIndex.c_str(),strData.c_str());
+				}
+			}
+		}
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnPadDropClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	int nTemp = dynamic_cast<TButton *>(Sender)->Tag;
+
+	String sName = " PAD Pickup / ";
+	if (nTemp == 1000)	sName = " PAD Drop / ";
+
+	FrmCdBox->setFlag(CD_YESNO);
+	FrmCdBox->setTitle("MANUAL OPERATION");
+	FrmCdBox->setText(sName + "ARE YOU SURE?");
+
+	if( mrYes == FrmCdBox->ShowModal())
+	{
+		int nTenkeyNo = 37;
+		nWriteCommunicationDM( nTenkeyNo + nTemp, 99);
+		MainForm->MachineHistoryData("Pad Drop -> Manual");
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnPadResetClick(TObject *Sender)
+{
+	FrmCdBox->setFlag(CD_YESNO);
+	FrmCdBox->setTitle("MANUAL PAD LIFE TIME RESET");
+	FrmCdBox->setText(" PAD COUNT RESET - ARE YOU SURE?");
+
+	if( mrYes == FrmCdBox->ShowModal())
+	{
+		int nTargetPad = dReadPkgData(targetPad);
+
+		if (nTargetPad == 0)
+			dWriteCommunicationDM(0, curLifeTime00);
+		else if (nTargetPad == 1)
+			dWriteCommunicationDM(0, curLifeTime01);
+
+		MainForm->MachineHistoryData("Pad Count Reset -> Manual");
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::btnPadDropCheckClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	int nTemp = dynamic_cast<TButton *>(Sender)->Tag;
+
+	String sName = " PAD SENSOR CHECK (Pickup) / ";
+	if (nTemp == 1000)	sName = " PAD SENSOR CHECK (Drop) / ";
+
+	FrmCdBox->setFlag(CD_YESNO);
+	FrmCdBox->setTitle("MANUAL OPERATION");
+	FrmCdBox->setText(sName + "ARE YOU SURE?");
+
+	if( mrYes == FrmCdBox->ShowModal())
+	{
+		int nTenkeyNo = 89;
+		nWriteCommunicationDM( nTenkeyNo + nTemp, 99);
+		MainForm->MachineHistoryData("Pad Drop Sensor Check -> Manual");
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::pnDropResetClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	String sName = " PAD DROP PARAMETER RESET (DROP) ";
+
+	FrmCdBox->setFlag(CD_YESNO);
+	FrmCdBox->setTitle("MANUAL OPERATION");
+	FrmCdBox->setText(sName + "ARE YOU SURE?");
+
+	if(mrYes == FrmCdBox->ShowModal())
+	{
+		nWriteCommunicationDM(0, flagEjectComp);
+		nWriteCommunicationDM(0, isEjectCheck);
+		MainForm->MachineHistoryData("Pad Drop Init -> Manual");
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrmARFlow::pnPickupResetClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	String sName = " PAD PICKUP PARAMETER RESET (PICKUP) ";
+
+	FrmCdBox->setFlag(CD_YESNO);
+	FrmCdBox->setTitle("MANUAL OPERATION");
+	FrmCdBox->setText(sName + "ARE YOU SURE?");
+
+	if(mrYes == FrmCdBox->ShowModal())
+	{
+		nWriteCommunicationDM(0, flagPickupComp);
+		nWriteCommunicationDM(0, isPickupCheck);
+		MainForm->MachineHistoryData("Pad Pickup Init -> Manual");
+	}
+}
+//---------------------------------------------------------------------------
+void _fastcall TFrmARFlow::RefreshDoor()
+{
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_IO;
+
+	bool bIOChk;
+	if(true == g_MMIComm->Send() && true == g_MMIComm->Recv())
+	{
+		for(int i=0; i< MAX_DOOR_COUNT; i++)
+		{
+			TPanel *panel = (TPanel*)FindComponent("PanelDoor" + IntToStr(i+1));
+			if(panel != NULL)
+			{
+				int	chanel = doorIO[i] / 100;
+				int index  = doorIO[i] % 100;
+
+				bool flag = BIT(g_MMIComm->m_mmiToSeq.buffer.rdIO.inCH[chanel], index);
+				if(flag)
+				{
+					panel->Color = clLime;
+				}
+				else
+				{
+					panel->Color = clMedGray;
+				}
+				// LCOK check
+				panel->ShowCaption = false;
+			}
+		}
+	}
+}
+//----------------------------------------------------------------------------

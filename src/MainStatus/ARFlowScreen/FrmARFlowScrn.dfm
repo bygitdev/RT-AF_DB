@@ -1,0 +1,6432 @@
+object FrmARFlow: TFrmARFlow
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  ClientHeight = 559
+  ClientWidth = 1260
+  Color = clGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object MainFlowPG: TPageControl
+    Left = 0
+    Top = 0
+    Width = 1260
+    Height = 559
+    ActivePage = TabSheet1
+    Align = alClient
+    BiDiMode = bdLeftToRight
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Calibri'
+    Font.Style = [fsBold]
+    ParentBiDiMode = False
+    ParentFont = False
+    TabHeight = 35
+    TabOrder = 0
+    TabWidth = 200
+    object TabSheet1: TTabSheet
+      Caption = 'MACHINE'
+      object CurvyPanel1: TCurvyPanel
+        Left = 0
+        Top = 0
+        Width = 1252
+        Height = 514
+        Align = alClient
+        Color = clSilver
+        TabOrder = 0
+        DesignSize = (
+          1252
+          514)
+        object Label1: TLabel
+          Left = 15
+          Top = 6
+          Width = 177
+          Height = 29
+          Caption = 'PRODUCT STATUS'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -24
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object CurvyPanel3: TCurvyPanel
+          Left = 15
+          Top = 40
+          Width = 340
+          Height = 201
+          TabOrder = 0
+          object sgProduct: TStringGrid
+            Left = 8
+            Top = 11
+            Width = 324
+            Height = 152
+            BorderStyle = bsNone
+            ColCount = 4
+            DefaultColWidth = 80
+            DefaultRowHeight = 28
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentFont = False
+            ScrollBars = ssNone
+            TabOrder = 0
+          end
+          object btnProductCntInput: TButton
+            Tag = 113
+            AlignWithMargins = True
+            Left = 161
+            Top = 163
+            Width = 80
+            Height = 32
+            Caption = 'INPUT'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+            WordWrap = True
+            OnClick = btnProductCntInputClick
+          end
+          object btnProductCntSave: TButton
+            Tag = 113
+            AlignWithMargins = True
+            Left = 252
+            Top = 163
+            Width = 80
+            Height = 32
+            Caption = 'SAVE'
+            Enabled = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 2
+            WordWrap = True
+            OnClick = btnProductCntSaveClick
+          end
+        end
+        object CurvyPanel4: TCurvyPanel
+          Left = 15
+          Top = 382
+          Width = 340
+          Height = 101
+          TabOrder = 1
+          object Label2: TLabel
+            Left = 16
+            Top = 9
+            Width = 119
+            Height = 19
+            Alignment = taCenter
+            Caption = 'TOTAL RUN TIME '
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label3: TLabel
+            Left = 16
+            Top = 37
+            Width = 125
+            Height = 19
+            Alignment = taCenter
+            Caption = 'TOTAL STOP TIME '
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object LabelDisplayRunTime: TLabel
+            Left = 280
+            Top = 9
+            Width = 20
+            Height = 19
+            Alignment = taRightJustify
+            Caption = '0.0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object LabelDisplayStopTime: TLabel
+            Left = 280
+            Top = 37
+            Width = 20
+            Height = 19
+            Alignment = taRightJustify
+            Caption = '0.0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object LabelDisplayErrorTime: TLabel
+            Left = 280
+            Top = 67
+            Width = 20
+            Height = 19
+            Alignment = taRightJustify
+            Caption = '0.0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label4: TLabel
+            Left = 16
+            Top = 67
+            Width = 135
+            Height = 19
+            Alignment = taCenter
+            Caption = 'TOTAL ERROR TIME '
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+        end
+        object CurvyPanel5: TCurvyPanel
+          Left = 382
+          Top = 10
+          Width = 840
+          Height = 35
+          Color = clBtnFace
+          TabOrder = 2
+          object LabelLotID: TLabel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 834
+            Height = 29
+            Align = alClient
+            Caption = '  LOT ID : '
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -15
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentColor = False
+            ParentFont = False
+            Layout = tlCenter
+            ExplicitWidth = 55
+            ExplicitHeight = 18
+          end
+        end
+        object CurvyPanel6: TCurvyPanel
+          Left = 382
+          Top = 459
+          Width = 250
+          Height = 25
+          Color = clGrayText
+          TabOrder = 3
+          object PanelGoodStackCnt: TPanel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 244
+            Height = 19
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = '0'
+            Color = clGrayText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+        end
+        object CurvyPanel7: TCurvyPanel
+          Left = 969
+          Top = 459
+          Width = 250
+          Height = 25
+          Color = clGrayText
+          TabOrder = 4
+          object PanelRejectStackCnt: TPanel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 244
+            Height = 19
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = '0'
+            Color = clGrayText
+            FullRepaint = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+        end
+        object Panel6: TPanel
+          Left = 382
+          Top = 89
+          Width = 294
+          Height = 45
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 5
+          object MainFlowRefresh23: TPanel
+            Tag = 72
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 278
+            Height = 29
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'ADC STAGE'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel5: TPanel
+          Left = 382
+          Top = 140
+          Width = 99
+          Height = 277
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 6
+          object MainFlowRefresh9: TPanel
+            Tag = 58
+            AlignWithMargins = True
+            Left = 8
+            Top = 189
+            Width = 83
+            Height = 80
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alBottom
+            Caption = 'FRONT DUMMY'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            ShowCaption = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+            object Label6: TLabel
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 75
+              Height = 72
+              Align = alClient
+              Alignment = taCenter
+              Caption = 'FRONT DUMMY'
+              Layout = tlCenter
+              WordWrap = True
+              OnDblClick = Label6DblClick
+              ExplicitWidth = 44
+              ExplicitHeight = 30
+            end
+          end
+          object MainFlowRefresh10: TPanel
+            Tag = 59
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 83
+            Height = 80
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alTop
+            Caption = 'PICKER JIG'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            ShowCaption = False
+            TabOrder = 1
+            OnDblClick = MainFlowRefresh1DblClick
+            object Label7: TLabel
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 75
+              Height = 72
+              Align = alClient
+              Alignment = taCenter
+              Caption = 'PICKER JIG'
+              Layout = tlCenter
+              WordWrap = True
+              OnDblClick = Label7DblClick
+              ExplicitWidth = 57
+              ExplicitHeight = 15
+            end
+          end
+          object MainFlowRefresh16: TPanel
+            Tag = 73
+            AlignWithMargins = True
+            Left = 8
+            Top = 93
+            Width = 83
+            Height = 80
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alBottom
+            Caption = 'REAR DUMMY'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            ShowCaption = False
+            TabOrder = 2
+            OnDblClick = MainFlowRefresh1DblClick
+            object Label5: TLabel
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 75
+              Height = 72
+              Align = alClient
+              Alignment = taCenter
+              Caption = 'REAR  DUMMY'
+              Layout = tlCenter
+              WordWrap = True
+              OnDblClick = Label5DblClick
+              ExplicitWidth = 44
+              ExplicitHeight = 30
+            end
+          end
+        end
+        object GridPanel18: TGridPanel
+          Left = 487
+          Top = 140
+          Width = 186
+          Height = 277
+          BevelOuter = bvNone
+          Caption = 'GridPanel18'
+          ColumnCollection = <
+            item
+              Value = 100.000000000000000000
+            end>
+          ControlCollection = <
+            item
+              Column = 0
+              Control = MainFlowRefresh1
+              Row = 3
+            end
+            item
+              Column = 0
+              Control = MainFlowRefresh4
+              Row = 0
+            end
+            item
+              Column = 0
+              Control = MainFlowRefresh3
+              Row = 1
+            end
+            item
+              Column = 0
+              Control = MainFlowRefresh2
+              Row = 2
+            end>
+          ParentBackground = False
+          RowCollection = <
+            item
+              Value = 25.000000000000000000
+            end
+            item
+              Value = 25.000000000000000000
+            end
+            item
+              Value = 25.000000000000000000
+            end
+            item
+              Value = 25.000000000000000000
+            end>
+          ShowCaption = False
+          TabOrder = 7
+          object MainFlowRefresh1: TPanel
+            Tag = 50
+            AlignWithMargins = True
+            Left = 8
+            Top = 215
+            Width = 170
+            Height = 54
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'INDEX1 PCB'
+            DoubleBuffered = False
+            FullRepaint = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainFlowRefresh4: TPanel
+            Tag = 53
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 170
+            Height = 53
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'INDEX4 PCB'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainFlowRefresh3: TPanel
+            Tag = 52
+            AlignWithMargins = True
+            Left = 8
+            Top = 77
+            Width = 170
+            Height = 53
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'INDEX3 PCB'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainFlowRefresh2: TPanel
+            Tag = 51
+            AlignWithMargins = True
+            Left = 8
+            Top = 146
+            Width = 170
+            Height = 53
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'INDEX2 PCB'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 3
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel9: TPanel
+          Left = 682
+          Top = 88
+          Width = 120
+          Height = 105
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 8
+          object MainFlowRefresh12: TPanel
+            Tag = 61
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 104
+            Height = 89
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'GOOD REAR TRAY'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            ShowCaption = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+            object Label8: TLabel
+              AlignWithMargins = True
+              Left = 16
+              Top = 4
+              Width = 72
+              Height = 81
+              Margins.Left = 15
+              Margins.Right = 15
+              Align = alClient
+              Alignment = taCenter
+              Caption = '      GOOD        REAR TRAY'
+              Layout = tlCenter
+              WordWrap = True
+              OnDblClick = Label8DblClick
+              ExplicitWidth = 70
+              ExplicitHeight = 30
+            end
+          end
+        end
+        object Panel10: TPanel
+          Left = 682
+          Top = 206
+          Width = 120
+          Height = 98
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 9
+          object MainFlowRefresh13: TPanel
+            Tag = 62
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 104
+            Height = 82
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'GOOD FRONT TRAY'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            ShowCaption = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+            object Label9: TLabel
+              AlignWithMargins = True
+              Left = 16
+              Top = 4
+              Width = 72
+              Height = 74
+              Margins.Left = 15
+              Margins.Right = 15
+              Align = alClient
+              Alignment = taCenter
+              Caption = '    GOOD     FRONT TRAY'
+              Layout = tlCenter
+              WordWrap = True
+              OnDblClick = Label9DblClick
+              ExplicitWidth = 64
+              ExplicitHeight = 30
+            end
+          end
+        end
+        object Panel12: TPanel
+          Left = 682
+          Top = 317
+          Width = 120
+          Height = 100
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 10
+          object MainFlowRefresh14: TPanel
+            Tag = 63
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 104
+            Height = 84
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'REJECT TRAY'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel11: TPanel
+          Left = 811
+          Top = 88
+          Width = 126
+          Height = 215
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 11
+          object MainFlowRefresh11: TPanel
+            Tag = 60
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 110
+            Height = 199
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'STAUBLI'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel13: TPanel
+          Left = 811
+          Top = 309
+          Width = 126
+          Height = 108
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 12
+          object MainFlowRefresh19: TPanel
+            Tag = 68
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 110
+            Height = 45
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alTop
+            Caption = 'FLIPPER'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainFlowRefresh20: TPanel
+            Tag = 69
+            AlignWithMargins = True
+            Left = 8
+            Top = 55
+            Width = 110
+            Height = 45
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alBottom
+            Caption = 'FLIPPER FLIP'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel8: TPanel
+          Left = 945
+          Top = 149
+          Width = 119
+          Height = 209
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 13
+          object MainFlowRefresh21: TPanel
+            Tag = 70
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 103
+            Height = 96
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alTop
+            Caption = 'TRAY OUT PICKER'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainFlowRefresh22: TPanel
+            Tag = 71
+            AlignWithMargins = True
+            Left = 8
+            Top = 109
+            Width = 103
+            Height = 92
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alBottom
+            Caption = 'TRAY IN PICKER'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel14: TPanel
+          Left = 945
+          Top = 363
+          Width = 119
+          Height = 54
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 14
+          object MainFlowRefresh15: TPanel
+            Tag = 64
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 103
+            Height = 38
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'EMPTY TRAY'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object CurvyPanel8: TCurvyPanel
+          Left = 15
+          Top = 247
+          Width = 340
+          Height = 132
+          TabOrder = 15
+          object Label14: TLabel
+            Left = 16
+            Top = 18
+            Width = 160
+            Height = 19
+            Alignment = taCenter
+            Caption = 'Today Total Output Cnt'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lbShift1: TLabel
+            Left = 292
+            Top = 43
+            Width = 8
+            Height = 19
+            Alignment = taRightJustify
+            Caption = '0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lbShift2: TLabel
+            Left = 292
+            Top = 69
+            Width = 8
+            Height = 19
+            Alignment = taRightJustify
+            Caption = '0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lbShift3: TLabel
+            Left = 292
+            Top = 94
+            Width = 8
+            Height = 19
+            Alignment = taRightJustify
+            Caption = '0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label19: TLabel
+            Left = 16
+            Top = 43
+            Width = 130
+            Height = 19
+            Alignment = taCenter
+            Caption = 'SHIFT 1 Output Cnt'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label20: TLabel
+            Left = 16
+            Top = 69
+            Width = 130
+            Height = 19
+            Alignment = taCenter
+            Caption = 'SHIFT 2 Output Cnt'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label21: TLabel
+            Left = 16
+            Top = 94
+            Width = 130
+            Height = 19
+            Alignment = taCenter
+            Caption = 'SHIFT 3 Output Cnt'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object lbTodayTotal: TLabel
+            Left = 292
+            Top = 18
+            Width = 8
+            Height = 19
+            Alignment = taRightJustify
+            Caption = '0'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+        end
+        object Panel77: TPanel
+          Left = 945
+          Top = 88
+          Width = 119
+          Height = 55
+          BevelOuter = bvNone
+          ParentBackground = False
+          TabOrder = 16
+          object MainPanelRefresh12: TPanel
+            Tag = 67
+            AlignWithMargins = True
+            Left = 8
+            Top = 8
+            Width = 103
+            Height = 39
+            Margins.Left = 8
+            Margins.Top = 8
+            Margins.Right = 8
+            Margins.Bottom = 8
+            Align = alClient
+            Caption = 'REJECT TRAY'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object CurvyPanel9: TCurvyPanel
+          Left = 678
+          Top = 459
+          Width = 250
+          Height = 25
+          Color = clGrayText
+          TabOrder = 17
+          object PanelLoadCellWeight: TPanel
+            AlignWithMargins = True
+            Left = 3
+            Top = 3
+            Width = 244
+            Height = 19
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = '0'
+            Color = clGrayText
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -16
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+        end
+        object Panel7: TPanel
+          Left = 0
+          Top = 489
+          Width = 1252
+          Height = 25
+          Align = alBottom
+          BevelOuter = bvNone
+          TabOrder = 18
+          object Label15: TLabel
+            Left = 973
+            Top = 4
+            Width = 134
+            Height = 15
+            Alignment = taCenter
+            Caption = 'TRAY VISION ONES SKIP :'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object PanelUseSkip1: TPanel
+            Tag = 20
+            Left = 1113
+            Top = 2
+            Width = 110
+            Height = 20
+            Hint = 'TRAY VISION ONES SKIP'
+            BevelOuter = bvLowered
+            Caption = 'USE/SKIP'
+            Color = clGreen
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -12
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = PanelUseSkip1DblClick
+          end
+        end
+        object GridPanelDoorFront: TGridPanel
+          Left = 382
+          Top = 423
+          Width = 788
+          Height = 30
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          BevelOuter = bvNone
+          ColumnCollection = <
+            item
+              SizeStyle = ssAbsolute
+              Value = 197.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 197.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 197.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 197.000000000000000000
+            end>
+          ControlCollection = <
+            item
+              Column = 0
+              Control = PanelDoor1
+              Row = 0
+            end
+            item
+              Column = 1
+              Control = PanelDoor2
+              Row = 0
+            end
+            item
+              Column = 2
+              Control = PanelDoor3
+              Row = 0
+            end
+            item
+              Column = 3
+              Control = PanelDoor4
+              Row = 0
+            end
+            item
+              Column = 0
+              Control = PanelDoor15
+              Row = 1
+            end
+            item
+              Column = 1
+              Control = PanelDoor16
+              Row = 1
+            end
+            item
+              Column = 2
+              Control = PanelDoor17
+              Row = 1
+            end
+            item
+              Column = 3
+              Control = PanelDoor18
+              Row = 1
+            end>
+          RowCollection = <
+            item
+              Value = 50.000000000000000000
+            end
+            item
+              Value = 50.000000000000000000
+            end>
+          ShowCaption = False
+          TabOrder = 19
+          object PanelDoor1: TPanel
+            Left = 0
+            Top = 0
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object PanelDoor2: TPanel
+            Left = 197
+            Top = 0
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 1
+          end
+          object PanelDoor3: TPanel
+            Left = 394
+            Top = 0
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 2
+          end
+          object PanelDoor4: TPanel
+            Left = 591
+            Top = 0
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 3
+          end
+          object PanelDoor15: TPanel
+            Left = 0
+            Top = 15
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 4
+          end
+          object PanelDoor16: TPanel
+            Left = 197
+            Top = 15
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 5
+          end
+          object PanelDoor17: TPanel
+            Left = 394
+            Top = 15
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 6
+          end
+          object PanelDoor18: TPanel
+            Left = 591
+            Top = 15
+            Width = 197
+            Height = 15
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 7
+          end
+        end
+        object Panel37: TPanel
+          Left = 1179
+          Top = 420
+          Width = 34
+          Height = 33
+          BevelOuter = bvNone
+          Caption = 'FRONT'
+          Color = clSilver
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentBackground = False
+          ParentFont = False
+          TabOrder = 20
+        end
+        object Panel67: TPanel
+          Left = 1176
+          Top = 55
+          Width = 35
+          Height = 30
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          BevelOuter = bvNone
+          Caption = 'REAR'
+          Color = clSilver
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentBackground = False
+          ParentFont = False
+          TabOrder = 21
+        end
+        object GridPanelDoorRear2: TGridPanel
+          Left = 382
+          Top = 51
+          Width = 427
+          Height = 30
+          BevelOuter = bvNone
+          ColumnCollection = <
+            item
+              Value = 50.000000000000000000
+            end
+            item
+              Value = 50.000000000000000000
+            end>
+          ControlCollection = <
+            item
+              Column = 0
+              Control = PanelDoor12
+              Row = 0
+            end
+            item
+              Column = 1
+              Control = PanelDoor11
+              Row = 0
+            end
+            item
+              Column = 0
+              Control = PanelDoor14
+              Row = 1
+            end
+            item
+              Column = 1
+              Control = PanelDoor13
+              Row = 1
+            end
+            item
+              Column = 0
+              Control = PanelDoor20
+              Row = 2
+            end
+            item
+              Column = 1
+              Control = PanelDoor19
+              Row = 2
+            end>
+          RowCollection = <
+            item
+              SizeStyle = ssAbsolute
+              Value = 10.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 10.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 10.000000000000000000
+            end>
+          TabOrder = 22
+          object PanelDoor12: TPanel
+            Left = 0
+            Top = 0
+            Width = 213
+            Height = 10
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object PanelDoor11: TPanel
+            Left = 213
+            Top = 0
+            Width = 214
+            Height = 10
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 1
+          end
+          object PanelDoor14: TPanel
+            Left = 0
+            Top = 10
+            Width = 213
+            Height = 10
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 2
+          end
+          object PanelDoor13: TPanel
+            Left = 213
+            Top = 10
+            Width = 214
+            Height = 10
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 3
+          end
+          object PanelDoor20: TPanel
+            Left = 0
+            Top = 20
+            Width = 213
+            Height = 10
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 4
+          end
+          object PanelDoor19: TPanel
+            Left = 213
+            Top = 20
+            Width = 214
+            Height = 10
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 5
+          end
+        end
+        object GridPanelDoorRear1: TGridPanel
+          Left = 811
+          Top = 51
+          Width = 362
+          Height = 30
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          BevelOuter = bvNone
+          ColumnCollection = <
+            item
+              Value = 50.000000000000000000
+            end
+            item
+              Value = 50.000000000000000000
+            end>
+          ControlCollection = <
+            item
+              Column = 0
+              Control = PanelDoor10
+              Row = 0
+            end
+            item
+              Column = 1
+              Control = PanelDoor9
+              Row = 0
+            end>
+          RowCollection = <
+            item
+              Value = 100.000000000000000000
+            end>
+          ShowCaption = False
+          TabOrder = 23
+          object PanelDoor10: TPanel
+            Left = 0
+            Top = 0
+            Width = 181
+            Height = 30
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object PanelDoor9: TPanel
+            Left = 181
+            Top = 0
+            Width = 181
+            Height = 30
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            DoubleBuffered = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentDoubleBuffered = False
+            ParentFont = False
+            TabOrder = 1
+          end
+        end
+        object GridPanelDoorRight: TGridPanel
+          Left = 1179
+          Top = 91
+          Width = 32
+          Height = 323
+          BevelOuter = bvNone
+          ColumnCollection = <
+            item
+              Value = 100.000000000000000000
+            end>
+          ControlCollection = <
+            item
+              Column = 0
+              Control = PanelDoor8
+              Row = 0
+            end
+            item
+              Column = 0
+              Control = PanelDoor7
+              Row = 1
+            end
+            item
+              Column = 0
+              Control = PanelDoor6
+              Row = 2
+            end
+            item
+              Column = 0
+              Control = PanelDoor5
+              Row = 3
+            end>
+          RowCollection = <
+            item
+              SizeStyle = ssAbsolute
+              Value = 85.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 85.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 85.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 85.000000000000000000
+            end>
+          TabOrder = 24
+          object PanelDoor8: TPanel
+            Left = 0
+            Top = 0
+            Width = 32
+            Height = 85
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            VerticalAlignment = taAlignBottom
+          end
+          object PanelDoor7: TPanel
+            Left = 0
+            Top = 85
+            Width = 32
+            Height = 85
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            VerticalAlignment = taAlignBottom
+          end
+          object PanelDoor6: TPanel
+            Left = 0
+            Top = 170
+            Width = 32
+            Height = 85
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            VerticalAlignment = taAlignBottom
+          end
+          object PanelDoor5: TPanel
+            Left = 0
+            Top = 255
+            Width = 32
+            Height = 85
+            Align = alClient
+            Alignment = taRightJustify
+            Color = clLime
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clGray
+            Font.Height = -8
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 3
+            VerticalAlignment = taAlignBottom
+          end
+        end
+      end
+      object GridPanel20: TGridPanel
+        Left = 1070
+        Top = 88
+        Width = 106
+        Height = 329
+        BevelOuter = bvNone
+        Caption = 'GridPanel20'
+        Color = clSilver
+        ColumnCollection = <
+          item
+            Value = 100.000000000000000000
+          end>
+        ControlCollection = <
+          item
+            Column = 0
+            Control = Button2
+            Row = 0
+          end
+          item
+            Column = 0
+            Control = Button3
+            Row = 1
+          end
+          item
+            Column = 0
+            Control = Button4
+            Row = 2
+          end
+          item
+            Column = 0
+            Control = Button5
+            Row = 3
+          end
+          item
+            Column = 0
+            Control = Button6
+            Row = 4
+          end>
+        ParentBackground = False
+        RowCollection = <
+          item
+            Value = 20.000000000000000000
+          end
+          item
+            Value = 20.000000000000000000
+          end
+          item
+            Value = 20.000000000000000000
+          end
+          item
+            Value = 20.000000000000000000
+          end
+          item
+            Value = 20.000000000000000000
+          end>
+        ShowCaption = False
+        TabOrder = 1
+        object Button2: TButton
+          Tag = 113
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 100
+          Height = 59
+          Align = alClient
+          Caption = 'REJECT EMPTY  TRAY EJECT'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          WordWrap = True
+          OnClick = Button2Click
+        end
+        object Button3: TButton
+          Tag = 111
+          AlignWithMargins = True
+          Left = 3
+          Top = 68
+          Width = 100
+          Height = 59
+          Align = alClient
+          Caption = '  GOOD TRAY     EJECT'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 1
+          WordWrap = True
+          OnClick = Button2Click
+        end
+        object Button4: TButton
+          Tag = 112
+          AlignWithMargins = True
+          Left = 3
+          Top = 133
+          Width = 100
+          Height = 59
+          Align = alClient
+          Caption = '  REJECT TRAY   EJECT'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 2
+          WordWrap = True
+          OnClick = Button2Click
+        end
+        object Button5: TButton
+          Tag = 110
+          AlignWithMargins = True
+          Left = 3
+          Top = 198
+          Width = 100
+          Height = 59
+          Align = alClient
+          Caption = '  EMPTY TRAY     EJECT'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 3
+          WordWrap = True
+          OnClick = Button2Click
+        end
+        object Button6: TButton
+          Tag = 114
+          AlignWithMargins = True
+          Left = 3
+          Top = 263
+          Width = 100
+          Height = 63
+          Align = alClient
+          Caption = '     ALL TRAY     EJECT'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 4
+          WordWrap = True
+          OnClick = Button2Click
+        end
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'LOT INFO'
+      ImageIndex = 2
+      OnShow = TabSheet3Show
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object Shape1: TShape
+        Left = 966
+        Top = 16
+        Width = 1
+        Height = 488
+        Pen.Style = psDot
+      end
+      object pnIndex1: TPanel
+        Left = 19
+        Top = 16
+        Width = 220
+        Height = 28
+        BevelOuter = bvLowered
+        Caption = 'INDEX 1'
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 0
+        OnDblClick = pnIndex4DblClick
+      end
+      object pnIndex2: TPanel
+        Tag = 1
+        Left = 255
+        Top = 16
+        Width = 220
+        Height = 28
+        BevelOuter = bvLowered
+        Caption = 'INDEX 2'
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 1
+        OnDblClick = pnIndex4DblClick
+      end
+      object pnIndex3: TPanel
+        Tag = 2
+        Left = 491
+        Top = 16
+        Width = 220
+        Height = 28
+        BevelOuter = bvLowered
+        Caption = 'INDEX 3'
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 2
+        OnDblClick = pnIndex4DblClick
+      end
+      object pnIndex4: TPanel
+        Tag = 3
+        Left = 726
+        Top = 16
+        Width = 220
+        Height = 28
+        BevelOuter = bvLowered
+        Caption = 'INDEX 4'
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 3
+        OnDblClick = pnIndex4DblClick
+      end
+      object btnInput: TBitBtn
+        Left = 570
+        Top = 462
+        Width = 185
+        Height = 42
+        Caption = 'INPUT'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
+        OnClick = btnInputClick
+      end
+      object btnSave: TBitBtn
+        Left = 761
+        Top = 462
+        Width = 185
+        Height = 42
+        Caption = 'SAVE'
+        Enabled = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+        OnClick = btnSaveClick
+      end
+      object sgIndex4: TStringGrid
+        Left = 726
+        Top = 50
+        Width = 220
+        Height = 390
+        ColCount = 2
+        DefaultColWidth = 70
+        DefaultRowHeight = 15
+        RowCount = 23
+        FixedRows = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 6
+        ColWidths = (
+          70
+          291)
+        RowHeights = (
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15)
+      end
+      object sgIndex3: TStringGrid
+        Left = 491
+        Top = 50
+        Width = 220
+        Height = 390
+        ColCount = 2
+        DefaultColWidth = 70
+        DefaultRowHeight = 15
+        RowCount = 23
+        FixedRows = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 7
+        ColWidths = (
+          70
+          349)
+        RowHeights = (
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15)
+      end
+      object sgIndex2: TStringGrid
+        Left = 255
+        Top = 50
+        Width = 220
+        Height = 390
+        ColCount = 2
+        DefaultColWidth = 70
+        DefaultRowHeight = 15
+        RowCount = 23
+        FixedRows = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 8
+        ColWidths = (
+          70
+          276)
+      end
+      object sgIndex1: TStringGrid
+        Left = 19
+        Top = 50
+        Width = 220
+        Height = 390
+        ColCount = 2
+        DefaultColWidth = 70
+        DefaultRowHeight = 15
+        RowCount = 23
+        FixedRows = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 9
+        ColWidths = (
+          70
+          284)
+      end
+      object BtnLotInfoClear: TBitBtn
+        Left = 19
+        Top = 462
+        Width = 185
+        Height = 42
+        Caption = 'LOT INFO CLEAR'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 10
+        OnClick = BtnLotInfoClearClick
+      end
+      object Panel4: TPanel
+        Tag = 3
+        Left = 988
+        Top = 16
+        Width = 240
+        Height = 28
+        BevelOuter = bvLowered
+        Caption = 'LOT END INFO'
+        Color = clSilver
+        ParentBackground = False
+        TabOrder = 11
+      end
+      object sgLotEndInfo: TStringGrid
+        Left = 988
+        Top = 50
+        Width = 240
+        Height = 454
+        ColCount = 2
+        DefaultColWidth = 70
+        DefaultRowHeight = 15
+        RowCount = 23
+        FixedRows = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Calibri'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 12
+        ColWidths = (
+          70
+          291)
+        RowHeights = (
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15
+          15)
+      end
+      object btnLotEndInput: TBitBtn
+        Left = 1004
+        Top = 462
+        Width = 100
+        Height = 42
+        Caption = 'INPUT'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 13
+        OnClick = btnLotEndInputClick
+      end
+      object btnLotEndSave: TBitBtn
+        Left = 1111
+        Top = 462
+        Width = 100
+        Height = 42
+        Caption = 'SAVE'
+        Enabled = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 14
+        OnClick = btnLotEndSaveClick
+      end
+      object BtnRMSInfoClear: TBitBtn
+        Tag = 1
+        Left = 227
+        Top = 462
+        Width = 185
+        Height = 42
+        Caption = 'RMS INFO CLEAR'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Calibri'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 15
+        OnClick = BtnLotInfoClearClick
+      end
+    end
+    object TabSheet4: TTabSheet
+      Caption = 'VALUE'
+      ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object Panel27: TPanel
+        Left = 0
+        Top = 0
+        Width = 1252
+        Height = 514
+        Align = alClient
+        BevelOuter = bvNone
+        Caption = 'Panel27'
+        Color = clGrayText
+        ParentBackground = False
+        TabOrder = 0
+        object GridPanel1: TGridPanel
+          AlignWithMargins = True
+          Left = 3
+          Top = 10
+          Width = 1246
+          Height = 494
+          Margins.Top = 10
+          Margins.Bottom = 10
+          Align = alClient
+          BevelOuter = bvNone
+          Caption = 'GridPanel1'
+          Color = clGrayText
+          ColumnCollection = <
+            item
+              Value = 33.333333333333310000
+            end
+            item
+              Value = 33.333333333333340000
+            end
+            item
+              Value = 33.333333333333350000
+            end>
+          ControlCollection = <
+            item
+              Column = 0
+              Control = GridPanel2
+              Row = 0
+            end
+            item
+              Column = 2
+              Control = GridPanel4
+              Row = 3
+            end
+            item
+              Column = 0
+              Control = GridPanel5
+              Row = 6
+            end
+            item
+              Column = 2
+              Control = GridPanel7
+              Row = 0
+            end
+            item
+              Column = 0
+              Control = GridPanel8
+              Row = 5
+            end
+            item
+              Column = 2
+              Control = GridPanel10
+              Row = 1
+            end
+            item
+              Column = 0
+              Control = GridPanel11
+              Row = 4
+            end
+            item
+              Column = 2
+              Control = GridPanel13
+              Row = 2
+            end
+            item
+              Column = 0
+              Control = GridPanel14
+              Row = 3
+            end
+            item
+              Column = 1
+              Control = GridPanel16
+              Row = 0
+            end
+            item
+              Column = 2
+              Control = GridPanel19
+              Row = 5
+            end
+            item
+              Column = 1
+              Control = GridPanel22
+              Row = 3
+            end
+            item
+              Column = 1
+              Control = GridPanel25
+              Row = 6
+            end
+            item
+              Column = 1
+              Control = GridPanel28
+              Row = 4
+            end
+            item
+              Column = 1
+              Control = Panel15
+              Row = 10
+            end
+            item
+              Column = 1
+              Control = Panel18
+              Row = 12
+            end
+            item
+              Column = 1
+              Control = Panel24
+              Row = 11
+            end
+            item
+              Column = 1
+              Control = Panel28
+              Row = 7
+            end
+            item
+              Column = 0
+              Control = GridPanel3
+              Row = 8
+            end
+            item
+              Column = 0
+              Control = GridPanel9
+              Row = 9
+            end
+            item
+              Column = 0
+              Control = GridPanel12
+              Row = 10
+            end
+            item
+              Column = 0
+              Control = GridPanel17
+              Row = 11
+            end
+            item
+              Column = 0
+              Control = GridPanel21
+              Row = 1
+            end
+            item
+              Column = 0
+              Control = Panel39
+              Row = 2
+            end
+            item
+              Column = 2
+              Control = Panel44
+              Row = 4
+            end
+            item
+              Column = 1
+              Control = Panel32
+              Row = 2
+            end
+            item
+              Column = 1
+              Control = Panel33
+              Row = 9
+            end
+            item
+              Column = 2
+              Control = Panel40
+              Row = 7
+            end
+            item
+              Column = 0
+              Control = Panel42
+              Row = 12
+            end
+            item
+              Column = 2
+              Control = Panel48
+              Row = 12
+            end
+            item
+              Column = 0
+              Control = Panel49
+              Row = 13
+            end
+            item
+              Column = 1
+              Control = Panel51
+              Row = 13
+            end
+            item
+              Column = 2
+              Control = Panel52
+              Row = 13
+            end
+            item
+              Column = 0
+              Control = Panel54
+              Row = 14
+            end
+            item
+              Column = 1
+              Control = Panel56
+              Row = 14
+            end
+            item
+              Column = 1
+              Control = GridPanel6
+              Row = 1
+            end
+            item
+              Column = 1
+              Control = GridPanel15
+              Row = 5
+            end
+            item
+              Column = 1
+              Control = GridPanel23
+              Row = 8
+            end
+            item
+              Column = 2
+              Control = Panel2
+              Row = 6
+            end
+            item
+              Column = 0
+              Control = Panel3
+              Row = 7
+            end
+            item
+              Column = 2
+              Control = GridPanel83
+              Row = 8
+            end
+            item
+              Column = 2
+              Control = GridPanel82
+              Row = 9
+            end
+            item
+              Column = 2
+              Control = GridPanel81
+              Row = 10
+            end
+            item
+              Column = 2
+              Control = GridPanel80
+              Row = 11
+            end>
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          Padding.Left = 20
+          Padding.Right = 20
+          ParentBackground = False
+          ParentFont = False
+          RowCollection = <
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAbsolute
+              Value = 37.000000000000000000
+            end
+            item
+              SizeStyle = ssAuto
+            end>
+          ShowCaption = False
+          TabOrder = 0
+          object GridPanel2: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 3
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel1
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData1
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 0
+            Visible = False
+            object Panel1: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'UPH'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+              Visible = False
+            end
+            object PanelData1: TPanel
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+              Visible = False
+            end
+          end
+          object GridPanel4: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 114
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel16
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData16
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 1
+            object Panel16: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'FLIPPER VAC 1'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData16: TPanel
+              Tag = 102
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel5: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 225
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel17
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData2
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 2
+            object Panel17: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'SORTING TIME 1'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData2: TPanel
+              Tag = 5
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel7: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 3
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel19
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData17
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 3
+            object Panel19: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'FLIPPER VAC 4'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData17: TPanel
+              Tag = 105
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel8: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 188
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel20
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData3
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 4
+            object Panel20: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'SORTING TIME 2'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData3: TPanel
+              Tag = 6
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel10: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 40
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel22
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData18
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 5
+            object Panel22: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'FLIPPER VAC 3'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData18: TPanel
+              Tag = 104
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel11: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 151
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel23
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData4
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 6
+            object Panel23: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'SORTING TIME 3'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData4: TPanel
+              Tag = 7
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel13: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 77
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel25
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData19
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 7
+            object Panel25: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'FLIPPER VAC 2'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData19: TPanel
+              Tag = 103
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel14: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 114
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel26
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData5
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 8
+            object Panel26: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'SORTING TIME 4'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData5: TPanel
+              Tag = 8
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel16: TGridPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 3
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel29
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData20
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 9
+            object Panel29: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'MAIN AIR'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData20: TPanel
+              Tag = 101
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 220
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel19: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 188
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel35
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData21
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 10
+            object Panel35: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'ROBOT VAC'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData21: TPanel
+              Tag = 106
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel22: TGridPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 114
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel41
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData22
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 11
+            object Panel41: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'CLEANNING FLOW 4'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData22: TPanel
+              Tag = 107
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 220
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel25: TGridPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 225
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel47
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData23
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 12
+            object Panel47: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'CLEANNING FLOW 1'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData23: TPanel
+              Tag = 110
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 220
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel28: TGridPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 151
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel53
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData24
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 13
+            object Panel53: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'CLEANNING FLOW 3'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData24: TPanel
+              Tag = 108
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 220
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object Panel15: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 373
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 14
+          end
+          object Panel18: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 447
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 15
+          end
+          object Panel24: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 410
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 16
+          end
+          object Panel28: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 262
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 17
+          end
+          object GridPanel3: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 299
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel30
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData31
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 18
+            object Panel30: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'MACHINE TIME 4'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData31: TPanel
+              Tag = 4
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel9: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 336
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel34
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData36
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 19
+            object Panel34: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'MACHINE TIME 3'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData36: TPanel
+              Tag = 3
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel12: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 373
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel38
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData39
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 20
+            object Panel38: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'MACHINE TIME 2'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData39: TPanel
+              Tag = 2
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel17: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 410
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel43
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData44
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 21
+            object Panel43: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'MACHINE TIME 1'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData44: TPanel
+              Tag = 1
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel21: TGridPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 40
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel45
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData46
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 22
+            object Panel45: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'LOT YEILD'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData46: TPanel
+              Tag = 11
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 219
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object Panel39: TPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 77
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 23
+          end
+          object Panel44: TPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 151
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 24
+          end
+          object Panel32: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 77
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 25
+          end
+          object Panel33: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 336
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 26
+          end
+          object Panel40: TPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 262
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 27
+          end
+          object Panel42: TPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 447
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 28
+          end
+          object Panel48: TPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 447
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 29
+          end
+          object Panel49: TPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 484
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 30
+          end
+          object Panel51: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 484
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 32
+          end
+          object Panel52: TPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 484
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 34
+          end
+          object Panel54: TPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 521
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 36
+          end
+          object Panel56: TPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 521
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 38
+          end
+          object GridPanel6: TGridPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 40
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel99
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData57
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 31
+            object Panel99: TPanel
+              Tag = 100
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'IONIZER'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData57: TPanel
+              Tag = 100
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 220
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel15: TGridPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 188
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel21
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData50
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 33
+            object Panel21: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'CLEANNING FLOW 2'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData50: TPanel
+              Tag = 109
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 220
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel23: TGridPanel
+            AlignWithMargins = True
+            Left = 444
+            Top = 299
+            Width = 356
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel66
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelPadChangeCnt
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 35
+            object Panel66: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'PAD CHANGE COUNT'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelPadChangeCnt: TPanel
+              Tag = 107
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 220
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = []
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+              object ShapebarPadChangeCnt: TShape
+                Left = 0
+                Top = 0
+                Width = 65
+                Height = 25
+                Align = alLeft
+                Brush.Color = 16488768
+                Pen.Color = 16488768
+                ExplicitLeft = 80
+                ExplicitTop = -16
+                ExplicitHeight = 65
+              end
+              object LabelPadChangeCnt: TLabel
+                Left = 4
+                Top = -3
+                Width = 214
+                Height = 31
+                Alignment = taCenter
+                AutoSize = False
+                Caption = 'LabelPadChangeCnt'
+                Layout = tlCenter
+              end
+            end
+          end
+          object Panel2: TPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 225
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 37
+            object GridPanel36: TGridPanel
+              Left = 0
+              Top = 0
+              Width = 357
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'GridPanel2'
+              Color = clInactiveCaptionText
+              ColumnCollection = <
+                item
+                  SizeStyle = ssAbsolute
+                  Value = 130.000000000000000000
+                end
+                item
+                  Value = 100.000000000000000000
+                end>
+              ControlCollection = <
+                item
+                  Column = 0
+                  Control = Panel79
+                  Row = 0
+                end
+                item
+                  Column = 1
+                  Control = PanelData036
+                  Row = 0
+                end>
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              RowCollection = <
+                item
+                  Value = 100.000000000000000000
+                end>
+              ShowCaption = False
+              TabOrder = 0
+              object Panel79: TPanel
+                Left = 0
+                Top = 0
+                Width = 130
+                Height = 31
+                Align = alClient
+                BevelOuter = bvNone
+                Caption = 'ROBOT SPEED'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -13
+                Font.Name = 'Calibri'
+                Font.Style = [fsBold]
+                ParentFont = False
+                TabOrder = 0
+              end
+              object PanelData036: TPanel
+                Tag = 106
+                AlignWithMargins = True
+                Left = 133
+                Top = 3
+                Width = 221
+                Height = 25
+                Align = alClient
+                BevelOuter = bvNone
+                Color = clWhite
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Calibri'
+                Font.Style = []
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 1
+              end
+            end
+          end
+          object Panel3: TPanel
+            AlignWithMargins = True
+            Left = 43
+            Top = 262
+            Width = 355
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'Panel37'
+            ParentShowHint = False
+            ShowCaption = False
+            ShowHint = False
+            TabOrder = 39
+          end
+          object GridPanel83: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 299
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel83
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData83
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 40
+            object Panel83: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'PICKUP TIME 4'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData83: TPanel
+              Tag = 198
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel82: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 336
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel82'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel82
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData82
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 41
+            object Panel82: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'PICKUP TIME 3'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData82: TPanel
+              Tag = 197
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel81: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 373
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel81
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData81
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 42
+            object Panel81: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'PICKUP TIME 2'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData81: TPanel
+              Tag = 196
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+          object GridPanel80: TGridPanel
+            AlignWithMargins = True
+            Left = 846
+            Top = 410
+            Width = 357
+            Height = 31
+            Align = alClient
+            BevelOuter = bvNone
+            Caption = 'GridPanel2'
+            Color = clInactiveCaptionText
+            ColumnCollection = <
+              item
+                SizeStyle = ssAbsolute
+                Value = 130.000000000000000000
+              end
+              item
+                Value = 100.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = Panel80
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = PanelData80
+                Row = 0
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            ShowCaption = False
+            TabOrder = 43
+            object Panel80: TPanel
+              Left = 0
+              Top = 0
+              Width = 130
+              Height = 31
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'PICKUP TIME 1'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 0
+            end
+            object PanelData80: TPanel
+              Tag = 195
+              AlignWithMargins = True
+              Left = 133
+              Top = 3
+              Width = 221
+              Height = 25
+              Align = alClient
+              BevelOuter = bvNone
+              Color = clWhite
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+            end
+          end
+        end
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'ADC / PAD'
+      ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object CurvyPanel2: TCurvyPanel
+        Left = 3
+        Top = 0
+        Width = 1245
+        Height = 512
+        BorderColor = clSilver
+        Color = clSilver
+        TabOrder = 0
+        object Panel50: TPanel
+          Left = 40
+          Top = 13
+          Width = 249
+          Height = 236
+          BevelOuter = bvNone
+          Caption = 'Panel1'
+          ParentBackground = False
+          ShowCaption = False
+          TabOrder = 0
+          object Label10: TLabel
+            Left = 69
+            Top = 13
+            Width = 110
+            Height = 15
+            Caption = 'TOP ADC MAGAZINE'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object SpeedButton1: TSpeedButton
+            Tag = 303
+            Left = 198
+            Top = 40
+            Width = 35
+            Height = 25
+            Caption = 'SET'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            OnClick = SpeedButton1Click
+          end
+          object PanelTopMgz: TPanel
+            Left = 16
+            Top = 40
+            Width = 176
+            Height = 25
+            Alignment = taLeftJustify
+            BevelOuter = bvLowered
+            Caption = 'RECIPE 1'
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object MainPanelRefresh21: TPanel
+            Tag = 305
+            Left = 16
+            Top = 71
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'ADC TOP MZ'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh24: TPanel
+            Tag = 307
+            Left = 16
+            Top = 103
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'TOP ADC SLOT 1'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh25: TPanel
+            Tag = 308
+            Left = 16
+            Top = 135
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'TOP ADC SLOT 2'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 3
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh26: TPanel
+            Tag = 309
+            Left = 16
+            Top = 167
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'TOP ADC SLOT 3'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 4
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh27: TPanel
+            Tag = 310
+            Left = 16
+            Top = 199
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'TOP ADC SLOT 4'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 5
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel57: TPanel
+          Left = 40
+          Top = 262
+          Width = 249
+          Height = 236
+          BevelOuter = bvNone
+          Caption = 'Panel1'
+          ParentBackground = False
+          ShowCaption = False
+          TabOrder = 1
+          object Label11: TLabel
+            Left = 56
+            Top = 13
+            Width = 136
+            Height = 15
+            Caption = 'BOTTOM ADC MAGAZINE'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object SpeedButton2: TSpeedButton
+            Tag = 304
+            Left = 198
+            Top = 40
+            Width = 35
+            Height = 25
+            Caption = 'SET'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            OnClick = SpeedButton1Click
+          end
+          object PanelBtmMgz: TPanel
+            Left = 16
+            Top = 40
+            Width = 176
+            Height = 25
+            Alignment = taLeftJustify
+            BevelOuter = bvLowered
+            Caption = 'RECIPE 1'
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object MainPanelRefresh22: TPanel
+            Tag = 306
+            Left = 17
+            Top = 71
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'ADC BTM MZ'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh36: TPanel
+            Tag = 314
+            Left = 17
+            Top = 199
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'BTM ADC SLOT 4'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh35: TPanel
+            Tag = 313
+            Left = 17
+            Top = 167
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'BTM ADC SLOT 3'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 3
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh34: TPanel
+            Tag = 312
+            Left = 17
+            Top = 135
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'BTM ADC SLOT 2'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 4
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh33: TPanel
+            Tag = 311
+            Left = 17
+            Top = 103
+            Width = 216
+            Height = 26
+            BevelOuter = bvLowered
+            Caption = 'BTM ADC SLOT 1'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 5
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+        end
+        object Panel58: TPanel
+          Left = 304
+          Top = 113
+          Width = 537
+          Height = 385
+          BevelOuter = bvLowered
+          Caption = 'Panel36'
+          ParentBackground = False
+          ShowCaption = False
+          TabOrder = 2
+          object Panel59: TPanel
+            Left = 4
+            Top = 10
+            Width = 129
+            Height = 25
+            BevelOuter = bvNone
+            Caption = 'CURRENT DEVICE'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+          end
+          object MainPanelRefresh8: TPanel
+            Tag = 57
+            Left = 22
+            Top = 41
+            Width = 220
+            Height = 41
+            Caption = 'STAGE4 JIG'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh18: TPanel
+            Tag = 318
+            Left = 256
+            Top = 41
+            Width = 250
+            Height = 41
+            Alignment = taLeftJustify
+            Caption = '          STAGE4 TYPE'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            object MainPanelRefreshText318: TEdit
+              Left = 180
+              Top = 9
+              Width = 57
+              Height = 23
+              Alignment = taCenter
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ImeName = 'Microsoft IME 2010'
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              Text = '0'
+            end
+          end
+          object MainPanelRefresh7: TPanel
+            Tag = 56
+            Left = 22
+            Top = 88
+            Width = 220
+            Height = 41
+            Caption = 'STAGE3 JIG'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 3
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh17: TPanel
+            Tag = 317
+            Left = 256
+            Top = 88
+            Width = 250
+            Height = 41
+            Alignment = taLeftJustify
+            Caption = '          STAGE3 TYPE'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 4
+            object MainPanelRefreshText317: TEdit
+              Left = 180
+              Top = 9
+              Width = 57
+              Height = 23
+              Alignment = taCenter
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ImeName = 'Microsoft IME 2010'
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              Text = '0'
+            end
+          end
+          object MainPanelRefresh6: TPanel
+            Tag = 55
+            Left = 22
+            Top = 135
+            Width = 220
+            Height = 41
+            Caption = 'STAGE2 JIG'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 5
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh16: TPanel
+            Tag = 316
+            Left = 256
+            Top = 135
+            Width = 250
+            Height = 41
+            Alignment = taLeftJustify
+            Caption = '          STAGE2 TYPE'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 6
+            object MainPanelRefreshText316: TEdit
+              Left = 180
+              Top = 9
+              Width = 57
+              Height = 23
+              Alignment = taCenter
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ImeName = 'Microsoft IME 2010'
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              Text = '0'
+            end
+          end
+          object MainPanelRefresh5: TPanel
+            Tag = 54
+            Left = 22
+            Top = 182
+            Width = 220
+            Height = 41
+            Caption = 'STAGE1 JIG'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 7
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh15: TPanel
+            Tag = 315
+            Left = 256
+            Top = 182
+            Width = 250
+            Height = 41
+            Alignment = taLeftJustify
+            Caption = '          STAGE1 TYPE'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 8
+            object MainPanelRefreshText315: TEdit
+              Left = 180
+              Top = 9
+              Width = 57
+              Height = 23
+              Alignment = taCenter
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ImeName = 'Microsoft IME 2010'
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              Text = '0'
+            end
+          end
+          object MainPanelRefresh9: TPanel
+            Tag = 59
+            Left = 22
+            Top = 229
+            Width = 220
+            Height = 41
+            Caption = 'PICKER JIG'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 9
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh14: TPanel
+            Tag = 302
+            Left = 256
+            Top = 229
+            Width = 250
+            Height = 41
+            Alignment = taLeftJustify
+            Caption = '          ADC PICKER JIG TYPE'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 10
+            object MainPanelRefreshText302: TEdit
+              Left = 180
+              Top = 9
+              Width = 57
+              Height = 23
+              Alignment = taCenter
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ImeName = 'Microsoft IME 2010'
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              Text = '0'
+            end
+          end
+          object MainPanelRefresh10: TPanel
+            Tag = 72
+            Left = 22
+            Top = 276
+            Width = 220
+            Height = 41
+            Caption = 'ADC RAIL'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 11
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh13: TPanel
+            Tag = 301
+            Left = 256
+            Top = 276
+            Width = 250
+            Height = 41
+            Alignment = taLeftJustify
+            Caption = '          ADC RAIL JIG TYPE'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 12
+            object MainPanelRefreshText301: TEdit
+              Left = 180
+              Top = 9
+              Width = 57
+              Height = 23
+              Alignment = taCenter
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Calibri'
+              Font.Style = [fsBold]
+              ImeName = 'Microsoft IME 2010'
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              Text = '0'
+            end
+          end
+          object BtnTimerRefresh: TButton
+            Tag = 304
+            Left = 256
+            Top = 323
+            Width = 124
+            Height = 52
+            Caption = 'TYPE VALUE INPUT'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 13
+            OnClick = BtnTimerRefreshClick
+          end
+          object BtnTimerRefreshSave: TButton
+            Tag = 303
+            Left = 386
+            Top = 323
+            Width = 120
+            Height = 52
+            Caption = 'TYPE VALUE SAVE'
+            Enabled = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 14
+            OnClick = BtnTimerRefreshSaveClick
+          end
+        end
+        object Panel60: TPanel
+          Left = 304
+          Top = 13
+          Width = 537
+          Height = 84
+          BevelKind = bkFlat
+          BevelOuter = bvNone
+          Caption = 'BARCODE'
+          Color = clGrayText
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Calibri'
+          Font.Style = [fsBold]
+          ParentBackground = False
+          ParentFont = False
+          ShowCaption = False
+          TabOrder = 3
+          object btngTargetInput: TSpeedButton
+            Tag = 303
+            Left = 401
+            Top = 42
+            Width = 57
+            Height = 25
+            Caption = 'INPUT'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            OnClick = btngTargetInputClick
+          end
+          object btnTagetSave: TSpeedButton
+            Tag = 303
+            Left = 464
+            Top = 42
+            Width = 57
+            Height = 25
+            Caption = 'SAVE'
+            Enabled = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            OnClick = btnTagetSaveClick
+          end
+          object PanelTarget: TPanel
+            Left = 136
+            Top = 11
+            Width = 385
+            Height = 25
+            BevelOuter = bvLowered
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+          end
+          object Panel62: TPanel
+            Left = 20
+            Top = 11
+            Width = 52
+            Height = 25
+            BevelOuter = bvNone
+            Caption = 'TARGET'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clHighlightText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+          end
+          object Panel61: TPanel
+            Left = 78
+            Top = 11
+            Width = 44
+            Height = 25
+            BevelOuter = bvLowered
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            object EditTargetJobtype: TEdit
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 36
+              Height = 17
+              Align = alClient
+              BevelInner = bvNone
+              BevelOuter = bvNone
+              BorderStyle = bsNone
+              ImeName = 'Microsoft Office IME 2007'
+              NumbersOnly = True
+              ReadOnly = True
+              TabOrder = 0
+              Text = 'EditTargetJobtype'
+            end
+          end
+        end
+        object Panel63: TPanel
+          Left = 863
+          Top = 13
+          Width = 347
+          Height = 486
+          BevelOuter = bvLowered
+          Caption = 'Panel36'
+          ParentBackground = False
+          ShowCaption = False
+          TabOrder = 4
+          object Label12: TLabel
+            Left = 40
+            Top = 138
+            Width = 40
+            Height = 15
+            Caption = 'TARGET'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label13: TLabel
+            Left = 32
+            Top = 185
+            Width = 50
+            Height = 15
+            Caption = 'CURRENT'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label17: TLabel
+            Left = 29
+            Top = 45
+            Width = 53
+            Height = 15
+            Caption = 'PAD EXIST'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label18: TLabel
+            Left = 19
+            Top = 92
+            Width = 63
+            Height = 15
+            Caption = 'PAD STATUS'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object MainPanelRefresh78: TPanel
+            Tag = 78
+            Left = 49
+            Top = 401
+            Width = 16
+            Height = 34
+            BevelOuter = bvLowered
+            Caption = 'DUAL PAD5'
+            Color = clGray
+            Enabled = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 7
+            Visible = False
+            OnDblClick = MainPanelRefresh78DblClick
+          end
+          object MainPanelRefresh80: TPanel
+            Tag = 87
+            Left = 45
+            Top = 321
+            Width = 15
+            Height = 34
+            BevelOuter = bvLowered
+            Caption = 'RF PAD2'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 14
+            OnDblClick = MainPanelRefresh78DblClick
+          end
+          object MainPanelRefresh79: TPanel
+            Tag = 86
+            Left = 45
+            Top = 361
+            Width = 15
+            Height = 34
+            BevelOuter = bvLowered
+            Caption = 'RF PAD1'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 15
+            OnDblClick = MainPanelRefresh78DblClick
+          end
+          object MainPanelRefresh23: TPanel
+            Tag = 80
+            Left = 96
+            Top = 32
+            Width = 233
+            Height = 41
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'ROBOT VAC. PAD'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 0
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh32: TPanel
+            Tag = 85
+            Left = 42
+            Top = 441
+            Width = 15
+            Height = 30
+            BevelOuter = bvLowered
+            Caption = 'SINGLE PAD5'
+            Color = clGray
+            Enabled = False
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            Visible = False
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh29: TPanel
+            Tag = 82
+            Left = 87
+            Top = 441
+            Width = 65
+            Height = 34
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'SINGLE-2'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 4
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh28: TPanel
+            Tag = 81
+            Left = 16
+            Top = 441
+            Width = 65
+            Height = 34
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'SINGLE-1'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 5
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh11: TPanel
+            Tag = 210
+            Left = 96
+            Top = 79
+            Width = 233
+            Height = 41
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'PAD CHANGE'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 6
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh75: TPanel
+            Tag = 75
+            Left = 87
+            Top = 321
+            Width = 65
+            Height = 74
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'DUAL-2'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 10
+            OnDblClick = MainPanelRefresh78DblClick
+          end
+          object MainPanelRefresh74: TPanel
+            Tag = 74
+            Left = 16
+            Top = 321
+            Width = 65
+            Height = 74
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'DUAL-1'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 11
+            OnDblClick = MainPanelRefresh78DblClick
+          end
+          object TargetPadType: TPanel
+            Left = 96
+            Top = 126
+            Width = 233
+            Height = 41
+            BevelOuter = bvLowered
+            Caption = 'SINGLE PAD'
+            Color = clYellow
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 12
+          end
+          object CurrentPadType: TPanel
+            Left = 96
+            Top = 173
+            Width = 233
+            Height = 41
+            BevelOuter = bvLowered
+            Caption = 'SINGLE PAD'
+            Color = clYellow
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 13
+          end
+          object Panel46: TPanel
+            Left = 16
+            Top = 215
+            Width = 137
+            Height = 25
+            BevelOuter = bvNone
+            Caption = 
+              '-------------------------------   PAD EXIST   ------------------' +
+              '-------------'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 16
+          end
+          object Panel65: TPanel
+            Left = 176
+            Top = 215
+            Width = 153
+            Height = 25
+            BevelOuter = bvNone
+            Caption = 
+              '-------------------------------   PAD MANUAL   -----------------' +
+              '--------------'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 17
+          end
+          object Panel64: TPanel
+            Left = 16
+            Top = 1
+            Width = 313
+            Height = 25
+            BevelOuter = bvNone
+            Caption = 
+              '-------------------------------   ROBOT PAD TOOL   -------------' +
+              '------------------'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 18
+          end
+          object btnPadDrop: TButton
+            Tag = 1000
+            Left = 176
+            Top = 241
+            Width = 75
+            Height = 35
+            Cursor = crHandPoint
+            Caption = 'DROP'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 19
+            OnClick = btnPadDropClick
+          end
+          object btnPadPickup: TButton
+            Left = 254
+            Top = 241
+            Width = 75
+            Height = 35
+            Cursor = crHandPoint
+            Caption = 'PICKUP'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 20
+            OnClick = btnPadDropClick
+          end
+          object MainPanelRefresh76: TPanel
+            Tag = 76
+            Left = 16
+            Top = 241
+            Width = 65
+            Height = 74
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'DUAL-3'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 9
+            OnDblClick = MainPanelRefresh78DblClick
+          end
+          object MainPanelRefresh77: TPanel
+            Tag = 77
+            Left = 87
+            Top = 241
+            Width = 65
+            Height = 74
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'DUAL-4'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 8
+            OnDblClick = MainPanelRefresh78DblClick
+          end
+          object MainPanelRefresh30: TPanel
+            Tag = 83
+            Left = 16
+            Top = 401
+            Width = 65
+            Height = 34
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'SINGLE-3'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 3
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object MainPanelRefresh31: TPanel
+            Tag = 84
+            Left = 87
+            Top = 401
+            Width = 65
+            Height = 34
+            Cursor = crHandPoint
+            BevelOuter = bvLowered
+            Caption = 'SINGLE-4'
+            Color = clGray
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWhite
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            OnDblClick = MainFlowRefresh1DblClick
+          end
+          object Panel31: TPanel
+            Left = 176
+            Top = 414
+            Width = 153
+            Height = 25
+            BevelOuter = bvNone
+            Caption = 
+              '-------------------------------   PAD COUNT RESET   ------------' +
+              '-------------------'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 21
+          end
+          object btnPadReset: TButton
+            Left = 176
+            Top = 441
+            Width = 153
+            Height = 34
+            Cursor = crHandPoint
+            Caption = 'COUNT RESET'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 22
+            OnClick = btnPadResetClick
+          end
+          object btnPadDropCheck: TButton
+            Tag = 1000
+            Left = 176
+            Top = 360
+            Width = 75
+            Height = 35
+            Cursor = crHandPoint
+            Caption = 'D - CHECK'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 23
+            OnClick = btnPadDropCheckClick
+          end
+          object btnPadPickupCheck: TButton
+            Tag = 1000
+            Left = 254
+            Top = 361
+            Width = 75
+            Height = 34
+            Cursor = crHandPoint
+            Caption = 'P - CHECK'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 24
+            OnClick = btnPadDropCheckClick
+          end
+          object Panel36: TPanel
+            Left = 178
+            Top = 280
+            Width = 70
+            Height = 15
+            BevelOuter = bvNone
+            Caption = #8595
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 25
+          end
+          object pnDropReset: TPanel
+            Left = 176
+            Top = 300
+            Width = 75
+            Height = 40
+            Caption = 'RESET (D)'
+            Color = clInfoBk
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clRed
+            Font.Height = -15
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 26
+            OnClick = pnDropResetClick
+          end
+          object Panel55: TPanel
+            Left = 178
+            Top = 341
+            Width = 72
+            Height = 15
+            BevelOuter = bvNone
+            Caption = #8593
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 27
+          end
+          object pnPickupReset: TPanel
+            Left = 254
+            Top = 300
+            Width = 75
+            Height = 40
+            Caption = 'RESET (P)'
+            Color = clInfoBk
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clRed
+            Font.Height = -15
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 28
+            OnClick = pnPickupResetClick
+          end
+          object Panel68: TPanel
+            Left = 256
+            Top = 280
+            Width = 70
+            Height = 15
+            BevelOuter = bvNone
+            Caption = #8595
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 29
+          end
+          object Panel69: TPanel
+            Left = 256
+            Top = 341
+            Width = 72
+            Height = 15
+            BevelOuter = bvNone
+            Caption = #8593
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Calibri'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 30
+          end
+        end
+      end
+    end
+  end
+  object ProcessRefreshTimer: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = ProcessRefreshTimerTimer
+    Left = 1004
+    Top = 1
+  end
+  object TimerLotInfo: TTimer
+    Enabled = False
+    OnTimer = TimerLotInfoTimer
+    Left = 1080
+  end
+  object ResetTimer: TTimer
+    Interval = 10000
+    OnTimer = ResetTimerTimer
+    Left = 1152
+  end
+end

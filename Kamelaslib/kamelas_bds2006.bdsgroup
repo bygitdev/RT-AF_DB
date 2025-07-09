@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<PersonalityInfo>
+		<Option>
+			<Option Name="Personality">Default.Personality</Option>
+			<Option Name="ProjectType"></Option>
+			<Option Name="Version">1.0</Option>
+			<Option Name="GUID">{8A08C59D-47DA-4BEF-A523-2232E5E5AF93}</Option>
+		</Option>
+	</PersonalityInfo>
+	<Default.Personality>  
+    
+    <Projects>
+      <Projects Name="kamelas.dll">kamelas.bdsproj</Projects>
+      <Projects Name="KamelasTestcase.exe">testcase\KamelasTestcase.bdsproj</Projects>
+      <Projects Name="DelphiTestcase.exe">testcase_delphi\DelphiTestcase.bdsproj</Projects>
+      <Projects Name="Targets">Kamelas.dll KamelasTestcase.exe DelphiTestcase.exe</Projects>
+    </Projects>
+    <Dependencies>
+      <Dependency GUID="{5E4E747A-FC8C-4E2D-93E8-809E8E737E74}">
+        <Dependency GUID="{64610EC3-A658-42EA-A5CE-2F751CCEC253}"/>
+      </Dependency>
+      <Dependency GUID="{244EE0AA-F154-4248-9577-E23D2FFC276C}">
+        <Dependency GUID="{64610EC3-A658-42EA-A5CE-2F751CCEC253}"/>
+      </Dependency>
+    </Dependencies>
+  </Default.Personality>
+</BorlandProject>

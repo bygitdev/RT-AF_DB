@@ -1,0 +1,1220 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "BaseComm.h"
+#include "FrmAutoFBHistory.h"
+#include "FrmRouterCommScrn.h"
+#include "ReadDBThread.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "AdvDateTimePicker"
+#pragma resource "*.dfm"
+TFormAutoFBHistory *FormAutoFBHistory;
+//---------------------------------------------------------------------------
+#include <iostream.h>
+#include <fstream>
+#include <string>
+#include <vcl.h>
+#include "SQLite\cppsqlite3.h"
+#include <stdio.h>
+
+#include <System.hpp>
+#include <sqlite3.h>
+#include <vector>
+#include <iostream>
+#include <sstream>
+#pragma hdrstop
+#pragma argsused
+
+using namespace std;
+
+//---------------------------------------------------------------------------
+vector<string> GetBridgemaxColumns(CppSQLite3DB& db, const string& tableName, int startNumber, int endNumber)
+{
+	try
+	{
+		vector<string> columns;
+		string query = "PRAGMA table_info(" + tableName + ");";
+		CppSQLite3Query result = db.execQuery(query.c_str());
+
+		bool bStart = false;
+		int nPlus = 0, nBridgeNo = 1;
+
+		while (!result.eof())
+		{
+			string columnName = result.getStringField(1);
+
+			if(nPlus == 6)
+				bStart = true;
+
+			if (bStart)
+			{
+				stringstream ss;
+				ss << "BridgeMax_" << (nBridgeNo < 10 ? "0" : "") << nBridgeNo;
+				string prefix = ss.str();
+				if (columnName == prefix)
+				{
+					columns.push_back(columnName);
+
+					if ("BridgeMax_200" == prefix)
+						break;
+				}
+
+				nBridgeNo++;
+			}
+
+			nPlus++;
+			result.nextRow();
+		}
+
+		return columns;
+	}
+	catch (...) {}
+}
+//---------------------------------------------------------------------------
+void CalculateAverages(CppSQLite3DB& db, const string& tableName, const vector<string>& columns, int nBridgeCnt, int nStageNo, int nAgvCnt)
+{
+	try
+	{
+		if (columns.empty())
+		{
+			cout << "No columns found that match the pattern." << endl;
+			return;
+		}
+
+		double dTarget = dReadPkgData(qcTarget);
+
+		stringstream avgQuery;
+		avgQuery << "SELECT ";
+
+		for (size_t i = 0; i < columns.size(); ++i)
+		{
+			avgQuery << "AVG(" << columns[i] << ") AS avg_" << columns[i];
+			if (i < columns.size() - 1) {
+				avgQuery << ", ";
+			}
+		}
+
+		if (nBridgeCnt <= 0 || nStageNo <= 0)
+			return;
+
+		avgQuery << " FROM (SELECT * FROM " << tableName
+				<< " WHERE (DATA_FLAG IS NULL OR DATA_FLAG = 0) AND StageNo = " << nStageNo
+				<< " ORDER BY QcTime DESC LIMIT " << nAgvCnt << ") subquery;";
+
+		CppSQLite3Query result = db.execQuery(avgQuery.str().c_str());
+
+		AUTOFEEDBACK_INFO AgvData = {};
+
+		if (!result.eof())
+		{
+			for (size_t i = 0; i < nBridgeCnt; ++i)
+			{
+				double avg = result.getFloatField(static_cast<int>(i));
+				cout << "Average for " << columns[i] << ": " << avg << endl;
+
+				avg = dTarget - avg;
+
+				AgvData.qcBridgeDataOffset[nStageNo-1][i] = avg;
+			}
+		}
+		else
+		{
+			cout << "Query returned no results." << endl;
+		}
+
+		AgvData.qcStageNo = nStageNo-1;
+		AgvData.qcBridgeCnt[nStageNo-1] = nBridgeCnt;
+
+		stringstream updateQuery;
+		updateQuery << "UPDATE " << tableName << " SET DATA_FLAG = 1 WHERE kIndex IN (";
+		updateQuery << "SELECT kIndex FROM " << tableName << " WHERE (DATA_FLAG IS NULL OR DATA_FLAG = 0) AND StageNo = " << nStageNo
+		<<" ORDER BY QcTime DESC" <<" LIMIT " << nAgvCnt << ");";
+
+		db.execDML(updateQuery.str().c_str());
+
+		FrmRouterComm->qcInfoSend(AgvData);
+
+	}
+	catch (Exception& e)
+	{
+		MainForm->MachineHistoryData("SQLite error : " + e.Message);
+	}
+}
+
+//---------------------------------------------------------------------------
+void  TFormAutoFBHistory::AutoFBAgv(int nBridgeCnt, int nStageNo)
+{
+	try
+	{
+		MainForm->MachineHistoryData("Start AutoFBAgv!!");
+
+		CppSQLite3DB SQLiteDB;
+		AnsiString strAutoFeedBack = ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\AutoFeedBackHistory.DB";
+		SQLiteDB.open(strAutoFeedBack.c_str());
+
+		string tableName = "AutoFeedBackHistory";
+		int startNumber = 1;
+		int endNumber = 201;
+
+		int nAgvCnt = dReadPkgData(qcAgvCnt);
+
+		if (nBridgeCnt <= 0 || nStageNo <= 0 || nAgvCnt <= 0)
+			return;
+
+		vector<string> columns = GetBridgemaxColumns(SQLiteDB, tableName, startNumber, endNumber);
+		CalculateAverages(SQLiteDB, tableName, columns, nBridgeCnt, nStageNo, nAgvCnt);
+
+		SQLiteDB.close();
+	}
+	catch (...) {}
+}
+//---------------------------------------------------------------------------
+__fastcall TFormAutoFBHistory::TFormAutoFBHistory(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void	TFormAutoFBHistory::dbInitialize()
+{
+	CppSQLite3DB SQLiteDB;
+
+	AnsiString fileName = ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\AutoFeedBackHistory.DB";
+
+	try
+	{
+		if(FileExists(fileName)== false)
+		{
+			ForceDirectories(ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\");
+
+			try
+			{
+				SQLiteDB.open(fileName.c_str());
+				SQLiteDB.execDML("create table AutoFeedBackHistory("
+				"kIndex integer primary key,"
+				"QcTime DATETIME,"
+				"JobName char(64),"
+				"LotID char(64),"
+				"StageNo integer,"
+				"BridgeCnt integer,"
+				"BridgeMax_01 DOUBLE,"
+				"BridgeMax_02 DOUBLE,"
+				"BridgeMax_03 DOUBLE,"
+				"BridgeMax_04 DOUBLE,"
+				"BridgeMax_05 DOUBLE,"
+				"BridgeMax_06 DOUBLE,"
+				"BridgeMax_07 DOUBLE,"
+				"BridgeMax_08 DOUBLE,"
+				"BridgeMax_09 DOUBLE,"
+				"BridgeMax_10 DOUBLE,"
+				"BridgeMax_11 DOUBLE,"
+				"BridgeMax_12 DOUBLE,"
+				"BridgeMax_13 DOUBLE,"
+				"BridgeMax_14 DOUBLE,"
+				"BridgeMax_15 DOUBLE,"
+				"BridgeMax_16 DOUBLE,"
+				"BridgeMax_17 DOUBLE,"
+				"BridgeMax_18 DOUBLE,"
+				"BridgeMax_19 DOUBLE,"
+				"BridgeMax_20 DOUBLE,"
+				"BridgeMax_21 DOUBLE,"
+				"BridgeMax_22 DOUBLE,"
+				"BridgeMax_23 DOUBLE,"
+				"BridgeMax_24 DOUBLE,"
+				"BridgeMax_25 DOUBLE,"
+				"BridgeMax_26 DOUBLE,"
+				"BridgeMax_27 DOUBLE,"
+				"BridgeMax_28 DOUBLE,"
+				"BridgeMax_29 DOUBLE,"
+				"BridgeMax_30 DOUBLE,"
+				"BridgeMax_31 DOUBLE,"
+				"BridgeMax_32 DOUBLE,"
+				"BridgeMax_33 DOUBLE,"
+				"BridgeMax_34 DOUBLE,"
+				"BridgeMax_35 DOUBLE,"
+				"BridgeMax_36 DOUBLE,"
+				"BridgeMax_37 DOUBLE,"
+				"BridgeMax_38 DOUBLE,"
+				"BridgeMax_39 DOUBLE,"
+				"BridgeMax_40 DOUBLE,"
+				"BridgeMax_41 DOUBLE,"
+				"BridgeMax_42 DOUBLE,"
+				"BridgeMax_43 DOUBLE,"
+				"BridgeMax_44 DOUBLE,"
+				"BridgeMax_45 DOUBLE,"
+				"BridgeMax_46 DOUBLE,"
+				"BridgeMax_47 DOUBLE,"
+				"BridgeMax_48 DOUBLE,"
+				"BridgeMax_49 DOUBLE,"
+				"BridgeMax_50 DOUBLE,"
+				"BridgeMax_51 DOUBLE,"
+				"BridgeMax_52 DOUBLE,"
+				"BridgeMax_53 DOUBLE,"
+				"BridgeMax_54 DOUBLE,"
+				"BridgeMax_55 DOUBLE,"
+				"BridgeMax_56 DOUBLE,"
+				"BridgeMax_57 DOUBLE,"
+				"BridgeMax_58 DOUBLE,"
+				"BridgeMax_59 DOUBLE,"
+				"BridgeMax_60 DOUBLE,"
+				"BridgeMax_61 DOUBLE,"
+				"BridgeMax_62 DOUBLE,"
+				"BridgeMax_63 DOUBLE,"
+				"BridgeMax_64 DOUBLE,"
+				"BridgeMax_65 DOUBLE,"
+				"BridgeMax_66 DOUBLE,"
+				"BridgeMax_67 DOUBLE,"
+				"BridgeMax_68 DOUBLE,"
+				"BridgeMax_69 DOUBLE,"
+				"BridgeMax_70 DOUBLE,"
+				"BridgeMax_71 DOUBLE,"
+				"BridgeMax_72 DOUBLE,"
+				"BridgeMax_73 DOUBLE,"
+				"BridgeMax_74 DOUBLE,"
+				"BridgeMax_75 DOUBLE,"
+				"BridgeMax_76 DOUBLE,"
+				"BridgeMax_77 DOUBLE,"
+				"BridgeMax_78 DOUBLE,"
+				"BridgeMax_79 DOUBLE,"
+				"BridgeMax_80 DOUBLE,"
+				"BridgeMax_81 DOUBLE,"
+				"BridgeMax_82 DOUBLE,"
+				"BridgeMax_83 DOUBLE,"
+				"BridgeMax_84 DOUBLE,"
+				"BridgeMax_85 DOUBLE,"
+				"BridgeMax_86 DOUBLE,"
+				"BridgeMax_87 DOUBLE,"
+				"BridgeMax_88 DOUBLE,"
+				"BridgeMax_89 DOUBLE,"
+				"BridgeMax_90 DOUBLE,"
+				"BridgeMax_91 DOUBLE,"
+				"BridgeMax_92 DOUBLE,"
+				"BridgeMax_93 DOUBLE,"
+				"BridgeMax_94 DOUBLE,"
+				"BridgeMax_95 DOUBLE,"
+				"BridgeMax_96 DOUBLE,"
+				"BridgeMax_97 DOUBLE,"
+				"BridgeMax_98 DOUBLE,"
+				"BridgeMax_99 DOUBLE,"
+				"BridgeMax_100 DOUBLE,"
+				"BridgeMax_101 DOUBLE,"
+				"BridgeMax_102 DOUBLE,"
+				"BridgeMax_103 DOUBLE,"
+				"BridgeMax_104 DOUBLE,"
+				"BridgeMax_105 DOUBLE,"
+				"BridgeMax_106 DOUBLE,"
+				"BridgeMax_107 DOUBLE,"
+				"BridgeMax_108 DOUBLE,"
+				"BridgeMax_109 DOUBLE,"
+				"BridgeMax_110 DOUBLE,"
+				"BridgeMax_111 DOUBLE,"
+				"BridgeMax_112 DOUBLE,"
+				"BridgeMax_113 DOUBLE,"
+				"BridgeMax_114 DOUBLE,"
+				"BridgeMax_115 DOUBLE,"
+				"BridgeMax_116 DOUBLE,"
+				"BridgeMax_117 DOUBLE,"
+				"BridgeMax_118 DOUBLE,"
+				"BridgeMax_119 DOUBLE,"
+				"BridgeMax_120 DOUBLE,"
+				"BridgeMax_121 DOUBLE,"
+				"BridgeMax_122 DOUBLE,"
+				"BridgeMax_123 DOUBLE,"
+				"BridgeMax_124 DOUBLE,"
+				"BridgeMax_125 DOUBLE,"
+				"BridgeMax_126 DOUBLE,"
+				"BridgeMax_127 DOUBLE,"
+				"BridgeMax_128 DOUBLE,"
+				"BridgeMax_129 DOUBLE,"
+				"BridgeMax_130 DOUBLE,"
+				"BridgeMax_131 DOUBLE,"
+				"BridgeMax_132 DOUBLE,"
+				"BridgeMax_133 DOUBLE,"
+				"BridgeMax_134 DOUBLE,"
+				"BridgeMax_135 DOUBLE,"
+				"BridgeMax_136 DOUBLE,"
+				"BridgeMax_137 DOUBLE,"
+				"BridgeMax_138 DOUBLE,"
+				"BridgeMax_139 DOUBLE,"
+				"BridgeMax_140 DOUBLE,"
+				"BridgeMax_141 DOUBLE,"
+				"BridgeMax_142 DOUBLE,"
+				"BridgeMax_143 DOUBLE,"
+				"BridgeMax_144 DOUBLE,"
+				"BridgeMax_145 DOUBLE,"
+				"BridgeMax_146 DOUBLE,"
+				"BridgeMax_147 DOUBLE,"
+				"BridgeMax_148 DOUBLE,"
+				"BridgeMax_149 DOUBLE,"
+				"BridgeMax_150 DOUBLE,"
+				"BridgeMax_151 DOUBLE,"
+				"BridgeMax_152 DOUBLE,"
+				"BridgeMax_153 DOUBLE,"
+				"BridgeMax_154 DOUBLE,"
+				"BridgeMax_155 DOUBLE,"
+				"BridgeMax_156 DOUBLE,"
+				"BridgeMax_157 DOUBLE,"
+				"BridgeMax_158 DOUBLE,"
+				"BridgeMax_159 DOUBLE,"
+				"BridgeMax_160 DOUBLE,"
+				"BridgeMax_161 DOUBLE,"
+				"BridgeMax_162 DOUBLE,"
+				"BridgeMax_163 DOUBLE,"
+				"BridgeMax_164 DOUBLE,"
+				"BridgeMax_165 DOUBLE,"
+				"BridgeMax_166 DOUBLE,"
+				"BridgeMax_167 DOUBLE,"
+				"BridgeMax_168 DOUBLE,"
+				"BridgeMax_169 DOUBLE,"
+				"BridgeMax_170 DOUBLE,"
+				"BridgeMax_171 DOUBLE,"
+				"BridgeMax_172 DOUBLE,"
+				"BridgeMax_173 DOUBLE,"
+				"BridgeMax_174 DOUBLE,"
+				"BridgeMax_175 DOUBLE,"
+				"BridgeMax_176 DOUBLE,"
+				"BridgeMax_177 DOUBLE,"
+				"BridgeMax_178 DOUBLE,"
+				"BridgeMax_179 DOUBLE,"
+				"BridgeMax_180 DOUBLE,"
+				"BridgeMax_181 DOUBLE,"
+				"BridgeMax_182 DOUBLE,"
+				"BridgeMax_183 DOUBLE,"
+				"BridgeMax_184 DOUBLE,"
+				"BridgeMax_185 DOUBLE,"
+				"BridgeMax_186 DOUBLE,"
+				"BridgeMax_187 DOUBLE,"
+				"BridgeMax_188 DOUBLE,"
+				"BridgeMax_189 DOUBLE,"
+				"BridgeMax_190 DOUBLE,"
+				"BridgeMax_191 DOUBLE,"
+				"BridgeMax_192 DOUBLE,"
+				"BridgeMax_193 DOUBLE,"
+				"BridgeMax_194 DOUBLE,"
+				"BridgeMax_195 DOUBLE,"
+				"BridgeMax_196 DOUBLE,"
+				"BridgeMax_197 DOUBLE,"
+				"BridgeMax_198 DOUBLE,"
+				"BridgeMax_199 DOUBLE,"
+				"BridgeMax_200 DOUBLE,"
+				"DATA_FLAG integer"
+				");");
+
+				_isInit = true;
+			}
+			catch (CppSQLite3Exception& e)
+			{
+				cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+				_isInit = false;
+			}
+		}
+		else
+		{
+			SQLiteDB.open(fileName.c_str());
+			_isInit = true;
+		}
+
+	}
+	catch (Exception &e)
+	{
+		MainForm->MachineHistoryData( "dbInitialize Error" );
+	}
+
+	SQLiteDB.close();
+}
+//---------------------------------------------------------------------------
+void __fastcall TFormAutoFBHistory::FormCreate(TObject *Sender)
+{
+	this->dbInitialize();
+
+	AutoFeedBackDateTimeGrid->ColCount = 207;
+
+	String colLabel[] = {
+			"NO.",
+			"QC TIME",
+			"JOB NAME",
+			"LOT ID",
+			"STAGE NO",
+			"BRIDGE CNT",
+			"BRIDGE MAX 01",
+			"BRIDGE MAX 02",
+			"BRIDGE MAX 03",
+			"BRIDGE MAX 04",
+			"BRIDGE MAX 05",
+			"BRIDGE MAX 06",
+			"BRIDGE MAX 07",
+			"BRIDGE MAX 08",
+			"BRIDGE MAX 09",
+			"BRIDGE MAX 10",
+			"BRIDGE MAX 11",
+			"BRIDGE MAX 12",
+			"BRIDGE MAX 13",
+			"BRIDGE MAX 14",
+			"BRIDGE MAX 15",
+			"BRIDGE MAX 16",
+			"BRIDGE MAX 17",
+			"BRIDGE MAX 18",
+			"BRIDGE MAX 19",
+			"BRIDGE MAX 20",
+			"BRIDGE MAX 21",
+			"BRIDGE MAX 22",
+			"BRIDGE MAX 23",
+			"BRIDGE MAX 24",
+			"BRIDGE MAX 25",
+			"BRIDGE MAX 26",
+			"BRIDGE MAX 27",
+			"BRIDGE MAX 28",
+			"BRIDGE MAX 29",
+			"BRIDGE MAX 30",
+			"BRIDGE MAX 31",
+			"BRIDGE MAX 32",
+			"BRIDGE MAX 33",
+			"BRIDGE MAX 34",
+			"BRIDGE MAX 35",
+			"BRIDGE MAX 36",
+			"BRIDGE MAX 37",
+			"BRIDGE MAX 38",
+			"BRIDGE MAX 39",
+			"BRIDGE MAX 40",
+			"BRIDGE MAX 41",
+			"BRIDGE MAX 42",
+			"BRIDGE MAX 43",
+			"BRIDGE MAX 44",
+			"BRIDGE MAX 45",
+			"BRIDGE MAX 46",
+			"BRIDGE MAX 47",
+			"BRIDGE MAX 48",
+			"BRIDGE MAX 49",
+			"BRIDGE MAX 50",
+			"BRIDGE MAX 51",
+			"BRIDGE MAX 52",
+			"BRIDGE MAX 53",
+			"BRIDGE MAX 54",
+			"BRIDGE MAX 55",
+			"BRIDGE MAX 56",
+			"BRIDGE MAX 57",
+			"BRIDGE MAX 58",
+			"BRIDGE MAX 59",
+			"BRIDGE MAX 60",
+			"BRIDGE MAX 61",
+			"BRIDGE MAX 62",
+			"BRIDGE MAX 63",
+			"BRIDGE MAX 64",
+			"BRIDGE MAX 65",
+			"BRIDGE MAX 66",
+			"BRIDGE MAX 67",
+			"BRIDGE MAX 68",
+			"BRIDGE MAX 69",
+			"BRIDGE MAX 70",
+			"BRIDGE MAX 71",
+			"BRIDGE MAX 72",
+			"BRIDGE MAX 73",
+			"BRIDGE MAX 74",
+			"BRIDGE MAX 75",
+			"BRIDGE MAX 76",
+			"BRIDGE MAX 77",
+			"BRIDGE MAX 78",
+			"BRIDGE MAX 79",
+			"BRIDGE MAX 80",
+			"BRIDGE MAX 81",
+			"BRIDGE MAX 82",
+			"BRIDGE MAX 83",
+			"BRIDGE MAX 84",
+			"BRIDGE MAX 85",
+			"BRIDGE MAX 86",
+			"BRIDGE MAX 87",
+			"BRIDGE MAX 88",
+			"BRIDGE MAX 89",
+			"BRIDGE MAX 90",
+			"BRIDGE MAX 91",
+			"BRIDGE MAX 92",
+			"BRIDGE MAX 93",
+			"BRIDGE MAX 94",
+			"BRIDGE MAX 95",
+			"BRIDGE MAX 96",
+			"BRIDGE MAX 97",
+			"BRIDGE MAX 98",
+			"BRIDGE MAX 99",
+			"BRIDGE MAX 100",
+			"BRIDGE MAX 101",
+			"BRIDGE MAX 102",
+			"BRIDGE MAX 103",
+			"BRIDGE MAX 104",
+			"BRIDGE MAX 105",
+			"BRIDGE MAX 106",
+			"BRIDGE MAX 107",
+			"BRIDGE MAX 108",
+			"BRIDGE MAX 109",
+			"BRIDGE MAX 110",
+			"BRIDGE MAX 111",
+			"BRIDGE MAX 112",
+			"BRIDGE MAX 113",
+			"BRIDGE MAX 114",
+			"BRIDGE MAX 115",
+			"BRIDGE MAX 116",
+			"BRIDGE MAX 117",
+			"BRIDGE MAX 118",
+			"BRIDGE MAX 119",
+			"BRIDGE MAX 120",
+			"BRIDGE MAX 121",
+			"BRIDGE MAX 122",
+			"BRIDGE MAX 123",
+			"BRIDGE MAX 124",
+			"BRIDGE MAX 125",
+			"BRIDGE MAX 126",
+			"BRIDGE MAX 127",
+			"BRIDGE MAX 128",
+			"BRIDGE MAX 129",
+			"BRIDGE MAX 130",
+			"BRIDGE MAX 131",
+			"BRIDGE MAX 132",
+			"BRIDGE MAX 133",
+			"BRIDGE MAX 134",
+			"BRIDGE MAX 135",
+			"BRIDGE MAX 136",
+			"BRIDGE MAX 137",
+			"BRIDGE MAX 138",
+			"BRIDGE MAX 139",
+			"BRIDGE MAX 140",
+			"BRIDGE MAX 141",
+			"BRIDGE MAX 142",
+			"BRIDGE MAX 143",
+			"BRIDGE MAX 144",
+			"BRIDGE MAX 145",
+			"BRIDGE MAX 146",
+			"BRIDGE MAX 147",
+			"BRIDGE MAX 148",
+			"BRIDGE MAX 149",
+			"BRIDGE MAX 150",
+			"BRIDGE MAX 151",
+			"BRIDGE MAX 152",
+			"BRIDGE MAX 153",
+			"BRIDGE MAX 154",
+			"BRIDGE MAX 155",
+			"BRIDGE MAX 156",
+			"BRIDGE MAX 157",
+			"BRIDGE MAX 158",
+			"BRIDGE MAX 159",
+			"BRIDGE MAX 160",
+			"BRIDGE MAX 161",
+			"BRIDGE MAX 162",
+			"BRIDGE MAX 163",
+			"BRIDGE MAX 164",
+			"BRIDGE MAX 165",
+			"BRIDGE MAX 166",
+			"BRIDGE MAX 167",
+			"BRIDGE MAX 168",
+			"BRIDGE MAX 169",
+			"BRIDGE MAX 170",
+			"BRIDGE MAX 171",
+			"BRIDGE MAX 172",
+			"BRIDGE MAX 173",
+			"BRIDGE MAX 174",
+			"BRIDGE MAX 175",
+			"BRIDGE MAX 176",
+			"BRIDGE MAX 177",
+			"BRIDGE MAX 178",
+			"BRIDGE MAX 179",
+			"BRIDGE MAX 180",
+			"BRIDGE MAX 181",
+			"BRIDGE MAX 182",
+			"BRIDGE MAX 183",
+			"BRIDGE MAX 184",
+			"BRIDGE MAX 185",
+			"BRIDGE MAX 186",
+			"BRIDGE MAX 187",
+			"BRIDGE MAX 188",
+			"BRIDGE MAX 189",
+			"BRIDGE MAX 190",
+			"BRIDGE MAX 191",
+			"BRIDGE MAX 192",
+			"BRIDGE MAX 193",
+			"BRIDGE MAX 194",
+			"BRIDGE MAX 195",
+			"BRIDGE MAX 196",
+			"BRIDGE MAX 197",
+			"BRIDGE MAX 198",
+			"BRIDGE MAX 199",
+			"BRIDGE MAX 200",
+			"DATA FLAG",
+	};
+
+	for(int i=0 ; i < AutoFeedBackDateTimeGrid->ColCount; i++)
+	{
+		AutoFeedBackDateTimeGrid->Cells[i][0] = colLabel[i];
+	}
+
+	AutoFeedBackDateTimeGrid->ColWidths[0] = 40;
+	AutoFeedBackDateTimeGrid->ColWidths[1] = 150;
+	AutoFeedBackDateTimeGrid->ColWidths[2] = 250;
+	AutoFeedBackDateTimeGrid->ColWidths[3] = AutoFeedBackDateTimeGrid->Width - 40 - 1030;
+	AutoFeedBackDateTimeGrid->ColWidths[4] = 100;
+	AutoFeedBackDateTimeGrid->ColWidths[5] = 100;
+
+	for (int iBridge = 6; iBridge < 207; iBridge++)
+	{
+		AutoFeedBackDateTimeGrid->ColWidths[iBridge] = 115;
+	}
+
+	AutoFeedBackResultGrid->ColCount = 12;
+
+	String colLabel2[] = {
+			"NO.",
+			"AVG 01(1~10)",
+			"AVG 02(2~11)",
+			"AVG 03(3~12)",
+			"AVG 04(4~13)",
+			"AVG 05(5~14)",
+			"AVG 06(6~15)",
+			"AVG 07(7~16)",
+			"AVG 08(8~17)",
+			"AVG 09(9~18)",
+			"AVG 10(10~19)",
+			"TOTAL AVG",
+	};
+
+	for(int i2=0 ; i2 < AutoFeedBackResultGrid->ColCount; i2++)
+	{
+		AutoFeedBackResultGrid->Cells[i2][0] = colLabel2[i2];
+	}
+
+	AutoFeedBackResultGrid->ColWidths[0] = 40;
+
+	for (int iBridge2 = 1; iBridge2 < 12; iBridge2++)
+	{
+		AutoFeedBackResultGrid->ColWidths[iBridge2] = 110;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFormAutoFBHistory::FormShow(TObject *Sender)
+{
+	DateTimeAutoFeedBackStart->DateTime = TDateTime(TDateTime(Now()-1).FormatString("yyyy-mm-dd") + " 22:00:00");
+	DateTimeAutoFeedBackEnd->DateTime = TDateTime(Now().FormatString("yyyy-mm-dd") + " 22:00:00");
+
+	this->Btn_DatabaseReadClick(Sender);
+}
+//---------------------------------------------------------------------------
+void __fastcall TFormAutoFBHistory::Btn_DatabaseReadClick(TObject *Sender)
+{
+	if (!_isInit) return;
+
+	AnsiString strStartDateTime = DateTimeAutoFeedBackStart->DateTime.FormatString("yyyy-mm-dd HH:nn:ss");
+	AnsiString strEndDateTime = DateTimeAutoFeedBackEnd->DateTime.FormatString("yyyy-mm-dd HH:nn:ss");
+	AnsiString dbPath = ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\AutoFeedBackHistory.DB";
+
+
+	// 백그라운드 스레드로 실행
+	TReadDBThread* thread = new TReadDBThread(dbPath, strStartDateTime, strEndDateTime, "AutoFeedBackHistory", "QcTime");
+	thread->Start();
+
+//	if(!_isInit) return;
+
+//	AnsiString strStartDateTime = DateTimeAutoFeedBackStart->DateTime.FormatString("yyyy-mm-dd hh:mm:ss");
+//	AnsiString strEndDateTime = DateTimeAutoFeedBackEnd->DateTime.FormatString("yyyy-mm-dd hh:mm:ss");
+//
+//	CppSQLite3DB SQLiteDB;
+//
+//	AnsiString strAutoFeedBack = ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\AutoFeedBackHistory.DB";
+//	SQLiteDB.open(strAutoFeedBack.c_str());
+//
+//	char Almtbuf[512] = {0,};
+//	sprintf(Almtbuf,"select * from AutoFeedBackHistory where QcTime > ('%s') AND QcTime < ('%s');", strStartDateTime.c_str(), strEndDateTime.c_str());
+//	CppSQLite3Table AlarmLogtable = SQLiteDB.getTable(Almtbuf);
+//	SQLiteDB.close();
+//
+//	if(AlarmLogtable.numRows() < 1)
+//	{
+//		AutoFeedBackDateTimeGrid->RowCount =  2;
+//		AutoFeedBackDateTimeGrid->Cells[0][1] = "1";
+//		for(int col=1; col < AutoFeedBackDateTimeGrid->ColCount; col++)
+//		{
+//			AutoFeedBackDateTimeGrid->Cells[col][1] = "";
+//		}
+//	}
+//	else
+//	{
+//		AutoFeedBackDateTimeGrid->RowCount =  AlarmLogtable.numRows() + 1;
+//
+//		for (int row = 0; row < AlarmLogtable.numRows(); row++)
+//		{
+//			AlarmLogtable.setRow(row);
+//			AutoFeedBackDateTimeGrid->Cells[0][row+1] = IntToStr(row+1);
+//			for(int col=1; col < AutoFeedBackDateTimeGrid->ColCount; col++)
+//			{
+//				AutoFeedBackDateTimeGrid->Cells[col][row+1] = (String)AlarmLogtable.fieldValue(col);
+//			}
+//		}
+//	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFormAutoFBHistory::Btn_SaveCSVClick(TObject *Sender)
+{
+	String StrDateFilename = DateTimeToStr(DateTimeAutoFeedBackEnd->Date.FormatString("YYY-MM-DD")) + FormatDateTime(" hhmmss ", Now()); ;
+	SaveCsvFileDialog->FileName = StrDateFilename;
+	if(SaveCsvFileDialog->Execute())
+	{
+		SaveToCSVFile(AutoFeedBackDateTimeGrid,SaveCsvFileDialog->FileName);
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TFormAutoFBHistory::Btn_SaveTXTClick(TObject *Sender)
+{
+	if(SaveTextFileDialog->Execute())
+	{
+		TFileStream *File;
+		String FileName =  SaveTextFileDialog->FileName;
+		String FullPath  = SaveTextFileDialog->FileName;
+
+		File = new TFileStream(FullPath, fmCreate | fmOpenReadWrite);
+		File->Position = 0;
+
+		AnsiString text = "\r\n\r\n";
+		text += "Date : " + DateTimeToStr(Now());
+		text += "\r\n\r\n";
+
+		text += "[AUTO FEEDBACK HISTORY]\r\n";
+
+		for(int nIndex=0; nIndex<AutoFeedBackDateTimeGrid->RowCount; nIndex++)
+		{
+			if(nIndex ==0)
+			{
+				for(int i=0; i< 204; i++)
+				{
+					text += "-";
+				}
+				text += "\r\n\r\n";
+			}
+
+			text += StringBlankMaker(AutoFeedBackDateTimeGrid->Cells[0][nIndex],8);
+			text += StringBlankMaker(AutoFeedBackDateTimeGrid->Cells[1][nIndex],24);
+			text += StringBlankMaker(AutoFeedBackDateTimeGrid->Cells[2][nIndex],24);
+			text += StringBlankMaker(AutoFeedBackDateTimeGrid->Cells[3][nIndex],24);
+			text += StringBlankMaker(AutoFeedBackDateTimeGrid->Cells[4][nIndex],24);
+			text += StringBlankMaker(AutoFeedBackDateTimeGrid->Cells[5][nIndex],20);
+
+			for (int iBridge = 6; iBridge < 207; iBridge++)
+			{
+				text += StringBlankMaker(AutoFeedBackDateTimeGrid->Cells[iBridge][nIndex],20);
+			}
+
+			text += "\r\n\r\n";
+
+			if(nIndex ==0)
+			{
+				for(int i=0; i< 204; i++)
+				{
+					text += "-";
+				}
+				text += "\r\n\r\n";
+			}
+		}
+		text += "\r\n\r\n";
+
+		File->Write(text.c_str(),text.Length());
+		delete File;
+
+		ShowMessage("파일 저장이 완료되었습니다.");
+	}
+}
+//---------------------------------------------------------------------------
+void TFormAutoFBHistory::Record_AutoFeedBack(AUTOFEEDBACK_DATA data)
+{
+	if(!_isInit) return;
+
+	CppSQLite3DB SQLiteDB;
+
+	try
+	{
+		MainForm->MachineHistoryData( "Record_AutoFeedBack Try!!" );
+
+		AnsiString strAutoFeedBack = ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\AutoFeedBackHistory.DB";
+		SQLiteDB.open(strAutoFeedBack.c_str());
+
+		char Savebuf[1000000] = {0,};
+		AnsiString strEvnetTime = Now().FormatString("yyyy-mm-dd hh:mm:ss");
+
+		sprintf(Savebuf, "insert into AutoFeedBackHistory ("
+		"QcTime, JobName, LotID, StageNo, BridgeCnt, "
+		" BridgeMax_01,	 BridgeMax_02,	 BridgeMax_03,	 BridgeMax_04,	 BridgeMax_05,	 BridgeMax_06,	 BridgeMax_07,	 BridgeMax_08,	 BridgeMax_09,	 BridgeMax_10,"
+		" BridgeMax_11,	 BridgeMax_12,	 BridgeMax_13,	 BridgeMax_14,	 BridgeMax_15,	 BridgeMax_16,	 BridgeMax_17,	 BridgeMax_18,	 BridgeMax_19,	 BridgeMax_20,"
+		" BridgeMax_21,	 BridgeMax_22,	 BridgeMax_23,	 BridgeMax_24,   BridgeMax_25,	 BridgeMax_26,	 BridgeMax_27,	 BridgeMax_28,	 BridgeMax_29,	 BridgeMax_30,"
+		" BridgeMax_31,  BridgeMax_32,	 BridgeMax_33,	 BridgeMax_34,	 BridgeMax_35,	 BridgeMax_36,	 BridgeMax_37,	 BridgeMax_38,	 BridgeMax_39,	 BridgeMax_40,"
+		" BridgeMax_41,	 BridgeMax_42,	 BridgeMax_43,	 BridgeMax_44,	 BridgeMax_45,	 BridgeMax_46,	 BridgeMax_47,	 BridgeMax_48,	 BridgeMax_49,	 BridgeMax_50,"
+		" BridgeMax_51,	 BridgeMax_52,   BridgeMax_53,	 BridgeMax_54,	 BridgeMax_55,	 BridgeMax_56,	 BridgeMax_57,	 BridgeMax_58,	 BridgeMax_59,	 BridgeMax_60,"
+		" BridgeMax_61,	 BridgeMax_62,   BridgeMax_63,	 BridgeMax_64,	 BridgeMax_65,	 BridgeMax_66,	 BridgeMax_67,	 BridgeMax_68,	 BridgeMax_69,	 BridgeMax_70,"
+		" BridgeMax_71,	 BridgeMax_72,   BridgeMax_73,	 BridgeMax_74,	 BridgeMax_75,	 BridgeMax_76,	 BridgeMax_77,	 BridgeMax_78,	 BridgeMax_79,	 BridgeMax_80,"
+		" BridgeMax_81,	 BridgeMax_82,   BridgeMax_83,	 BridgeMax_84,	 BridgeMax_85,	 BridgeMax_86,	 BridgeMax_87,	 BridgeMax_88,	 BridgeMax_89,	 BridgeMax_90,"
+		" BridgeMax_91,	 BridgeMax_92,   BridgeMax_93,	 BridgeMax_94,	 BridgeMax_95,	 BridgeMax_96,	 BridgeMax_97,	 BridgeMax_98,	 BridgeMax_99,	 BridgeMax_100,"
+		" BridgeMax_101, BridgeMax_102,  BridgeMax_103,  BridgeMax_104,	 BridgeMax_105,	 BridgeMax_106,	 BridgeMax_107,	 BridgeMax_108,	 BridgeMax_109,	 BridgeMax_110,"
+		" BridgeMax_111, BridgeMax_112,  BridgeMax_113,  BridgeMax_114,	 BridgeMax_115,	 BridgeMax_116,	 BridgeMax_117,	 BridgeMax_118,	 BridgeMax_119,	 BridgeMax_120,"
+		" BridgeMax_121, BridgeMax_122,  BridgeMax_123,  BridgeMax_124,	 BridgeMax_125,	 BridgeMax_126,	 BridgeMax_127,	 BridgeMax_128,	 BridgeMax_129,	 BridgeMax_130,"
+		" BridgeMax_131, BridgeMax_132,  BridgeMax_133,  BridgeMax_134,	 BridgeMax_135,	 BridgeMax_136,	 BridgeMax_137,	 BridgeMax_138,	 BridgeMax_139,	 BridgeMax_140,"
+		" BridgeMax_141, BridgeMax_142,  BridgeMax_143,  BridgeMax_144,	 BridgeMax_145,	 BridgeMax_146,	 BridgeMax_147,	 BridgeMax_148,	 BridgeMax_149,	 BridgeMax_150,"
+		" BridgeMax_151, BridgeMax_152,  BridgeMax_153,  BridgeMax_154,	 BridgeMax_155,	 BridgeMax_156,	 BridgeMax_157,	 BridgeMax_158,	 BridgeMax_159,	 BridgeMax_160,"
+		" BridgeMax_161, BridgeMax_162,  BridgeMax_163,  BridgeMax_164,	 BridgeMax_165,	 BridgeMax_166,	 BridgeMax_167,	 BridgeMax_168,	 BridgeMax_169,	 BridgeMax_170,"
+		" BridgeMax_171, BridgeMax_172,  BridgeMax_173,  BridgeMax_174,	 BridgeMax_175,	 BridgeMax_176,	 BridgeMax_177,	 BridgeMax_178,	 BridgeMax_179,	 BridgeMax_180,"
+		" BridgeMax_181, BridgeMax_182,  BridgeMax_183,  BridgeMax_184,	 BridgeMax_185,	 BridgeMax_186,	 BridgeMax_187,	 BridgeMax_188,	 BridgeMax_189,	 BridgeMax_190,"
+		" BridgeMax_191, BridgeMax_192,  BridgeMax_193,  BridgeMax_194,	 BridgeMax_195,	 BridgeMax_196,	 BridgeMax_197,	 BridgeMax_198,	 BridgeMax_199,	 BridgeMax_200,	 DATA_FLAG"
+		")"
+		"values (DATETIME('%s'), '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',"
+		"'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'"
+		");;" ,\
+		strEvnetTime.c_str(), data.JobName, data.LotID, AnsiString(data.StageNo).c_str(), AnsiString(data.BridgeCnt).c_str(),
+		AnsiString(data.BridgeMax[0]).c_str(), AnsiString(data.BridgeMax[1]).c_str(), AnsiString(data.BridgeMax[2]).c_str(), AnsiString(data.BridgeMax[3]).c_str(), AnsiString(data.BridgeMax[4]).c_str(), AnsiString(data.BridgeMax[5]).c_str(), AnsiString(data.BridgeMax[6]).c_str(), AnsiString(data.BridgeMax[7]).c_str(), AnsiString(data.BridgeMax[8]).c_str(), AnsiString(data.BridgeMax[9]).c_str(),
+		AnsiString(data.BridgeMax[10]).c_str(), AnsiString(data.BridgeMax[11]).c_str(), AnsiString(data.BridgeMax[12]).c_str(), AnsiString(data.BridgeMax[13]).c_str(), AnsiString(data.BridgeMax[14]).c_str(), AnsiString(data.BridgeMax[15]).c_str(), AnsiString(data.BridgeMax[16]).c_str(), AnsiString(data.BridgeMax[17]).c_str(), AnsiString(data.BridgeMax[18]).c_str(), AnsiString(data.BridgeMax[19]).c_str(),
+		AnsiString(data.BridgeMax[20]).c_str(), AnsiString(data.BridgeMax[21]).c_str(),	AnsiString(data.BridgeMax[22]).c_str(),	AnsiString(data.BridgeMax[23]).c_str(),	AnsiString(data.BridgeMax[24]).c_str(),	AnsiString(data.BridgeMax[25]).c_str(),	AnsiString(data.BridgeMax[26]).c_str(),	AnsiString(data.BridgeMax[27]).c_str(),	AnsiString(data.BridgeMax[28]).c_str(),	AnsiString(data.BridgeMax[29]).c_str(),
+		AnsiString(data.BridgeMax[30]).c_str(), AnsiString(data.BridgeMax[31]).c_str(), AnsiString(data.BridgeMax[32]).c_str(),	AnsiString(data.BridgeMax[33]).c_str(), AnsiString(data.BridgeMax[34]).c_str(), AnsiString(data.BridgeMax[35]).c_str(), AnsiString(data.BridgeMax[36]).c_str(), AnsiString(data.BridgeMax[37]).c_str(),	AnsiString(data.BridgeMax[38]).c_str(),	AnsiString(data.BridgeMax[39]).c_str(),
+		AnsiString(data.BridgeMax[40]).c_str(), AnsiString(data.BridgeMax[41]).c_str(), AnsiString(data.BridgeMax[42]).c_str(), AnsiString(data.BridgeMax[43]).c_str(), AnsiString(data.BridgeMax[44]).c_str(),	AnsiString(data.BridgeMax[45]).c_str(),	AnsiString(data.BridgeMax[46]).c_str(), AnsiString(data.BridgeMax[47]).c_str(),	AnsiString(data.BridgeMax[48]).c_str(),	AnsiString(data.BridgeMax[49]).c_str(),
+		AnsiString(data.BridgeMax[50]).c_str(), AnsiString(data.BridgeMax[51]).c_str(), AnsiString(data.BridgeMax[52]).c_str(), AnsiString(data.BridgeMax[53]).c_str(),	AnsiString(data.BridgeMax[54]).c_str(), AnsiString(data.BridgeMax[55]).c_str(),	AnsiString(data.BridgeMax[56]).c_str(),	AnsiString(data.BridgeMax[57]).c_str(),	AnsiString(data.BridgeMax[58]).c_str(),	AnsiString(data.BridgeMax[59]).c_str(),
+		AnsiString(data.BridgeMax[60]).c_str(), AnsiString(data.BridgeMax[61]).c_str(),	AnsiString(data.BridgeMax[62]).c_str(), AnsiString(data.BridgeMax[63]).c_str(), AnsiString(data.BridgeMax[64]).c_str(), AnsiString(data.BridgeMax[65]).c_str(), AnsiString(data.BridgeMax[66]).c_str(), AnsiString(data.BridgeMax[67]).c_str(), AnsiString(data.BridgeMax[68]).c_str(), AnsiString(data.BridgeMax[69]).c_str(),
+		AnsiString(data.BridgeMax[70]).c_str(), AnsiString(data.BridgeMax[71]).c_str(),	AnsiString(data.BridgeMax[72]).c_str(), AnsiString(data.BridgeMax[73]).c_str(), AnsiString(data.BridgeMax[74]).c_str(), AnsiString(data.BridgeMax[75]).c_str(), AnsiString(data.BridgeMax[76]).c_str(), AnsiString(data.BridgeMax[77]).c_str(), AnsiString(data.BridgeMax[78]).c_str(), AnsiString(data.BridgeMax[79]).c_str(),
+		AnsiString(data.BridgeMax[80]).c_str(), AnsiString(data.BridgeMax[81]).c_str(),	AnsiString(data.BridgeMax[72]).c_str(), AnsiString(data.BridgeMax[83]).c_str(), AnsiString(data.BridgeMax[84]).c_str(), AnsiString(data.BridgeMax[85]).c_str(), AnsiString(data.BridgeMax[86]).c_str(), AnsiString(data.BridgeMax[87]).c_str(), AnsiString(data.BridgeMax[88]).c_str(), AnsiString(data.BridgeMax[89]).c_str(),
+		AnsiString(data.BridgeMax[90]).c_str(), AnsiString(data.BridgeMax[91]).c_str(),	AnsiString(data.BridgeMax[72]).c_str(), AnsiString(data.BridgeMax[93]).c_str(), AnsiString(data.BridgeMax[94]).c_str(), AnsiString(data.BridgeMax[95]).c_str(), AnsiString(data.BridgeMax[96]).c_str(), AnsiString(data.BridgeMax[97]).c_str(), AnsiString(data.BridgeMax[98]).c_str(), AnsiString(data.BridgeMax[99]).c_str(),
+		AnsiString(data.BridgeMax[100]).c_str(), AnsiString(data.BridgeMax[101]).c_str(), AnsiString(data.BridgeMax[102]).c_str(), AnsiString(data.BridgeMax[103]).c_str(), AnsiString(data.BridgeMax[104]).c_str(), AnsiString(data.BridgeMax[105]).c_str(), AnsiString(data.BridgeMax[106]).c_str(), AnsiString(data.BridgeMax[107]).c_str(), AnsiString(data.BridgeMax[108]).c_str(), AnsiString(data.BridgeMax[109]).c_str(),
+		AnsiString(data.BridgeMax[110]).c_str(), AnsiString(data.BridgeMax[111]).c_str(), AnsiString(data.BridgeMax[112]).c_str(), AnsiString(data.BridgeMax[113]).c_str(), AnsiString(data.BridgeMax[114]).c_str(), AnsiString(data.BridgeMax[115]).c_str(), AnsiString(data.BridgeMax[116]).c_str(), AnsiString(data.BridgeMax[117]).c_str(), AnsiString(data.BridgeMax[118]).c_str(), AnsiString(data.BridgeMax[119]).c_str(),
+		AnsiString(data.BridgeMax[120]).c_str(), AnsiString(data.BridgeMax[121]).c_str(), AnsiString(data.BridgeMax[122]).c_str(), AnsiString(data.BridgeMax[123]).c_str(), AnsiString(data.BridgeMax[124]).c_str(), AnsiString(data.BridgeMax[125]).c_str(), AnsiString(data.BridgeMax[126]).c_str(), AnsiString(data.BridgeMax[127]).c_str(), AnsiString(data.BridgeMax[128]).c_str(), AnsiString(data.BridgeMax[129]).c_str(),
+		AnsiString(data.BridgeMax[130]).c_str(), AnsiString(data.BridgeMax[131]).c_str(), AnsiString(data.BridgeMax[132]).c_str(), AnsiString(data.BridgeMax[133]).c_str(), AnsiString(data.BridgeMax[134]).c_str(), AnsiString(data.BridgeMax[135]).c_str(), AnsiString(data.BridgeMax[136]).c_str(), AnsiString(data.BridgeMax[137]).c_str(), AnsiString(data.BridgeMax[138]).c_str(), AnsiString(data.BridgeMax[139]).c_str(),
+		AnsiString(data.BridgeMax[140]).c_str(), AnsiString(data.BridgeMax[141]).c_str(), AnsiString(data.BridgeMax[142]).c_str(), AnsiString(data.BridgeMax[143]).c_str(), AnsiString(data.BridgeMax[144]).c_str(), AnsiString(data.BridgeMax[145]).c_str(), AnsiString(data.BridgeMax[146]).c_str(), AnsiString(data.BridgeMax[147]).c_str(), AnsiString(data.BridgeMax[148]).c_str(), AnsiString(data.BridgeMax[149]).c_str(),
+		AnsiString(data.BridgeMax[150]).c_str(), AnsiString(data.BridgeMax[151]).c_str(), AnsiString(data.BridgeMax[152]).c_str(), AnsiString(data.BridgeMax[153]).c_str(), AnsiString(data.BridgeMax[154]).c_str(), AnsiString(data.BridgeMax[155]).c_str(), AnsiString(data.BridgeMax[156]).c_str(), AnsiString(data.BridgeMax[157]).c_str(), AnsiString(data.BridgeMax[158]).c_str(), AnsiString(data.BridgeMax[159]).c_str(),
+		AnsiString(data.BridgeMax[160]).c_str(), AnsiString(data.BridgeMax[161]).c_str(), AnsiString(data.BridgeMax[162]).c_str(), AnsiString(data.BridgeMax[163]).c_str(), AnsiString(data.BridgeMax[164]).c_str(), AnsiString(data.BridgeMax[165]).c_str(), AnsiString(data.BridgeMax[166]).c_str(), AnsiString(data.BridgeMax[167]).c_str(), AnsiString(data.BridgeMax[168]).c_str(), AnsiString(data.BridgeMax[169]).c_str(),
+		AnsiString(data.BridgeMax[170]).c_str(), AnsiString(data.BridgeMax[171]).c_str(), AnsiString(data.BridgeMax[172]).c_str(), AnsiString(data.BridgeMax[173]).c_str(), AnsiString(data.BridgeMax[174]).c_str(), AnsiString(data.BridgeMax[175]).c_str(), AnsiString(data.BridgeMax[176]).c_str(), AnsiString(data.BridgeMax[177]).c_str(), AnsiString(data.BridgeMax[178]).c_str(), AnsiString(data.BridgeMax[179]).c_str(),
+		AnsiString(data.BridgeMax[180]).c_str(), AnsiString(data.BridgeMax[181]).c_str(), AnsiString(data.BridgeMax[182]).c_str(), AnsiString(data.BridgeMax[183]).c_str(), AnsiString(data.BridgeMax[184]).c_str(), AnsiString(data.BridgeMax[185]).c_str(), AnsiString(data.BridgeMax[186]).c_str(), AnsiString(data.BridgeMax[187]).c_str(), AnsiString(data.BridgeMax[188]).c_str(), AnsiString(data.BridgeMax[189]).c_str(),
+		AnsiString(data.BridgeMax[190]).c_str(), AnsiString(data.BridgeMax[191]).c_str(), AnsiString(data.BridgeMax[192]).c_str(), AnsiString(data.BridgeMax[193]).c_str(), AnsiString(data.BridgeMax[194]).c_str(), AnsiString(data.BridgeMax[195]).c_str(), AnsiString(data.BridgeMax[196]).c_str(), AnsiString(data.BridgeMax[197]).c_str(), AnsiString(data.BridgeMax[198]).c_str(), AnsiString(data.BridgeMax[199]).c_str(), AnsiString(data.DataFlag).c_str());
+
+		SQLiteDB.execDML(Savebuf);
+	}
+	catch (CppSQLite3Exception& e)
+	{
+		MainForm->MachineHistoryData( "Record_AutoFeedBack Error" );
+	}
+
+	SQLiteDB.close();
+}
+
+//---------------------------------------------------------------------------
+bool  TFormAutoFBHistory::TraceDataVisionFileCopy()
+{
+	try
+	{
+		bool bChkRet = true;
+
+		String StrAddr = ExtractFilePath(Application->ExeName)+"\\Gem\\SSD\\XWork\\Recipe\\TRACE_DATA_VISION.dat";
+		String TargetAddr = ExtractFilePath(Application->ExeName)+"\\Gem\\SSD\\XWork\\Recipe\\TRACE_DATA_VISION_AFB.ini";
+
+		if(FileExists(TargetAddr))
+		{
+			DeleteFile(TargetAddr);
+		}
+
+		bChkRet= ::CopyFile(StrAddr.c_str(),TargetAddr.c_str(),false);
+
+		return bChkRet;
+	}
+	catch (...) {}
+}
+//---------------------------------------------------------------------------
+void  TFormAutoFBHistory::AutoFBDataSave()
+{
+	try
+	{
+		if(TraceDataVisionFileCopy() == true)
+		{
+			MainForm->MachineHistoryData("Start AutoFBDataSave!!");
+
+			AUTOFEEDBACK_DATA data;
+			g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_LOTINFO_CUR;
+			BOOL bRet = g_MMIComm->Send() &&  g_MMIComm->Recv();
+			if (bRet)
+			{
+				LOT_INFO info = g_MMIComm->m_mmiToSeq.buffer.lotInfo;
+				data.LotID = info.mergeLotID;
+			}
+			else
+				data.LotID = "";
+
+			int iACnt = dReadPkgData(pcbXCnt) * dReadPkgData(pcbYCnt);
+			int iArrayCnt = 0;
+
+			TIniFile *AutoFeedBackini = new TIniFile(ExtractFilePath(Application->ExeName)+"\\Gem\\SSD\\XWork\\Recipe\\TRACE_DATA_VISION_AFB.ini");
+			if(AutoFeedBackini != NULL)
+			{
+				String sJobName = AutoFeedBackini->ReadString("RECIPE","MODEL", "");
+				String sStageNo = AutoFeedBackini->ReadString("RECIPE","INDEX_NO", "");
+				String sPcbBridgeNo = AutoFeedBackini->ReadString("PCB1","PCB1_B_CNT", "");
+				String sLotID = AutoFeedBackini->ReadString("RECIPE","LOT_NO", "");
+				data.JobName = sJobName;
+				data.StageNo = StrToInt(sStageNo.SubString(2, 1));
+				data.BridgeCnt = StrToInt(sPcbBridgeNo);
+				data.LotID = sLotID;
+				data.DataFlag = 0;
+
+				for (int iInit = 0; iInit < 200; iInit++)
+				{
+					data.BridgeMax[iInit] = 0;
+				}
+
+				for(int iArray=0; iArray<iACnt;iArray++)
+				{
+					String sPcbBridgeCnt = AutoFeedBackini->ReadString("PCB"+IntToStr(iArray+1),"PCB"+IntToStr(iArray+1)+"_B_CNT", "");
+
+					for (int iBridgeCnt = 0; iBridgeCnt < StrToInt(sPcbBridgeCnt); iBridgeCnt++)
+					{
+						String sBridgeCnt = IntToStr(iBridgeCnt + 1);
+						if (sBridgeCnt.Length() == 1)
+							sBridgeCnt = "0" + sBridgeCnt;
+
+						String sBridgeMin = AutoFeedBackini->ReadString("PCB"+IntToStr(iArray+1),"PCB"+IntToStr(iArray+1)+"_B_MIN_"+sBridgeCnt, "");
+						String sBridgeMax = AutoFeedBackini->ReadString("PCB"+IntToStr(iArray+1),"PCB"+IntToStr(iArray+1)+"_B_MAX_"+sBridgeCnt, "");
+						double dBridgeMin = StrToFloat(sBridgeMin);
+						double dBridgeMax = StrToFloat(sBridgeMax);
+
+						dBridgeMin = ( dBridgeMin < 0 ) ? -dBridgeMin : dBridgeMin;
+						dBridgeMax = ( dBridgeMax < 0 ) ? -dBridgeMax : dBridgeMax;
+
+						double dMax = 0;
+
+						if (dBridgeMin < dBridgeMax)
+							dMax = StrToFloat(sBridgeMax);
+						else
+							dMax = StrToFloat(sBridgeMin);
+
+						data.BridgeMax[iArrayCnt] = dMax;
+						iArrayCnt++;
+					}
+				}
+				delete AutoFeedBackini;
+			}
+			else
+				delete AutoFeedBackini;
+
+			int nStageNo = data.StageNo+(qcCntStage1-1);
+			int nStageCnt = nReadCommunicationDM(nStageNo);
+
+			nWriteCommunicationDM(nStageCnt+1, nStageNo);
+			nWriteCommunicationDM(data.StageNo, qcStageNo);
+
+			Record_AutoFeedBack(data);
+		}
+		else
+		{
+			MessageDlg("TraceDataVisionFileCopy file copy failed.", mtError, TMsgDlgButtons() << mbOK, 0);
+		}
+	}
+	catch (...) {}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormAutoFBHistory::Button2Click(TObject *Sender)
+{
+	try
+	{
+		AnsiString strStartDateTime = DateTimeAutoFeedBackStart->DateTime.FormatString("yyyy-mm-dd hh:mm:ss");
+		AnsiString strEndDateTime = DateTimeAutoFeedBackEnd->DateTime.FormatString("yyyy-mm-dd hh:mm:ss");
+
+		CppSQLite3DB SQLiteDB;
+
+		AnsiString strAutoFeedBack = ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\AutoFeedBackHistory.DB";
+		SQLiteDB.open(strAutoFeedBack.c_str());
+
+		AnsiString sBridgeName = "BridgeMax_" + eBridgeNo->Text;
+
+		char Almtbuf[1000000] = {0,};
+		sprintf(Almtbuf,"SELECT 													"
+		"(SELECT AVG(%s) 													"
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 0) AS subquery1) AS avg_1_to_10,                     "
+		"(SELECT AVG(%s)                                                  "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 1) AS subquery2) AS avg_2_to_11,                     "
+		"(SELECT AVG(%s)                                                  "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 2) AS subquery3) AS avg_3_to_12,                     "
+		"(SELECT AVG(%s)                                                  "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 3) AS subquery4) AS avg_4_to_13,                     "
+		"(SELECT AVG(%s)                                                  "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 4) AS subquery5) AS avg_5_to_14,                     "
+		" (SELECT AVG(%s)                                                	"
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 5) AS subquery6) AS avg_6_to_15,                     "
+		" (SELECT AVG(%s)                                                 "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 6) AS subquery7) AS avg_7_to_16,                     "
+		" (SELECT AVG(%s)                                                 "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 7) AS subquery8) AS avg_8_to_17,                     "
+		" (SELECT AVG(%s)                                                 "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"  		LIMIT 10 OFFSET 8) AS subquery9) AS avg_9_to_18,                    "
+		" (SELECT AVG(%s)                                                 "
+		" FROM (SELECT %s                                                 "
+		"	   FROM AutoFeedBackHistory                                             "
+		"	   WHERE StageNo = '%s'													"
+		"	   ORDER BY kIndex                                                      "
+		"	   LIMIT 10 OFFSET 9) AS subquery10) AS avg_10_to_19,                   "
+		"(                                                                          "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	   	   WHERE StageNo = '%s'												"
+		" 		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 0) AS subquery1) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 1) AS subquery2) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 2) AS subquery3) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 3) AS subquery4) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"	   	   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 4) AS subquery5) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                      		"
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 5) AS subquery6) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 6) AS subquery7) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 7) AS subquery8) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 8) AS subquery9) +                               "
+		"	(SELECT AVG(%s)                                               "
+		"	 FROM (SELECT %s                                              "
+		"		   FROM AutoFeedBackHistory                                         "
+		"	  	   WHERE StageNo = '%s'							 					"
+		"		   ORDER BY kIndex                                                  "
+		"		   LIMIT 10 OFFSET 9) AS subquery10)                                "
+		"	) AS total_average;;", sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text,
+		sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text, sBridgeName.c_str(), sBridgeName.c_str(), eStageNo->Text);
+		CppSQLite3Table AlarmLogtable = SQLiteDB.getTable(Almtbuf);
+		SQLiteDB.close();
+
+		if(AlarmLogtable.numRows() < 1)
+		{
+			AutoFeedBackResultGrid->RowCount =  2;
+			AutoFeedBackResultGrid->Cells[0][1] = "1";
+			for(int col=1; col < AutoFeedBackResultGrid->ColCount; col++)
+			{
+				AutoFeedBackResultGrid->Cells[col][1] = "";
+			}
+		}
+		else
+		{
+			AutoFeedBackResultGrid->RowCount =  AlarmLogtable.numRows() + 1;
+
+			for (int row = 0; row < AlarmLogtable.numRows(); row++)
+			{
+				AlarmLogtable.setRow(row);
+				AutoFeedBackResultGrid->Cells[0][row+1] = IntToStr(row+1);
+				for(int col=1; col < AutoFeedBackResultGrid->ColCount; col++)
+				{
+					AutoFeedBackResultGrid->Cells[col][row+1] = (String)AlarmLogtable.fieldValue(col-1);
+				}
+			}
+
+			String sResultTotal = AutoFeedBackResultGrid->Cells[11][1];
+			double dResultTotal = StrToFloat(sResultTotal)*0.1;
+
+			AutoFeedBackResultGrid->Cells[11][1] = dResultTotal;
+		}
+	}
+	catch (...) {}
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFormAutoFBHistory::btn_dbsetClick(TObject *Sender)
+{
+	CppSQLite3DB SQLiteDB;
+
+	AnsiString strAutoFeedBack = ExtractFilePath(Application->ExeName) + "Ini\\system\\DB\\AutoFeedBackHistory.DB";
+	SQLiteDB.open(strAutoFeedBack.c_str());
+
+	CppSQLite3Table table = SQLiteDB.getTable("PRAGMA journal_mode;");
+	if (strcmp(table.fieldValue(0), "wal") != 0)
+	{
+		SQLiteDB.execDML("PRAGMA journal_mode=WAL;");
+	}
+
+	SQLiteDB.close();
+}
+//---------------------------------------------------------------------------
+

@@ -1,0 +1,108 @@
+//---------------------------------------------------------------------------
+
+#ifndef FrmStaubliControlScrnH
+#define FrmStaubliControlScrnH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include "CurvyControls.hpp"
+#include <Vcl.Grids.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Buttons.hpp>
+#include <Vcl.ComCtrls.hpp>
+//---------------------------------------------------------------------------
+class TFrmStaubliControl : public TForm
+{
+__published:	// IDE-managed Components
+	TCurvyPanel *CurvyPanel1;
+	TTimer *ModbusTimer;
+	TCurvyPanel *CurvyPanel4;
+	TPanel *PanelModBusOpen;
+	TPanel *Panel1;
+	TStringGrid *ModBusGrid;
+	TCurvyPanel *CurvyPanel3;
+	TSpeedButton *BtnModbusSave;
+	TSpeedButton *BtnModbusInput;
+	TLabel *Label2;
+	TSpeedButton *BtnInputMotionData;
+	TSpeedButton *BtnSaveMotionData;
+	TLabel *Label1;
+	TCurvyPanel *CurvyPanel2;
+	TCurvyPanel *CurvyPanel5;
+	TLabel *Label3;
+	TLabel *Label4;
+	TPanel *ModbusCoil1;
+	TPanel *ModbusCoil2;
+	TPanel *ModbusCoil4;
+	TPanel *ModbusCoil3;
+	TPanel *ModbusCoil7;
+	TPanel *ModbusCoil8;
+	TPanel *ModbusCoil5;
+	TPanel *ModbusCoil6;
+	TPanel *ModbusInput1;
+	TPanel *ModbusInput2;
+	TPanel *ModbusInput4;
+	TPanel *ModbusInput3;
+	TPanel *ModbusInput5;
+	TPanel *ModbusInput6;
+	TPanel *ModbusInput7;
+	TPanel *ModbusInput8;
+	TPanel *ModbusInput9;
+	TPanel *ModbusInput10;
+	TLabel *LabelModBusErrCode;
+	TSpeedButton *BtnModBusOpen;
+	TSpeedButton *BtnModBusClose;
+	TPageControl *PageControl1;
+	TTabSheet *TabSheet1;
+	TTabSheet *TabSheet2;
+	TStringGrid *StaubliGrid;
+	TStringGrid *StaubliGridSpeed;
+	TSpeedButton *SpeedButton1;
+	void __fastcall BtnInputMotionDataClick(TObject *Sender);
+	void __fastcall BtnSaveMotionDataClick(TObject *Sender);
+	void __fastcall BtnModbusInputClick(TObject *Sender);
+	void __fastcall BtnModbusSaveClick(TObject *Sender);
+	void __fastcall ModbusTimerTimer(TObject *Sender);
+	void __fastcall ModbusCoil1DblClick(TObject *Sender);
+	void __fastcall StaubliGridDrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
+          TGridDrawState State);
+	void __fastcall ModBusGridDrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
+          TGridDrawState State);
+	void __fastcall BtnModBusOpenClick(TObject *Sender);
+	void __fastcall StaubliGridSpeedDrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
+          TGridDrawState State);
+	void __fastcall SpeedButton1Click(TObject *Sender);
+
+private:	// User declarations
+
+	int nRegister1Val[16];
+    int nRegister2Val[16];
+	int nRegister3Val[16];
+	int nRegister4Val[16];
+
+	void Staubli_DataRead();
+    void Staubli_DataSave();
+	void StaubliSpeed_DataRead();
+    void StaubliSpeed_DataSave();
+    void ModbusDataRead();
+	void ModbusDataSave();
+
+    void ModbusIndexNameRead();
+    void ModbusIndexNameSave();
+
+public:		// User declarations
+
+    void _Staubli_ReverseSave();
+	void Staubli_Initilize();
+	void StaubliSpeed_Initilize();
+	__fastcall TFrmStaubliControl(TComponent* Owner);
+
+	int selectCol;
+	int selectRow;
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TFrmStaubliControl *FrmStaubliControl;
+//---------------------------------------------------------------------------
+#endif

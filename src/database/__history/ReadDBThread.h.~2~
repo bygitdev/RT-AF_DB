@@ -1,0 +1,9 @@
+class TReadDBThread : public TThread
+{
+private:
+	String FDBPath, FStartTime, FEndTime;
+protected:
+	void __fastcall Execute();
+public:
+	__fastcall TReadDBThread(String dbPath, String start, String end);
+};

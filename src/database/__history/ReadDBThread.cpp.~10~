@@ -1,0 +1,91 @@
+﻿#include <vcl.h>
+#pragma hdrstop
+
+#include "ReadDBThread.h"
+#include "FrmAutoFBHistory.h"
+#include "FrmPadChangeHistory.h"
+#include "MainFormScrn.h"
+#include "CppSQLite3.h"
+
+__fastcall TReadDBThread::TReadDBThread(String dbPath, String start, String end, String tableName, String dateColumnName)
+	: TThread(true), FDBPath(dbPath), FStartTime(start), FEndTime(end), FTableName(tableName), FDateColumnName(dateColumnName)
+{
+	FreeOnTerminate = true;
+}
+
+void __fastcall TReadDBThread::Execute()
+{
+	try
+	{
+		CppSQLite3DB db;
+		db.open(AnsiString(FDBPath).c_str());
+
+		char sql[512];
+		sprintf(sql,
+			"SELECT * FROM %s WHERE %s > ('%s') AND %s < ('%s');",
+			AnsiString(FTableName).c_str(),
+			AnsiString(FDateColumnName).c_str(),
+			AnsiString(FStartTime).c_str(),
+            AnsiString(FDateColumnName).c_str(),
+			AnsiString(FEndTime).c_str());
+
+		FTable = db.getTable(sql);
+		db.close();
+
+		Synchronize(UpdateUI);
+	}
+	catch (Exception& e)
+	{
+		MainForm->MachineHistoryData("SQLite error : " + e.Message);
+	}
+}
+
+void __fastcall TReadDBThread::UpdateUI()
+{
+	if (FTableName == "AutoFeedBackHistory")
+	{
+		TFormAutoFBHistory* form = static_cast<TFormAutoFBHistory*>(FTargetForm);
+
+		if(FTable.numRows() < 1)
+		{
+			form->AutoFeedBackDateTimeGrid->RowCount = 2;
+			form->AutoFeedBackDateTimeGrid->Cells[0][1] = "1";
+			for(int col = 1; col < form->AutoFeedBackDateTimeGrid->ColCount; col++)
+				form->AutoFeedBackDateTimeGrid->Cells[col][1] = "";
+		}
+		else
+		{
+			form->AutoFeedBackDateTimeGrid->RowCount = FTable.numRows() + 1;
+			for (int row = 0; row < FTable.numRows(); row++)
+			{
+				FTable.setRow(row);
+				form->AutoFeedBackDateTimeGrid->Cells[0][row+1] = IntToStr(row+1);
+				for(int col = 1; col < form->AutoFeedBackDateTimeGrid->ColCount; col++)
+					form->AutoFeedBackDateTimeGrid->Cells[col][row+1] = FTable.fieldValue(col);
+			}
+		}
+	}
+	else if (FTableName == "PadChangeHistory")
+	{
+		TFormPadChangeHistory* form = static_cast<TFormPadChangeHistory*>(FTargetForm);
+
+		if(FTable.numRows() < 1)
+		{
+			form->PadChangeTimeGrid->RowCount = 2;
+			form->PadChangeTimeGrid->Cells[0][1] = "1";
+			for(int col = 1; col < form->PadChangeTimeGrid->ColCount; col++)
+				form->PadChangeTimeGrid->Cells[col][1] = "";
+		}
+		else
+		{
+			form->PadChangeTimeGrid->RowCount = FTable.numRows() + 1;
+			for (int row = 0; row < FTable.numRows(); row++)
+			{
+				FTable.setRow(row);
+				form->PadChangeTimeGrid->Cells[0][row+1] = IntToStr(row+1);
+				for(int col = 1; col < form->PadChangeTimeGrid->ColCount; col++)
+					form->PadChangeTimeGrid->Cells[col][row+1] = FTable.fieldValue(col);
+			}
+		}
+	}
+}

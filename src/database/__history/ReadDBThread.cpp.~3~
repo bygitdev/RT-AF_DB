@@ -1,0 +1,54 @@
+#include <vcl.h>
+#pragma hdrstop
+#include "ReadDBThread.h"
+#include "CppSQLite3.h"
+#include "MainFormUnit.h" // 메인 폼 접근 위해
+
+__fastcall TReadDBThread::TReadDBThread(String dbPath, String start, String end)
+    : TThread(true), FDBPath(dbPath), FStartTime(start), FEndTime(end)
+{
+    FreeOnTerminate = true;
+}
+
+void __fastcall TReadDBThread::Execute()
+{
+        CppSQLite3DB SQLiteDB;
+
+        try {
+            SQLiteDB.open(FDBPath.c_str());
+
+            char Almtbuf[512] = {0,};
+            sprintf(Almtbuf,
+                "SELECT * FROM AutoFeedBackHistory WHERE QcTime > ('%s') AND QcTime < ('%s');",
+                FStartTime.c_str(), FEndTime.c_str());
+
+            CppSQLite3Table AlarmLogtable = SQLiteDB.getTable(Almtbuf);
+            SQLiteDB.close();
+
+            // UI 갱신은 Synchronize 안에서 처리
+            Synchronize([&]() {
+                TFormAutoFBHistory *form = (TFormAutoFBHistory*)Application->MainForm;
+
+                if(AlarmLogtable.numRows() < 1)
+                {
+                    form->AutoFeedBackDateTimeGrid->RowCount = 2;
+                    form->AutoFeedBackDateTimeGrid->Cells[0][1] = "1";
+                    for(int col=1; col < form->AutoFeedBackDateTimeGrid->ColCount; col++)
+                        form->AutoFeedBackDateTimeGrid->Cells[col][1] = "";
+                }
+                else
+                {
+                    form->AutoFeedBackDateTimeGrid->RowCount = AlarmLogtable.numRows() + 1;
+                    for (int row = 0; row < AlarmLogtable.numRows(); row++) {
+                        AlarmLogtable.setRow(row);
+                        form->AutoFeedBackDateTimeGrid->Cells[0][row+1] = IntToStr(row+1);
+                        for(int col=1; col < form->AutoFeedBackDateTimeGrid->ColCount; col++)
+							form->AutoFeedBackDateTimeGrid->Cells[col][row+1] = AlarmLogtable.fieldValue(col);
+                    }
+                }
+            });
+        }
+        catch (...) {
+            // 에러 핸들링 필요시 작성
+		}
+}

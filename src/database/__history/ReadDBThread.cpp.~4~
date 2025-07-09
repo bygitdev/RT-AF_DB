@@ -1,0 +1,55 @@
+﻿#include <vcl.h>
+#pragma hdrstop
+
+#include "ReadDBThread.h"
+#include "FrmAutoFBHistory.h"
+#include "MainFormScrn.h"  // TFormAutoFBHistory 정의된 헤더 포함
+
+__fastcall TReadDBThread::TReadDBThread(String dbPath, String start, String end)
+	: TThread(true), FDBPath(dbPath), FStartTime(start), FEndTime(end)
+{
+	FreeOnTerminate = true;
+}
+
+void __fastcall TReadDBThread::Execute()
+{
+    CppSQLite3DB SQLiteDB;
+
+    try {
+        SQLiteDB.open(AnsiString(FDBPath).c_str());
+
+        char Almtbuf[512] = {0,};
+		sprintf(Almtbuf,
+			"SELECT * FROM AutoFeedBackHistory WHERE QcTime > ('%s') AND QcTime < ('%s');",
+            AnsiString(FStartTime).c_str(), AnsiString(FEndTime).c_str());
+
+        FTable = SQLiteDB.getTable(Almtbuf);
+        SQLiteDB.close();
+
+        Synchronize(UpdateUI);  // ✅ 이 부분이 중요!
+    }
+    catch (...) {
+        // 예외 발생 시 처리 (로그 등)
+    }
+}
+
+void __fastcall TReadDBThread::UpdateUI()
+{
+	if(FTable.numRows() < 1)
+	{
+		FormAutoFBHistory->AutoFeedBackDateTimeGrid->RowCount = 2;
+		FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[0][1] = "1";
+		for(int col = 1; col < FormAutoFBHistory->AutoFeedBackDateTimeGrid->ColCount; col++)
+			FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[col][1] = "";
+	}
+	else
+	{
+		FormAutoFBHistory->AutoFeedBackDateTimeGrid->RowCount = FTable.numRows() + 1;
+		for (int row = 0; row < FTable.numRows(); row++) {
+			FTable.setRow(row);
+			FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[0][row+1] = IntToStr(row+1);
+			for(int col = 1; col < FormAutoFBHistory->AutoFeedBackDateTimeGrid->ColCount; col++)
+				FormAutoFBHistory->AutoFeedBackDateTimeGrid->Cells[col][row+1] = FTable.fieldValue(col);
+		}
+	}
+}

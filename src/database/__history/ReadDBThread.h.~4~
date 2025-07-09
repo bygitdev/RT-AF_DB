@@ -1,0 +1,24 @@
+#ifndef ReadDBThreadH
+#define ReadDBThreadH
+
+#include <System.Classes.hpp>
+#include "CppSQLite3.h"
+
+class TReadDBThread : public TThread
+{
+private:
+    String FDBPath;
+    String FStartTime;
+	String FEndTime;
+    CppSQLite3Table FTable;
+
+	void __fastcall UpdateUI();
+
+protected:
+    void __fastcall Execute();
+
+public:
+    __fastcall TReadDBThread(String dbPath, String start, String end);
+};
+
+#endif

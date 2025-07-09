@@ -1,0 +1,762 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "ParameterBaseFormScrn.h"
+#include "FormNumberKeyPadScrn.h"
+//---------------------------------------------------------------------------
+#include "BaseComm.h"
+#include "include.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "CurvyControls"
+#pragma resource "*.dfm"
+TParameterBaseForm *ParameterBaseForm;
+//---------------------------------------------------------------------------
+__fastcall TParameterBaseForm::TParameterBaseForm(TComponent* Owner)
+	: TForm(Owner)
+{
+    nDMParamGrid->Cells[0][0] = "NO";
+	nDMParamGrid->Cells[1][0] = "NAME";
+    nDMParamGrid->Cells[2][0] = "SET";
+
+    dDMParamGrid->Cells[0][0] = "NO";
+    dDMParamGrid->Cells[1][0] = "NAME";
+    dDMParamGrid->Cells[2][0] = "SET";
+
+    pDMParamGrid->Cells[0][0] = "NO";
+    pDMParamGrid->Cells[1][0] = "NAME";
+    pDMParamGrid->Cells[2][0] = "SET";
+    pDMParamGrid->Cells[3][0] = "ACT";
+}
+//---------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::ParameterScreen_Initialize()
+{
+    nDMParamGrid->Options>>goEditing;
+    nDMParamGrid->Options<<goRowSelect;
+
+    dDMParamGrid->Options>>goEditing;
+    dDMParamGrid->Options<<goRowSelect;
+
+    pDMParamGrid->Options>>goEditing;
+    pDMParamGrid->Options<<goRowSelect;
+
+	BtnInputInt->Enabled = true;
+    BtnSaveInt->Enabled = false;
+
+    BtnInputDouble->Enabled = true;
+    BtnSaveDouble->Enabled = false;
+
+    BtnInputPkg->Enabled = true;
+    BtnSavePkg->Enabled = false;
+
+	this->IntParam_name_read();
+    this->Int_value_read();
+
+	this->DoubleParam_name_read();
+    this->Double_value_read();
+
+	this->PkgParam_name_read();
+    this->Pkg_value_read();
+
+}
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::BtnInputIntClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	BtnInputInt->Enabled = false;
+    BtnSaveInt->Enabled = true;
+	nDMParamGrid->Options<<goEditing;
+    nDMParamGrid->Options>>goRowSelect;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::BtnSaveIntClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	BtnInputInt->Enabled = true;
+	BtnSaveInt->Enabled = false;
+
+    IntParam_name_save();
+    Int_value_write();
+
+	IntParam_name_read();
+    Int_value_read();
+
+	nDMParamGrid->Options>>goEditing;
+	nDMParamGrid->Options<<goRowSelect;
+}
+//---------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::BtnNDMReadClick(TObject *Sender)
+{
+	IntParam_name_read();
+	Int_value_read();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TParameterBaseForm::BtnParam1IndexMoveM10Click(TObject *Sender)
+{
+	if(nDMParamGrid->TopRow >= 20)
+	{
+		nDMParamGrid->TopRow = nDMParamGrid->TopRow - 20;
+	}
+	else
+	{
+		nDMParamGrid->TopRow = 1;
+	}
+    EditNdmIndex->Text = IntToStr(nDMParamGrid->TopRow);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::BtnParam1IndexMoveP10Click(TObject *Sender)
+{
+	if(nDMParamGrid->TopRow <= 1000)
+	{
+    	nDMParamGrid->TopRow += 20;
+    }
+    else
+    {
+    	nDMParamGrid->TopRow = 999;
+    }
+
+    EditNdmIndex->Text = IntToStr(nDMParamGrid->TopRow);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::EditNdmIndexClick(TObject *Sender)
+{
+    if(EditNdmIndex->Text == "" || EditNdmIndex->Text == "0"  )
+    {
+        EditNdmIndex->Text = "1";
+    }
+    nDMParamGrid->TopRow = EditNdmIndex->Text.ToInt();
+}
+//---------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::EditDdmIndexClick(TObject *Sender)
+{
+
+    if(EditDdmIndex->Text == ""|| EditDdmIndex->Text == "0")
+    {
+        EditDdmIndex->Text = "1";
+    }
+    dDMParamGrid->TopRow = EditDdmIndex->Text.ToInt();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::EditPdmIndexClick(TObject *Sender)
+{
+
+    if(EditPdmIndex->Text == ""|| EditPdmIndex->Text == "0")
+    {
+    	EditPdmIndex->Text = "1";
+	}
+    pDMParamGrid->TopRow = EditPdmIndex->Text.ToInt();
+}
+//---------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::EditNdmIndexKeyUp(TObject *Sender, WORD &Key,
+          TShiftState Shift)
+{
+	if(Key == vkReturn)
+    {
+        nDMParamGrid->TopRow = EditNdmIndex->Text.ToInt();
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::EditDdmIndexKeyUp(TObject *Sender, WORD &Key,
+          TShiftState Shift)
+{
+	if(Key == vkReturn)
+    {
+        dDMParamGrid->TopRow = EditDdmIndex->Text.ToInt();
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::EditPdmIndexKeyUp(TObject *Sender, WORD &Key,
+          TShiftState Shift)
+{
+	if(Key == vkReturn)
+    {
+        pDMParamGrid->TopRow = EditPdmIndex->Text.ToInt();
+    }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TParameterBaseForm::BtnNdmKeyPadClick(TObject *Sender)
+{
+	FormNumberKeyPad->ShowModal();
+
+	int nDataIndex = dynamic_cast<TButton *>(Sender)->Tag;
+
+    if(nDataIndex == 1)
+    {
+        EditNdmIndex->Text =  FormNumberKeyPad->GetKeyNumber();
+        if(EditNdmIndex->Text == "")
+        {
+            EditNdmIndex->Text = "0";
+        }
+        nDMParamGrid->TopRow = EditNdmIndex->Text.ToInt();
+    }
+    else if(nDataIndex == 2)
+    {
+        EditDdmIndex->Text =  FormNumberKeyPad->GetKeyNumber();
+        if(EditDdmIndex->Text == "")
+        {
+            EditDdmIndex->Text = "0";
+        }
+        dDMParamGrid->TopRow = EditDdmIndex->Text.ToInt();
+    }
+    else
+    {
+        EditPdmIndex->Text =  FormNumberKeyPad->GetKeyNumber();
+        if(EditPdmIndex->Text == "")
+        {
+            EditPdmIndex->Text = "0";
+        }
+        pDMParamGrid->TopRow = EditPdmIndex->Text.ToInt();
+    }
+}
+//---------------------------------------------------------------------------
+
+
+bool    TParameterBaseForm::IntParam_name_read()
+{
+    TIniFile *NParamini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\NParam.ini");
+    if(NParamini != NULL)
+	{
+        for(int i=0; i<nDMParamGrid->RowCount;i++)
+        {
+            nDMParamGrid->Cells[0][i+1] = IntToStr(i);
+            nDMParamGrid->Cells[1][i+1] = NParamini->ReadString("NPARM","NAME"+IntToStr(i),"Name"+IntToStr(i));
+        }
+     	delete NParamini;
+        return true;
+
+    }
+    else
+    {
+    	delete NParamini;
+        return false;
+    }
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::IntParam_name_save()
+{
+    TIniFile *NParamini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\NParam.ini");
+    if(NParamini != NULL)
+    {
+        for(int i=0; i<nDMParamGrid->RowCount;i++)
+        {
+            NParamini->WriteString("NPARM","NAME"+IntToStr(i),nDMParamGrid->Cells[1][i+1]);
+        }
+        delete NParamini;
+        return true;
+
+    }
+    else
+    {
+    	delete NParamini;
+        return false;
+    }
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::Int_value_read()
+{
+	int nRtnVal = 0;
+    g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_NDM;
+    g_MMIComm->m_mmiToSeq.buffer.ndm.nStart = 0;
+    g_MMIComm->m_mmiToSeq.buffer.ndm.nEnd = 999;
+    if(true == g_MMIComm->Send() &&  true == g_MMIComm->Recv())
+    {
+        for(int i=0; i<nDMParamGrid->RowCount; i++)
+        {
+            nRtnVal = g_MMIComm->m_mmiToSeq.buffer.ndm.nVal[i];
+            nDMParamGrid->Cells[2][i+1]= IntToStr(nRtnVal);
+        }
+        return true;
+    }
+    else
+    {
+    	return false;
+    }
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::Int_value_write()
+{
+	String RcpName = MainForm->PanelRecipeName->Caption;
+	String GrpName = MainForm->PanelGroupName->Caption;
+
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_NDM;
+	g_MMIComm->m_mmiToSeq.buffer.ndm.nStart = 0;
+    g_MMIComm->m_mmiToSeq.buffer.ndm.nEnd  = nDMParamGrid->RowCount;
+
+	if(true == g_MMIComm->Send() && true == g_MMIComm->Recv())
+	{
+		int *NdmBeforeData = new int[1024];
+
+		for(int i=0; i<nDMParamGrid->RowCount;i++)
+		{
+			if(nDMParamGrid->Cells[ 2 ][ i+1 ]  == "")
+			{
+				nDMParamGrid->Cells[ 2 ][ i+1 ]  = "0";
+			}
+
+			NdmBeforeData[i] = g_MMIComm->m_mmiToSeq.buffer.ndm.nVal[i];
+			g_MMIComm->m_mmiToSeq.buffer.ndm.nVal[i] = StrToInt( nDMParamGrid->Cells[ 2 ][ i+1 ] );
+
+			int Ndmvalue = g_MMIComm->m_mmiToSeq.buffer.ndm.nVal[i];
+			if(nDMParamGrid->Cells[ 1 ][ i+1 ]  != "")
+			{
+				if(NdmBeforeData[i] != IntToStr(Ndmvalue))
+				{
+						MainForm->MachineHistoryData(GrpName + " " + RcpName + " [NDM "  + nDMParamGrid->Cells[ 0 ][ i+1 ] + "] " +
+						nDMParamGrid->Cells[1][i+1] + " : " + NdmBeforeData[i] +" -> " + IntToStr(Ndmvalue));
+				}
+			}
+		}
+		delete NdmBeforeData;
+	}
+
+    g_MMIComm->m_mmiToSeq.nCmd = CMD_WR_NDM;
+
+    if(g_MMIComm->Send() && g_MMIComm->Recv())
+	{
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::BtnInputDoubleClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+    BtnInputDouble->Enabled = false;
+	BtnSaveDouble->Enabled = true;
+
+    dDMParamGrid->Options<<goEditing;
+    dDMParamGrid->Options>>goRowSelect;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::BtnSaveDoubleClick(TObject *Sender)
+{
+    if(!CheckCanDataAccess()) return;
+
+	BtnInputDouble->Enabled = true;
+	BtnSaveDouble->Enabled = false;
+
+    DoubleParam_name_save();
+    Double_value_write();
+    Double_value_read();
+	DoubleParam_name_read();
+
+	dDMParamGrid->Options>>goEditing;
+	dDMParamGrid->Options<<goRowSelect;
+}
+//---------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::BtnDDMReadClick(TObject *Sender)
+{
+	Double_value_read();
+	DoubleParam_name_read();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TParameterBaseForm::BtnParam2IndexMoveM10Click(TObject *Sender)
+{
+	if(dDMParamGrid->TopRow >= 20)
+	{
+		dDMParamGrid->TopRow = dDMParamGrid->TopRow - 20;
+	}
+	else
+	{
+		dDMParamGrid->TopRow = 1;
+	}
+    EditDdmIndex->Text = IntToStr(dDMParamGrid->TopRow);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::BtnParam2IndexMoveP10Click(TObject *Sender)
+{
+	if(dDMParamGrid->TopRow <= 1000)
+    {
+    	dDMParamGrid->TopRow += 20;
+    }
+    else
+    {
+    	dDMParamGrid->TopRow = 999;
+    }
+    EditDdmIndex->Text = IntToStr(dDMParamGrid->TopRow);
+}
+//---------------------------------------------------------------------------
+bool    TParameterBaseForm::DoubleParam_name_read()
+{
+    TIniFile *DParamini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\DParam.ini");
+    if(DParamini != NULL)
+    {
+        for(int i=0; i<dDMParamGrid->RowCount;i++)
+		{
+            dDMParamGrid->Cells[0][i+1] =  IntToStr(i);
+            dDMParamGrid->Cells[1][i+1] = DParamini->ReadString("DPARM","NAME"+IntToStr(i),"Name"+IntToStr(i));
+        }
+        delete DParamini;
+        return true;
+
+    }
+    else
+    {
+    	delete DParamini;
+        return false;
+    }
+	delete DParamini;
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::DoubleParam_name_save()
+{
+    TIniFile *DParamini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\DParam.ini");
+    if(DParamini != NULL)
+    {
+        for(int i=0; i<dDMParamGrid->RowCount;i++)
+        {
+            DParamini->WriteString("DPARM","NAME"+IntToStr(i),dDMParamGrid->Cells[1][i+1]);
+        }
+        delete DParamini;
+        return true;
+
+    }
+    else
+    {
+        delete DParamini;
+        return false;
+    }
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::Double_value_read()
+{
+	double dRtnVal = 0;
+    g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_DDM;
+    g_MMIComm->m_mmiToSeq.buffer.ddm.nStart = 0;
+    g_MMIComm->m_mmiToSeq.buffer.ddm.nEnd = 999;
+    if(true == g_MMIComm->Send() && true == g_MMIComm->Recv())
+    {
+    	for(int i=0; i<dDMParamGrid->RowCount; i++)
+    	{
+        	dRtnVal = g_MMIComm->m_mmiToSeq.buffer.ddm.dVal[i];
+        	dDMParamGrid->Cells[2][i+1]= FloatToStr(dRtnVal);
+        }
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::Double_value_write()
+{
+	String RcpName = MainForm->PanelRecipeName->Caption;
+	String GrpName = MainForm->PanelGroupName->Caption;
+
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_DDM;
+	g_MMIComm->m_mmiToSeq.buffer.ddm.nStart = 0;
+	g_MMIComm->m_mmiToSeq.buffer.ddm.nEnd  = dDMParamGrid->RowCount;
+
+
+	if(true == g_MMIComm->Send() && true == g_MMIComm->Recv())
+	{
+		double *DdmBeforeData = new double[1024];
+
+		for(int i=0; i<dDMParamGrid->RowCount;i++)
+		{
+			if(dDMParamGrid->Cells[ 2 ][ i+1 ]  == "")
+			{
+				dDMParamGrid->Cells[ 2 ][ i+1 ]  = "0";
+			}
+
+			int DdmNo = StrToInt(dDMParamGrid->Cells[ 0 ][ i+1 ]);
+			DdmBeforeData[i] = g_MMIComm->m_mmiToSeq.buffer.ddm.dVal[i];
+			g_MMIComm->m_mmiToSeq.buffer.ddm.dVal[i] = StrToFloat( dDMParamGrid->Cells[ 2 ][ i+1 ] );
+
+			double Ddmvalue = g_MMIComm->m_mmiToSeq.buffer.ddm.dVal[i];
+			if(dDMParamGrid->Cells[ 1 ][ i+1 ]  != "")// Name이 있는것만 본다.
+			{
+				if(DdmBeforeData[i] != Ddmvalue)
+				{
+					if(DdmNo == 0 ||  DdmNo == 1 || DdmNo == 2 || DdmNo == 3 || DdmNo == 4 || DdmNo == 5 || DdmNo == 6 || DdmNo == 7 ||
+					   DdmNo == 8 || DdmNo == 9 || DdmNo == 10 || DdmNo == 11 || DdmNo == 12 || DdmNo == 15 || DdmNo == 16 || DdmNo == 17 || DdmNo == 30 ||
+					   DdmNo == 31 || DdmNo == 32  || DdmNo == 33 || DdmNo == 34 || DdmNo == 35 || DdmNo == 100 || DdmNo == 101 || DdmNo == 102 || DdmNo == 103 ||
+					   DdmNo == 104 || DdmNo == 105 || DdmNo == 106 || DdmNo == 107 || DdmNo == 108 || DdmNo == 109 || DdmNo == 110 || DdmNo == 930 )
+					   {
+
+					   }
+					   else
+					   {
+							MainForm->MachineHistoryData(GrpName + " " + RcpName + " [DDM "  + dDMParamGrid->Cells[ 0 ][ i+1 ] + "] " +
+							dDMParamGrid->Cells[1][i+1] + " : " + FloatToStrF(DdmBeforeData[i],ffFixed,10,3) +" -> " + FloatToStrF(Ddmvalue,ffFixed,10,3));
+					   }
+				}
+			}
+		}
+		delete DdmBeforeData;
+	}
+
+    g_MMIComm->m_mmiToSeq.nCmd = CMD_WR_DDM;
+
+    if(g_MMIComm->Send() && g_MMIComm->Recv())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::BtnInputPkgClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+    BtnInputPkg->Enabled = false;
+	BtnSavePkg->Enabled = true;
+	BtnReverseSavePkg->Enabled = true;
+
+    pDMParamGrid->Options<<goEditing;
+    pDMParamGrid->Options>>goRowSelect;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::BtnSavePkgClick(TObject *Sender)
+{
+	if(!CheckCanDataAccess()) return;
+
+	int nVal = dynamic_cast<TSpeedButton *>(Sender)->Tag;
+
+    BtnInputPkg->Enabled = true;
+    BtnSavePkg->Enabled = false;
+	BtnReverseSavePkg->Enabled = false;
+
+    if(nVal == 1)   //normal save process
+    {
+		Pkg_value_write();
+        PkgParam_name_save(false);
+        PkgParam_name_read();
+        Pkg_value_read();
+    }
+    else           //reverse save process
+    {
+		Pkg_value_read();
+		PkgParam_name_save(true);
+		PkgParam_name_read();
+	}
+
+	pDMParamGrid->Options>>goEditing;
+	pDMParamGrid->Options<<goRowSelect;
+}
+//---------------------------------------------------------------------------
+void __fastcall TParameterBaseForm::BtnPDMReadClick(TObject *Sender)
+{
+	PkgParam_name_read();
+	Pkg_value_read();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TParameterBaseForm::BtnParam3IndexMoveM10Click(TObject *Sender)
+{
+	if(pDMParamGrid->TopRow >= 20)
+	{
+		pDMParamGrid->TopRow = pDMParamGrid->TopRow - 20;
+	}
+	else
+	{
+		pDMParamGrid->TopRow = 1;
+	}
+    EditPdmIndex->Text = IntToStr(pDMParamGrid->TopRow);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TParameterBaseForm::BtnParam3IndexMoveP10Click(TObject *Sender)
+{
+	if(pDMParamGrid->TopRow <= 1000)
+	{
+    	pDMParamGrid->TopRow += 20;
+    }
+    else
+    {
+    	pDMParamGrid->TopRow = 999;
+    }
+    EditPdmIndex->Text = IntToStr(pDMParamGrid->TopRow);
+}
+//---------------------------------------------------------------------------
+bool    TParameterBaseForm::PkgParam_name_read()
+{
+	int nGrpNo, nRcpNo;
+    nGrpNo = nReadGroupNo();
+    nRcpNo = nReadRecipeNo();
+
+	TIniFile *PkgParmini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\system\\GRP"+IntToStr(nGrpNo)+"\\RCP"+IntToStr(nRcpNo)+"\\PkgParam.ini");
+    TIniFile *PkgNameini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\PkgName.ini");
+
+    for(int i=0; i<pDMParamGrid->RowCount;i++)
+    {
+        pDMParamGrid->Cells[0][i+1] =  IntToStr(i);
+        pDMParamGrid->Cells[1][i+1] = PkgNameini->ReadString("PKGNAME","NAME"+IntToStr(i),"Name"+IntToStr(i));
+
+        pDMParamGrid->Cells[2][i+1] = PkgParmini->ReadString("PKGPARM","VALUE"+IntToStr(i),IntToStr(i));
+    }
+    delete PkgParmini;
+    delete PkgNameini;
+    return true;
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::PkgParam_name_save(bool bReverse)
+{
+	int nGrpNo, nRcpNo;
+	double Pkgvalue1, Pkgvalue2;
+    nGrpNo = nReadGroupNo();
+	nRcpNo = nReadRecipeNo();
+	String RcpName = MainForm->PanelRecipeName->Caption;
+	String GrpName = MainForm->PanelGroupName->Caption;
+
+	TIniFile *PkgParmini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\system\\GRP"+IntToStr(nGrpNo)+"\\RCP"+IntToStr(nRcpNo)+"\\PkgParam.ini");
+    TIniFile *PkgNameini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\PkgName.ini");
+	TIniFile *PkgBeforeini = new TIniFile(ExtractFilePath(Application->ExeName)+ "\\Ini\\system\\GRP"+IntToStr(nGrpNo)+"\\RCP"+IntToStr(nRcpNo)+"\\PkgParam.ini");
+
+    for(int i=0; i<pDMParamGrid->RowCount;i++)
+    {
+		PkgNameini->WriteString("PKGNAME","NAME"+IntToStr(i),pDMParamGrid->Cells[1][i+1]);
+    }
+
+    if(bReverse == false)  //DB to SEQ
+    {
+        for(int i=0; i<pDMParamGrid->RowCount;i++)
+		{
+			Pkgvalue1 = StrToFloat(PkgBeforeini->ReadString("PKGPARM","VALUE"+IntToStr(i),""));
+			PkgParmini->WriteString("PKGPARM","VALUE"+IntToStr(i),pDMParamGrid->Cells[2][i+1]);
+			Pkgvalue2 = StrToFloat(PkgParmini->ReadString("PKGPARM","VALUE"+IntToStr(i),""));
+
+			if(pDMParamGrid->Cells[ 1 ][ i+1 ]  != "")
+			{
+				if(Pkgvalue1 != Pkgvalue2)
+				{
+					MainForm->MachineHistoryData(GrpName + " " + RcpName + " [Pkg "  + pDMParamGrid->Cells[ 0 ][ i+1 ] + "] " +
+					pDMParamGrid->Cells[1][i+1] + " : " + FloatToStrF(Pkgvalue1,ffFixed,10,3) +" -> " + FloatToStrF(Pkgvalue2,ffFixed,10,3));
+				}
+			}
+		}
+	}
+    else  // SEQ to DB
+    {
+		for(int i=0; i<pDMParamGrid->RowCount;i++)
+		{
+            PkgParmini->WriteString("PKGPARM","VALUE"+IntToStr(i),pDMParamGrid->Cells[3][i+1]);
+		}
+    }
+
+	delete PkgParmini;
+	delete PkgNameini;
+	delete PkgBeforeini;
+
+	return true;
+
+}
+//------------------------------------------------------------------------
+bool    TParameterBaseForm::Pkg_value_read()
+{
+	double dRtnVal = 0;
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_RD_PKG;
+	if(true == g_MMIComm->Send() && true == g_MMIComm->Recv())
+	{
+		for(int i=0; i<pDMParamGrid->RowCount; i++)
+		{
+			dRtnVal = g_MMIComm->m_mmiToSeq.buffer.pkg.dVal[i];
+			pDMParamGrid->Cells[3][i+1]= FloatToStr(dRtnVal);
+		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+////------------------------------------------------------------------------
+bool    TParameterBaseForm::Pkg_value_write()
+{
+	g_MMIComm->m_mmiToSeq.buffer.pkg.nStart = 0;
+	g_MMIComm->m_mmiToSeq.buffer.pkg.nEnd  = pDMParamGrid->RowCount-1;
+
+	for(int i=0; i<pDMParamGrid->RowCount;i++)
+	{
+		if(pDMParamGrid->Cells[ 2 ][ i+1 ]  == "")
+		{
+			pDMParamGrid->Cells[ 2 ][ i+1 ]  = "0";
+		}
+
+		g_MMIComm->m_mmiToSeq.buffer.pkg.dVal[i] = StrToFloat( pDMParamGrid->Cells[ 2 ][ i+1 ] );
+
+		if(MainForm->b_TpConnect)
+		{
+			String strData = "", strIndex = "";
+			if(pDMParamGrid->Cells[ 2 ][ i+1 ] != pDMParamGrid->Cells[ 3 ][ i+1 ])
+			{
+				strIndex= "'"+pDMParamGrid->Cells[ 2 ][ i+1 ]+"'";
+				strData = "[2,"+pDMParamGrid->Cells[ 3 ][ i+1 ]+","+pDMParamGrid->Cells[ 2 ][ i+1 ]+"]";
+				//g_pTpBase->logConfigure(L"PKGDATA",L"CHANGE",strIndex.c_str(),strData.c_str());
+				g_pTpBase->logConfigure(L"PKGDATA",L"CHANGE",L"'CHANGE_ITEM'",strIndex.c_str(),L"'VALUE'",strData.c_str());
+			}
+		}
+
+	}
+
+	g_MMIComm->m_mmiToSeq.nCmd = CMD_WR_PKG;
+
+	if(g_MMIComm->Send() && g_MMIComm->Recv())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+//------------------------------------------------------------------------
+
+
+void __fastcall TParameterBaseForm::FormShow(TObject *Sender)
+{
+	//ndm data read
+	IntParam_name_read();
+	Int_value_read();
+
+	//ddm data read
+	Double_value_read();
+	DoubleParam_name_read();
+
+	//pkg data read
+	PkgParam_name_read();
+	Pkg_value_read();
+}
+//---------------------------------------------------------------------------
+

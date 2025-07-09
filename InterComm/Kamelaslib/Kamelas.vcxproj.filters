@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{151a1cee-e9ea-4a51-8057-878686b25675}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\debuglog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kamelasconfig.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kamelasfactory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\kamelasmanager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sharedmemory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\kamelasbase.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\debuglog.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kamelasbase.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kamelasconfig.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kamelasfactory.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kamelasmanager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sharedmemory.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\kamelaslib.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
